@@ -1,3 +1,5 @@
 class Player {
-  name : string
+  name  : string
+  speed : number
+  sprite: Phaser.Sprite
 }
