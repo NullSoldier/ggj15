@@ -5,15 +5,17 @@ enum GameState {
 }
 
 class WitchGame {
-  gameState       : GameState
-  mapGroup        : Phaser.Group;
-  player          : Player
-  playerController: PlayerController
+  gameState            : GameState
+  mapGroup             : Phaser.Group;
+  player               : Player
+  playerController     : PlayerController
+  playerInfluenceGroup : Phaser.Group
 
   private players : Array<Player> = []
 
   preload() {
     game.load.image('player', 'assets/player.png')
+    game.load.image('player_influence', 'assets/metaball-falloff.png')
     game.load.image('level_sample', 'assets/level_sample.png')
   }
 
@@ -35,6 +37,11 @@ class WitchGame {
     console.log('Adding player', player.name)
     player.sprite = game.add.sprite(0, 0, 'player')
     player.state = PlayerState.Alive
+    player.sprite.anchor.set(0.5, 1.0)
+    player.influenceSprite = game.add.sprite(0, 0, 'player_influence')
+    player.influenceSprite.anchor.set(0.5, 0.5)
+    this.playerInfluenceGroup.addChild(player.influenceSprite)
+    player.influenceSprite.blendMode = PIXI.blendModes.ADD
     this.players.push(player)
   }
 
@@ -55,6 +62,8 @@ class WitchGame {
     game.stage.disableVisibilityChange = true;
 
     this.mapGroup = game.add.group(game.world)
+    this.playerInfluenceGroup = game.add.group(game.world)
+    this.playerInfluenceGroup.filters = [new InfluenceFilter(game)]
 
     // eat these so the browser doesn't get them
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);

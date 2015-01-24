@@ -8,7 +8,8 @@ class Player {
   // Server
   connection : Connection  // Server only
   // Client
-  sprite : Phaser.Sprite
+  sprite          : Phaser.Sprite
+  influenceSprite : Phaser.Sprite
   // Both
   id    : number
   teamID: number  // ID of the team leader.
@@ -33,5 +34,7 @@ class Player {
   render() : void {
     this.sprite.x = this.x
     this.sprite.y = this.y
+    this.influenceSprite.x = this.x
+    this.influenceSprite.y = this.y
   }
 }
