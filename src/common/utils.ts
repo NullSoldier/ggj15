@@ -1,10 +1,9 @@
-function lerp(from, to, lerp) : number {
-  return from + (to - from) * lerp
+function lerp(from, to, value) : number {
+  return from + (to - from) * value
 }
 
-function lerpPos(x1, x2, y1, y2, lerp) : Phaser.Point {
+function lerpPos(x1, x2, y1, y2, value) : Phaser.Point {
   return new Phaser.Point(
-    x1 + (x2 - x1) * lerp,
-    y1 + (y2 - y1) * lerp
-  )
+    lerp(x1, x2, value),
+    lerp(y1, y2, value))
 }
