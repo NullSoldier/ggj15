@@ -1,17 +1,7 @@
-function onAuthenticated(playerID : number) {
-  console.log('Authenticated!')
-}
-
-function onRoomInfo(playerInfos : any) : void {
-  playerInfos.forEach((playerInfo) => {
-    console.log(playerInfo)
-  })
-}
-
 class Connection {
   connection : WebSocket
 
-  constructor(host : string) {
+  constructor(host : string, private game : WitchGame) {
     this.connection = new WebSocket(host)
     this.connection.binaryType = 'arraybuffer';
     this.connection.addEventListener('open', (event : Event) => {
@@ -26,10 +16,10 @@ class Connection {
       console.log('recv', m)
       switch (m.message) {
       case 'authenticated':
-        onAuthenticated(m.authenticated.playerID)
+        this.onAuthenticated(m.authenticated.playerID)
         break
       case 'roomInfo':
-        onRoomInfo(m.roomInfo.players)
+        this.onRoomInfo(m.roomInfo.players)
         break
       default:
         throw new Error('Unknown message ' + m.message)
@@ -43,5 +33,31 @@ class Connection {
   send(messageObject : any) : void {
     console.log('send', messageObject)
     this.connection.send(new protocol.ClientMessage(messageObject).toBuffer());
+  }
+
+  private onAuthenticated(playerID : number) : void {
+    this.game.createPlayer('Billy Bobx', playerID)
+  }
+
+  private onRoomInfo(playerInfos : any) : void {
+    var playerIDs : Array<number> = []
+    playerInfos.forEach((playerInfo) => {
+      var id : number = playerInfo.id
+      playerIDs.push(id)
+      var player = this.game.getPlayerByIDOrNull(id)
+      if (player) {
+        player.name = playerInfo.name
+      } else {
+        player = new Player()
+        player.id = id
+        player.name = playerInfo.name
+        this.game.addPlayer(player)
+      }
+    })
+    this.game.getPlayers().forEach((player) => {
+      if (playerIDs.indexOf(player.id) === -1) {
+        this.game.removePlayer(player)
+      }
+    })
   }
 }

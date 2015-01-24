@@ -9,12 +9,12 @@ var player : Player
 var controls : any
 
 window.onload = () => {
-  var connection = new Connection('ws://' + window.document.location.host)
+  var witchGame = new WitchGame()
 
   game = new Phaser.Game(
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
     Phaser.AUTO,
     '',
-    new WitchGame())
+    witchGame)
 }
