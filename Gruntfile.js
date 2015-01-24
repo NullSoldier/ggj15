@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         }
       },
       express: {
-	files: ['build/src/server/*.js', 'build/src/common/*.js'],
+	files: ['build/server.js'],
 	tasks: ['express:dev'],
 	options: {
 	  spawn: false,
@@ -29,24 +29,23 @@ module.exports = function(grunt) {
     typescript: {
       client: {
         src: ['src/client/*.ts', 'src/common/*.ts'],
-        dest: 'build/src',
+        dest: 'build/client.js',
         options: {
           basePath  : 'src/',
           references: "lib/**/*.d.ts",
           target    : 'es5',
           module    : 'amd',
-          sourceMap : true
+          sourceMap : true,
         }
       },
       server: {
         src: ['src/server/*.ts', 'src/common/*.ts'],
-        dest: 'build/src',
+        dest: 'build/server.js',
         options: {
           basePath  : 'src/',
           references: "lib/**/*.d.ts",
           target    : 'es5',
           module    : 'commonjs',
-          sourceMap : true
         }
       }
     },
@@ -63,11 +62,7 @@ module.exports = function(grunt) {
       build: {
         options: {
           create: [
-            'build/',
-            'build/src',
-            'build/src/client',
-            'build/src/server',
-            'build/src/common']
+            'build/']
         }
       }
     },
@@ -77,7 +72,7 @@ module.exports = function(grunt) {
     express: {
       dev: {
         options: {
-          script: 'build/src/server/main.js',
+          script: 'build/server.js',
 	},
       },
     },

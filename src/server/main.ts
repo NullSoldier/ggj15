@@ -1,7 +1,6 @@
 var PORT = 8001
 
-import express = require('express')
-import http = require('http')
+var express = require('express')
 
 var wslib = require('ws')
 var WebSocketServer = wslib.Server
