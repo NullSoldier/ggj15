@@ -1,6 +1,7 @@
 enum Animation {
   Idle = 0,
   WalkDown = 1,
+  WalkUp = 2,
 }
 
 class Entity {
@@ -26,6 +27,8 @@ class Entity {
     this.y = Math.min(witch.level.height, Math.max(0, this.y + Math.round(vec[1])))
     if (vec[1] > 0) {
       this.animation = Animation.WalkDown
+    } else if (vec[1] < 0) {
+      this.animation = Animation.WalkUp
     } else {
       this.animation = Animation.Idle
     }
