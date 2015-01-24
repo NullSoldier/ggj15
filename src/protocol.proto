@@ -13,9 +13,19 @@ message ClientMessage {
 message ServerMessage {
   oneof message {
     Authenticated authenticated = 1;
+    RoomInfo roomInfo = 2;
   }
 
   message Authenticated {
     required uint32 playerID = 1;
+  }
+
+  message RoomInfo {
+    message PlayerInfo {
+      required uint32 id = 1;
+      required string name = 2;
+    }
+
+    repeated PlayerInfo players = 1;
   }
 }

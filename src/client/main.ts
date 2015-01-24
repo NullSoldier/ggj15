@@ -12,6 +12,12 @@ function onAuthenticated(playerID : number) {
   console.log('Authenticated!')
 }
 
+function onRoomInfo(playerInfos : any) : void {
+  playerInfos.forEach((playerInfo) => {
+    console.log(playerInfo)
+  })
+}
+
 class Connection {
   connection : WebSocket
 
@@ -20,9 +26,9 @@ class Connection {
     this.connection.binaryType = 'arraybuffer';
     this.connection.addEventListener('open', (event : Event) => {
       this.send({
-	authenticate: {
-	  playerName: 'Billy Bob',
-	},
+        authenticate: {
+          playerName: 'Billy Bob',
+        },
       })
     })
     this.connection.addEventListener('message', (event : MessageEvent) => {
@@ -30,10 +36,13 @@ class Connection {
       console.log('recv', m)
       switch (m.message) {
       case 'authenticated':
-	onAuthenticated(m.authenticated.playerID)
-	break;
+        onAuthenticated(m.authenticated.playerID)
+        break
+      case 'roomInfo':
+        onRoomInfo(m.roomInfo.players)
+        break
       default:
-	throw new Error('Unknown message ' + m.message)
+        throw new Error('Unknown message ' + m.message)
       }
     })
     this.connection.addEventListener('error', (event : ErrorEvent) => {
