@@ -9,11 +9,8 @@ class Server {
     webSocketServer.on('connection', (socket : any) => {
       this.connections.push(new Connection(this, socket))
     })
-    setInterval(() => {
-      this.room.makeUpdates()
-    }, 1000 / MAKE_UPDATES_PER_SECOND)
-    setInterval(() => {
-      this.room.sendUpdates()
-    }, 1000 / SEND_UPDATES_PER_SECOND)
+
+    setInterval(() => this.room.tick(), 1000 / MAKE_UPDATES_PER_SECOND)
+    setInterval(() => this.room.sendRoomState(), 1000 / SEND_UPDATES_PER_SECOND)
   }
 }

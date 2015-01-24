@@ -27,16 +27,27 @@ message ClientMessage {
 message ServerMessage {
   oneof message {
     Authenticated authenticated = 1;
-    RoomInfo roomInfo = 2;
-    RoomState roomState = 3;
-    FireBullet fireBullet = 4;
+    RoomJoined roomJoined = 2;
+    RoomLeft roomLeft = 3;
+    RoomList roomList = 4;
+    RoomState roomState = 5;
+    FireBullet fireBullet = 6;
   }
 
   message Authenticated {
     required uint32 playerID = 1;
   }
 
-  message RoomInfo {
+  message RoomJoined {
+    required uint32 id = 1;
+    required string name = 2;
+  }
+
+  message RoomLeft {
+    required uint32 id = 1;
+  }
+
+  message RoomList {
     message PlayerInfo {
       required uint32 id = 1;
       required string name = 2;

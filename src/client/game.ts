@@ -16,7 +16,7 @@ class WitchGame {
   preload() {
     game.load.image('player', 'assets/player.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
-    game.load.image('level_sample', 'assets/level_sample.png')
+    game.load.image('level_sample', 'assets/test_map.png')
   }
 
   // Don't mutate the result, please...
@@ -34,7 +34,6 @@ class WitchGame {
   }
 
   addPlayer(player : Player) : void {
-    console.log('Adding player', player.name)
     player.sprite = game.add.sprite(0, 0, 'player')
     player.sprite.anchor.set(0.5, 1.0)
     player.influenceSprite = game.add.sprite(0, 0, 'player_influence')
@@ -45,7 +44,6 @@ class WitchGame {
   }
 
   removePlayer(player : Player) : void {
-    console.log('Removing player', player.name)
     var index = this.players.indexOf(player)
     if (index === -1) {
       throw new Error('Tried to remove a player not in array')
@@ -75,8 +73,7 @@ class WitchGame {
   }
 
   createPlayer(name : string, id : number) : void {
-    this.player = new Player(id)
-    this.player.name = name
+    this.player = new Player(id, name)
     this.playerController = new PlayerController(this.player)
     this.addPlayer(this.player)
   }
@@ -100,12 +97,14 @@ class WitchGame {
 
   render() {
     game.debug.text(GameState[this.gameState], 20, 20);
-    if (this.player) {
-      game.debug.text(PlayerState[this.player.state], 20, 40);
-    }
+
+    var startY = 40
 
     this.players.forEach((player) => {
       player.render()
+      var text = player.name + ' (' + player.id + '): ' + player.x + ', ' + player.y + '; ' + PlayerState[player.state]
+      game.debug.text(text, 20, startY);
+      startY += 20
     })
   }
 

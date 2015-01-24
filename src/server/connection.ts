@@ -56,15 +56,11 @@ class Connection {
       return;
     }
 
+    this.player = this.server.room.createPlayer(name)
     this.room = this.server.room
-    this.player = this.room.createPlayer(name)
+    this.send({authenticated: {playerID: this.player.id}})
     this.player.connection = this
     this.room.addPlayer(this.player)
-    this.send({
-      authenticated: {
-        playerID: this.player.id,
-      },
-    })
   }
 
   private onPlayerState(x : number, y : number) : void {

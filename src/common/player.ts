@@ -1,7 +1,8 @@
-enum PlayerState {
+ enum PlayerState {
   None  = 0,
   Alive = 1,
-  Dead  = 2
+  Dead  = 2,
+  Left  = 3
 }
 
 class Player {
@@ -14,14 +15,15 @@ class Player {
   id    : number
   teamID: number  // ID of the team leader.
   name  : string
-  speed : number = 5
   state : PlayerState = PlayerState.None
+  speed : number = 5
   x     : number = 0
   y     : number = 0
 
-  constructor(id : number) {
+  constructor(id : number, name : string) {
     this.id = id
     this.teamID = id
+    this.name = name
   }
 
   move(dx : number, dy : number) : void {
@@ -36,5 +38,21 @@ class Player {
     this.sprite.y = this.y
     this.influenceSprite.x = this.x
     this.influenceSprite.y = this.y
+  }
+
+  toRoomList() {
+    return {
+      id: this.id,
+      name: this.name,
+    }
+  }
+
+  toRoomState() {
+    return {
+      id: this.id,
+      x: this.x,
+      y: this.y,
+      state: this.state,
+    }
   }
 }
