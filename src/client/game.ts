@@ -101,17 +101,14 @@ class WitchGame {
     })
   }
 
-  lerp(from, to, lerp) {
-    return from + (to - from) * lerp
-  }
-
   moveCameraTo(player : Player) {
-    var cameraX = this.lerp(game.camera.view.centerX, this.player.x, 0.2)
-    var cameraY = this.lerp(game.camera.view.centerY, this.player.y, 0.2)
+    var pos = lerpPos(
+      game.camera.view.centerX, this.player.x,
+      game.camera.view.centerY, this.player.y, 0.2)
 
     game.camera.setPosition(
-      cameraX - game.camera.view.halfWidth,
-      cameraY - game.camera.view.halfHeight)
+      pos.x - game.camera.view.halfWidth,
+      pos.y - game.camera.view.halfHeight)
   }
 
   loadLevel(level : Level) {
