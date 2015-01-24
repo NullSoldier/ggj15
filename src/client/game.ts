@@ -10,6 +10,7 @@ class WitchGame {
   player               : Player
   playerController     : PlayerController
   playerInfluenceGroup : Phaser.Group
+  level                : Level
 
   private players : Array<Player> = []
   bullets : Array<Bullet> = []
@@ -72,6 +73,8 @@ class WitchGame {
     sampleLevel.backgroundSprites.push(game.make.sprite(2560, 0, 'background_02'))
     sampleLevel.backgroundSprites.push(game.make.sprite(0, 1353, 'background_03'))
     sampleLevel.backgroundSprites.push(game.make.sprite(2560, 1353, 'background_04'))
+    sampleLevel.width = 5120
+    sampleLevel.height = 2880
     this.loadLevel(sampleLevel)
   }
 
@@ -119,6 +122,7 @@ class WitchGame {
     level.backgroundSprites.forEach((sprite) => {
       this.mapGroup.add(sprite)
     })
+    this.level = level
     game.camera.bounds = null
   }
 

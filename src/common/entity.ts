@@ -15,8 +15,8 @@ class Entity {
 
   move(dx : number, dy : number) : Array<number> {
     var vec = getMoveVector(dx, dy, this.speed)
-    this.x += Math.round(vec[0])
-    this.y += Math.round(vec[1])
+    this.x = Math.min(witch.level.width, Math.max(0, this.x + Math.round(vec[0])))
+    this.y = Math.min(witch.level.height, Math.max(0, this.y + Math.round(vec[1])))
     return vec
   }
 }

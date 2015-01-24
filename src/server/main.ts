@@ -13,6 +13,8 @@ var protocol = require('./protocol.server.js')
 var app = express()
 app.use(express.static(__dirname))
 
+var witch = new Game()
+
 var server = http.createServer(app)
 server.listen(PORT, () => {
   var s = new Server(new websocket.Server({server: server}))
