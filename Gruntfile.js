@@ -12,8 +12,16 @@ module.exports = function(grunt) {
           interrupt: true,
         }
       },
+      protobuf: {
+        files: ['src/protocol.proto'],
+        tasks: ['exec:protobuf'],
+        options: {
+          spawn     : false,
+          interrupt : true,
+        }
+      },
       express: {
-        files: ['build/server.js'],
+        files: ['build/server.js', 'build/protocol.server.js'],
         tasks: ['express:dev'],
         options: {
           spawn: false,
@@ -52,7 +60,7 @@ module.exports = function(grunt) {
     sync: {
       main: {
         files: [{
-          src: ['index.html', 'assets/*', 'lib/*'],
+          src: ['index.html', 'assets/*', 'lib/**'],
           dest: 'build/',
         }],
         verbose: true
@@ -65,6 +73,13 @@ module.exports = function(grunt) {
             'build/']
         }
       }
+    },
+    exec: {
+      protobuf: [
+        'node_modules/protobufjs/bin/proto2js src/protocol.proto -commonjs > build/protocol.server.js',
+        'node build/protocol.server.js  # Check for errors.',
+        'node_modules/protobufjs/bin/proto2js src/protocol.proto -class > build/protocol.client.js',
+      ].join('\n'),
     },
     express: {
       dev: {
@@ -84,7 +99,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-sync')
   grunt.loadNpmTasks('grunt-typescript')
 
-  grunt.registerTask('build', ['mkdir:build', 'sync', 'typescript']);
+  grunt.registerTask('build', ['mkdir:build', 'sync', 'exec:protobuf', 'typescript']);
   grunt.registerTask('default', ['server']);
   grunt.registerTask('server', ['build', 'express:dev', 'watch']);
 };
