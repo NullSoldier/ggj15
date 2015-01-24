@@ -61,6 +61,9 @@ module.exports = function(grunt) {
           create: ['build/', 'build/src']
         }
       }
+    },
+    exec: {
+      protobuf: 'echo "I am gonna build protobuf stuff"'
     }
   });
 
@@ -71,6 +74,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mkdir')
   grunt.loadNpmTasks('grunt-typescript')
   grunt.loadNpmTasks('grunt-sync')
+  grunt.loadNpmTasks('grunt-exec')
 
   grunt.registerTask('build', ['clean:build', 'mkdir:build', 'sync', 'typescript']);
   grunt.registerTask('default', ['build', 'connect', 'watch:build']);
