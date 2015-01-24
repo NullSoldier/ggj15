@@ -11,7 +11,7 @@ class Player {
   name  : string
   speed : number = 5
   sprite: Phaser.Sprite
-  state : PlayerState
+  state : PlayerState = PlayerState.None
 
   x : number = 0
   y : number = 0

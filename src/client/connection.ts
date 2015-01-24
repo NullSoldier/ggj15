@@ -67,12 +67,14 @@ class Connection {
   private onRoomState(playerStates : Array<any>) : void {
     playerStates.forEach((playerState) => {
       var player = this.game.getPlayerByIDOrNull(playerState.id)
-      if (player == this.game.player) {
-        // Ignore updates for the current player.
-        return
+      if (player === this.game.player && player.state === PlayerState.Alive) {
+        // Ignore updates to position for the current player if it's alive.
+        // They'll be moving and they don't want to be bothered.
+      } else {
+        player.x = playerState.x
+        player.y = playerState.y
       }
-      player.x = playerState.x
-      player.y = playerState.y
+      player.state = playerState.state
     })
   }
 }

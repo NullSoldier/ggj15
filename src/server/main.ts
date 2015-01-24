@@ -8,6 +8,7 @@ var SEND_UPDATES_PER_SECOND = 30
 
 var express = require('express')
 var http = require('http')
+var util = require('util')
 var wslib = require('ws')
 
 var protocol = require('./protocol.server.js')
@@ -31,6 +32,7 @@ class Room {
     player.name = name
     player.x = Math.floor(Math.random() * 1000)
     player.y = Math.floor(Math.random() * 1000)
+    player.state = PlayerState.Alive
     return player
   }
 
@@ -99,6 +101,7 @@ class Room {
           id: player.id,
           x: player.x,
           y: player.y,
+          state: player.state,
         }
       })
     }
@@ -141,7 +144,14 @@ class Connection {
         return
       }
       var m : any = protocol.ClientMessage.decode(data)
-      //console.log('recv', m)
+
+      if (m.message !== 'playerState') {
+        console.log('recv: %s', util.inspect(m, {
+          depth: null,
+          colors: true,
+        }))
+      }
+
       switch (m.message) {
       case 'authenticate':
         this.onAuthenticate(m.authenticate.playerName)
@@ -161,7 +171,13 @@ class Connection {
   }
 
   send(messageObject : any) : void {
-    //console.log('send', messageObject)
+    if (!('roomState' in messageObject)) {
+      console.log('send: %s', util.inspect(messageObject, {
+        depth: null,
+        colors: true,
+      }))
+    }
+
     this.socket.send(new protocol.ServerMessage(messageObject).toBuffer());
   }
 

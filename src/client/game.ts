@@ -83,7 +83,7 @@ class WitchGame {
   }
 
   send() {
-    if (this.player) {
+    if (this.player && this.player.state == PlayerState.Alive) {
       this.connection.send({
         playerState: {
           x: this.player.x,
