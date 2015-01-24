@@ -41,9 +41,9 @@ class WitchGame {
       'Player_static-front.png'])
     player.sprite.animations.add('walk_down', [
       'Player_leftfoot-front.png',
-      'Player_bob-front.png',
+      'Player_static-front.png',
       'Player_rightfoot-front.png',
-      'Player_bob-front.png'])
+      'Player_static-front.png'])
     player.influenceSprite = game.add.sprite(0, 0, 'player_influence')
     player.influenceSprite.anchor.set(0.5, 0.5)
     this.playerInfluenceGroup.addChild(player.influenceSprite)
