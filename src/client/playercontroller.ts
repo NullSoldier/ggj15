@@ -13,6 +13,7 @@ class PlayerController {
   update() {
     var dx = 0
     var dy = 0
+
     if(this.controls.left.isDown) {
       dx -= 1
     }
@@ -25,6 +26,7 @@ class PlayerController {
     if(this.controls.down.isDown) {
       dy += 1
     }
+
     this.player.move(dx, dy)
   }
 }

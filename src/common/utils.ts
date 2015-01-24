@@ -7,3 +7,18 @@ function lerpPos(x1, x2, y1, y2, value) : Phaser.Point {
     lerp(x1, x2, value),
     lerp(y1, y2, value))
 }
+
+function getMoveVector(dx, dy, speed) : Phaser.Point {
+  var magnitude = Math.sqrt(dx * dx + dy * dy)
+
+  if (magnitude !== 0) {
+    dx = Math.round(dx * this.speed / magnitude)
+    dy = Math.round(dy * this.speed / magnitude)
+  }
+
+  if (dx !== dx || dy !== dy) {
+    throw new Error('NaN!')
+  }
+
+  return new Point(dx, dy)
+}
