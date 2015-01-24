@@ -1,0 +1,44 @@
+{"frames": {
+
+"Player_bob-front.png":
+{
+	"frame": {"x":2,"y":345,"w":83,"h":166},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":83,"h":166},
+	"sourceSize": {"w":83,"h":167}
+},
+"Player_leftfoot-front.png":
+{
+	"frame": {"x":2,"y":2,"w":83,"h":172},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":172},
+	"sourceSize": {"w":83,"h":172}
+},
+"Player_rightfoot-front.png":
+{
+	"frame": {"x":2,"y":513,"w":83,"h":166},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":83,"h":166},
+	"sourceSize": {"w":83,"h":172}
+},
+"Player_static-front.png":
+{
+	"frame": {"x":2,"y":176,"w":83,"h":167},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":167},
+	"sourceSize": {"w":83,"h":172}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "player.png",
+	"format": "RGBA8888",
+	"size": {"w":87,"h":681},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:d686738acdadeee64d5d138b011dcf77:c40ed5550646114972eaa059f122b117:86d5339b780aedd87b35e2b7c0a7e11b$"
+}
+}

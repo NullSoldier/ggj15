@@ -16,13 +16,13 @@ class WitchGame {
   bullets : Array<Bullet> = []
 
   preload() {
-    game.load.image('player', 'assets/player.png')
     game.load.image('smoke', 'assets/smoke.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
     game.load.image('background_01', 'assets/background_01.png')
     game.load.image('background_02', 'assets/background_02.png')
     game.load.image('background_03', 'assets/background_03.png')
     game.load.image('background_04', 'assets/background_04.png')
+    game.load.atlasJSONHash('player', 'assets/player.png', 'assets/player.json');
   }
 
   getPlayerByIDOrNull(id : number) : Player {
@@ -37,6 +37,13 @@ class WitchGame {
   addPlayer(player : Player) : void {
     player.sprite = game.add.sprite(0, 0, 'player')
     player.sprite.anchor.set(0.5, 1.0)
+    player.sprite.animations.add('idle', [
+      'Player_static-front.png'])
+    player.sprite.animations.add('walk_down', [
+      'Player_leftfoot-front.png',
+      'Player_bob-front.png',
+      'Player_rightfoot-front.png',
+      'Player_bob-front.png'])
     player.influenceSprite = game.add.sprite(0, 0, 'player_influence')
     player.influenceSprite.anchor.set(0.5, 0.5)
     this.playerInfluenceGroup.addChild(player.influenceSprite)

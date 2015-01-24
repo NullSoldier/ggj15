@@ -17,6 +17,13 @@ class Entity {
     var vec = getMoveVector(dx, dy, this.speed)
     this.x = Math.min(witch.level.width, Math.max(0, this.x + Math.round(vec[0])))
     this.y = Math.min(witch.level.height, Math.max(0, this.y + Math.round(vec[1])))
+    if (this.sprite) {
+      if (dy > 0) {
+        this.sprite.animations.play('walk_down', 8, true)
+      } else {
+        this.sprite.animations.play('idle')
+      }
+    }
     return vec
   }
 }
