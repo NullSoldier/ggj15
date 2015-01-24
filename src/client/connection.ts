@@ -51,8 +51,7 @@ class Connection {
       if (player) {
         player.name = playerInfo.name
       } else {
-        player = new Player()
-        player.id = id
+        player = new Player(id)
         player.name = playerInfo.name
         this.game.addPlayer(player)
       }

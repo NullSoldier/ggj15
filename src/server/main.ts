@@ -27,8 +27,7 @@ class Room {
 
   // Does not add the player.
   createPlayer(name : string) : Player {
-    var player = new Player()
-    player.id = this.createPlayerID()
+    var player = new Player(this.createPlayerID())
     player.name = name
     player.x = Math.floor(Math.random() * 1000)
     player.y = Math.floor(Math.random() * 1000)

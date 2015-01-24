@@ -7,14 +7,20 @@ enum PlayerState {
 class Player {
   connection : Connection  // Server only
 
-  id    : number
-  name  : string
-  speed : number = 5
-  sprite: Phaser.Sprite
-  state : PlayerState = PlayerState.None
+  id     : number
+  teamID : number  // ID of the team leader.
+  name   : string
+  speed  : number = 5
+  sprite : Phaser.Sprite
+  state  : PlayerState = PlayerState.None
 
   x : number = 0
   y : number = 0
+
+  constructor(id : number) {
+    this.id = id
+    this.teamID = id
+  }
 
   move(dx : number, dy : number) : void {
     // TODO(strager): Snap to eight directions.

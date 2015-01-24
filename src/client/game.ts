@@ -66,8 +66,7 @@ class WitchGame {
   }
 
   createPlayer(name : string, id : number) : void {
-    this.player = new Player()
-    this.player.id = id
+    this.player = new Player(id)
     this.player.name = name
     this.playerController = new PlayerController(this.player)
     this.addPlayer(this.player)
