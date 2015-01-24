@@ -1,0 +1,21 @@
+package protocol;
+
+message ClientMessage {
+  oneof message {
+    Authenticate authenticate = 1;
+  }
+
+  message Authenticate {
+    required string playerName = 1;
+  }
+}
+
+message ServerMessage {
+  oneof message {
+    Authenticated authenticated = 1;
+  }
+
+  message Authenticated {
+    required uint32 playerID = 1;
+  }
+}

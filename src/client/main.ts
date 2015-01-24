@@ -1,3 +1,5 @@
+declare var protocol
+
 var SCREEN_WIDTH  = 1280
 var SCREEN_HEIGHT = 720
 var STAGE_COLOR   = "#6495FF"
@@ -5,6 +7,45 @@ var STAGE_COLOR   = "#6495FF"
 var game : Phaser.Game
 var player : Player
 var controls : any
+
+function onAuthenticated(playerID : number) {
+  console.log('Authenticated!')
+}
+
+class Connection {
+  connection : WebSocket
+
+  constructor(host : string) {
+    this.connection = new WebSocket(host)
+    this.connection.binaryType = 'arraybuffer';
+    this.connection.addEventListener('open', (event : Event) => {
+      this.send({
+	authenticate: {
+	  playerName: 'Billy Bob',
+	},
+      })
+    })
+    this.connection.addEventListener('message', (event : MessageEvent) => {
+      var m : any = protocol.ServerMessage.decode(event.data)
+      console.log('recv', m)
+      switch (m.message) {
+      case 'authenticated':
+	onAuthenticated(m.authenticated.playerID)
+	break;
+      default:
+	throw new Error('Unknown message ' + m.message)
+      }
+    })
+    this.connection.addEventListener('error', (event : ErrorEvent) => {
+      console.error('SOCKET ERROR')
+    })
+  }
+
+  send(messageObject : any) : void {
+    console.log('send', messageObject)
+    this.connection.send(new protocol.ClientMessage(messageObject).toBuffer());
+  }
+}
 
 function preload() {
   game.load.image('player', 'assets/player.png')
@@ -61,6 +102,8 @@ function updatePlayerInput() {
 }
 
 window.onload = () => {
+  var connection = new Connection('ws://' + window.document.location.host)
+
   game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, '', {
     preload: preload,
     create : create,
