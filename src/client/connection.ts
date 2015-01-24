@@ -2,6 +2,7 @@ class Connection {
   connection : WebSocket
 
   constructor(host : string, private game : WitchGame) {
+    game.gameState = GameState.Joining
     this.connection = new WebSocket(host)
     this.connection.binaryType = 'arraybuffer';
     this.connection.addEventListener('open', (event : Event) => {
@@ -40,6 +41,7 @@ class Connection {
 
   private onAuthenticated(playerID : number) : void {
     this.game.createPlayer('Billy Bobx', playerID)
+    this.game.gameState = GameState.Playing
   }
 
   private onRoomInfo(playerInfos : Array<any>) : void {

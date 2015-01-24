@@ -5,8 +5,7 @@ var SCREEN_HEIGHT = 720
 var STAGE_COLOR   = "#6495FF"
 
 var game : Phaser.Game
-var player : Player
-var controls : any
+var connection: Connection
 
 window.onload = () => {
   var witchGame = new WitchGame()

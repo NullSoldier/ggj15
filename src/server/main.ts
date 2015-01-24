@@ -161,6 +161,9 @@ class Connection {
       case 'playerState':
         this.onPlayerState(m.playerState.x, m.playerState.y)
         break;
+      case 'fireBullet':
+        this.onFireBullet(m.startX, m.startY, m.dirX, m.dirY)
+        break;
       default:
         throw new Error('Unknown message ' + m.message)
       }
@@ -206,6 +209,11 @@ class Connection {
     }
     this.player.x = x
     this.player.y = y
+  }
+
+  private onFireBullet(startX : number, startY : number, dirX : number, dirY : number) {
+
+
   }
 }
 

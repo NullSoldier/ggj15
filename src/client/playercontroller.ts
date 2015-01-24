@@ -7,7 +7,8 @@ class PlayerController {
     up   : game.input.keyboard.addKey(Phaser.Keyboard.W),
     right: game.input.keyboard.addKey(Phaser.Keyboard.D),
     down : game.input.keyboard.addKey(Phaser.Keyboard.S),
-    left : game.input.keyboard.addKey(Phaser.Keyboard.A)
+    left : game.input.keyboard.addKey(Phaser.Keyboard.A),
+    space: game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
   }
 
   update() {
@@ -28,5 +29,20 @@ class PlayerController {
     }
 
     this.player.move(dx, dy)
+
+    if(this.controls.space.justDown) {
+      this.fireBullet(dx, dy)
+    }
+  }
+
+  fireBullet(dirX, dirY) {
+    connection.send({
+      fireBullet: {
+        startX: this.player.x,
+        startY: this.player.y,
+        dirX: dirX,
+        dirY: dirY
+      }
+    })
   }
 }

@@ -1,6 +1,7 @@
 enum GameState {
-  Joining,
-  Playing,
+  None    = 0,
+  Joining = 1,
+  Playing = 2
 }
 
 class WitchGame {
@@ -9,7 +10,6 @@ class WitchGame {
   player          : Player
   playerController: PlayerController
 
-  private connection: Connection
   private players : Array<Player> = []
 
   preload() {
@@ -34,6 +34,7 @@ class WitchGame {
   addPlayer(player : Player) : void {
     console.log('Adding player', player.name)
     player.sprite = game.add.sprite(0, 0, 'player')
+    player.state = PlayerState.Alive
     this.players.push(player)
   }
 
@@ -48,7 +49,7 @@ class WitchGame {
   }
 
   create() {
-    this.connection = new Connection('ws://' + window.document.location.host, this)
+    connection = new Connection('ws://' + window.document.location.host, this)
 
     game.stage.backgroundColor = STAGE_COLOR
     game.stage.disableVisibilityChange = true;
@@ -73,27 +74,28 @@ class WitchGame {
   }
 
   update() {
-    if (this.playerController) {
+    if (this.gameState === GameState.Playing && this.player.state === PlayerState.Alive) {
       this.playerController.update()
       this.moveCameraTo(this.player)
+      this.sendPlayerState(this.player)
     }
-
-    this.send()
   }
 
-  send() {
-    if (this.player && this.player.state == PlayerState.Alive) {
-      this.connection.send({
-        playerState: {
-          x: this.player.x,
-          y: this.player.y,
-        }
-      })
-    }
+  sendPlayerState(player : Player) {
+    connection.send({
+      playerState: {
+        x: player.x,
+        y: player.y,
+      }
+    })
   }
 
   render() {
-    game.debug.cameraInfo(game.camera, 32, 32);
+    game.debug.text(GameState[this.gameState], 20, 20);
+    if (this.player) {
+      game.debug.text(PlayerState[this.player.state], 20, 40);
+    }
+
     this.players.forEach((player) => {
       player.render()
     })
