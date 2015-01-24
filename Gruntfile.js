@@ -12,12 +12,22 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['index.html', 'src/**/*'],
-      tasks: ['build'],
-      options: {
-        spawn     : false,
-        interrupt : true,
-        livereload: 35729,
+      build: {
+        files: ['index.html', 'src/**/*'],
+        tasks: ['build'],
+        options: {
+          spawn     : false,
+          interrupt : true,
+          livereload: 35729,
+        }
+      },
+      reload: {
+        files: ['index.html', 'src/**/*'],
+        options: {
+          spawn     : false,
+          interrupt : true,
+          livereload: 35729,
+        }
       }
     },
     typescript: {
@@ -59,5 +69,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-typescript')
 
   grunt.registerTask('build', ['clean:build', 'mkdir:build', 'copy:build', 'typescript']);
-  grunt.registerTask('default', ['build', 'connect', 'watch']);
+  grunt.registerTask('default', ['build', 'connect', 'watch:build']);
+  grunt.registerTask('server', ['build', 'connect', 'watch:reload']);
 };
