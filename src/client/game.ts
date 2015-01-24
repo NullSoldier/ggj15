@@ -36,7 +36,6 @@ class WitchGame {
   addPlayer(player : Player) : void {
     console.log('Adding player', player.name)
     player.sprite = game.add.sprite(0, 0, 'player')
-    player.state = PlayerState.Alive
     player.sprite.anchor.set(0.5, 1.0)
     player.influenceSprite = game.add.sprite(0, 0, 'player_influence')
     player.influenceSprite.anchor.set(0.5, 0.5)

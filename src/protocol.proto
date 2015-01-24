@@ -47,15 +47,10 @@ message ServerMessage {
 
   message RoomState {
     message PlayerState {
-      enum State {
-        // Keep in sync with PlayerState in player.ts.
-        ALIVE = 1;
-        DEAD = 2;
-      }
       required uint32 id = 1;
       required int32 x = 2;
       required int32 y = 3;
-      required State state = 4;
+      required int32 state = 4;
     }
 
     repeated PlayerState players = 1;
