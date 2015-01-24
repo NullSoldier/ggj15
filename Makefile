@@ -3,8 +3,15 @@
 GRUNT = node_modules/grunt-cli/bin/grunt --no-color
 
 .PHONY: all
-all: node_modules/.stamp
+all: build
+
+.PHONY: build
+build: node_modules/.stamp
 	$(GRUNT) build
+
+.PHONY: server
+server: node_modules/.stamp
+	$(GRUNT) server
 
 node_modules/.stamp: package.json
 	npm install

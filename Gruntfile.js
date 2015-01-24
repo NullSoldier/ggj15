@@ -93,5 +93,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-typescript')
 
   grunt.registerTask('build', ['mkdir:build', 'sync', 'typescript']);
-  grunt.registerTask('default', ['build', 'express:dev', 'watch']);
+  grunt.registerTask('default', ['server']);
+  grunt.registerTask('server', ['build', 'express:dev', 'watch']);
 };
