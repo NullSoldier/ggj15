@@ -58,7 +58,12 @@ module.exports = function(grunt) {
     mkdir: {
       build: {
         options: {
-          create: ['build/', 'build/src']
+          create: [
+            'build/',
+            'build/src',
+            'build/src/client',
+            'build/src/server',
+            'build/src/common']
         }
       }
     },
