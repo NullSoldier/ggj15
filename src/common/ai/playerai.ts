@@ -9,12 +9,12 @@ class PlayerAI {
     // Override me!
   }
 
-  protected nearestPlayer(players: Array<Player>) : Player {
+  protected nearestEnemy(players: Array<Player>) : Player {
     var maxSeeDistance2 = this.maxSeeDistance * this.maxSeeDistance
     var nearestDistance2 : number
-    var nearestPlayer : Player = null
+    var nearestEnemy : Player = null
     players.forEach((player) => {
-      if (player === this.player) {
+      if (player.teamID === this.player.teamID) {
         return
       }
       var dx = player.x - this.player.x
@@ -23,11 +23,11 @@ class PlayerAI {
       if (distance2 > maxSeeDistance2) {
         return
       }
-      if (nearestPlayer === null || distance2 < nearestDistance2) {
-        nearestPlayer = player
+      if (nearestEnemy === null || distance2 < nearestDistance2) {
+        nearestEnemy = player
         nearestDistance2 = distance2
       }
     })
-    return nearestPlayer
+    return nearestEnemy
   }
 }

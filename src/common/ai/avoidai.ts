@@ -10,12 +10,12 @@ class AvoidPlayerAI extends PlayerAI {
 
   update(players : Array<Player>) : void {
     // TODO(strager): Smarter algorithm.
-    var nearestPlayer = this.nearestPlayer(players)
-    if (nearestPlayer === null) {
+    var nearestEnemy = this.nearestEnemy(players)
+    if (nearestEnemy === null) {
       return
     }
-    var dx = nearestPlayer.x - this.player.x
-    var dy = nearestPlayer.y - this.player.y
+    var dx = nearestEnemy.x - this.player.x
+    var dy = nearestEnemy.y - this.player.y
     if (Math.sqrt(dx * dx + dy * dy) > this.maxAvoidDistance) {
       return
     }
