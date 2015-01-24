@@ -105,7 +105,6 @@ class Connection {
   }
 
   private onFireBullet(bulletInfo) : void {
-    console.log("shot fired from ", bulletInfo.ownerID)
     var bullet = new Bullet()
     bullet.x      = bulletInfo.startX
     bullet.y      = bulletInfo.startY
@@ -113,7 +112,7 @@ class Connection {
     bullet.dirY   = bulletInfo.dirY
     bullet.sprite = game.add.sprite(bullet.x, bullet.y, 'smoke')
     bullet.sprite.anchor.set(0.5, 0.5)
-    bullet.sprite.scale.set(0.5, 0.5)
+    bullet.start_animate(game)
     this.game.bullets.push(bullet)
   }
 }

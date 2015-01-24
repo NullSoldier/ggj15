@@ -7,6 +7,7 @@ enum Animation {
 class Entity {
   // Client
   sprite: Phaser.Sprite
+  lookDir: Array<number> = [0, 1]
 
   // Both
   x         : number = 0
@@ -25,6 +26,7 @@ class Entity {
     var vec = getMoveVector(dx, dy, this.speed)
     this.x = Math.min(witch.level.width, Math.max(0, this.x + Math.round(vec[0])))
     this.y = Math.min(witch.level.height, Math.max(0, this.y + Math.round(vec[1])))
+
     if (vec[1] > 0) {
       this.animation = Animation.WalkDown
     } else if (vec[1] < 0) {
@@ -32,6 +34,11 @@ class Entity {
     } else {
       this.animation = Animation.Idle
     }
+
+    if(vec[0] !== 0 || vec[1] !== 0) {
+      this.lookDir = vec
+    }
+
     return vec
   }
 }

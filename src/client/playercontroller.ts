@@ -36,7 +36,10 @@ class PlayerController {
   }
 
   fireBullet(dirX, dirY) {
-    var moveVec = getMoveVector(dirX, dirY, 10)
+    var moveVec = getMoveVector(
+      this.player.lookDir[0],
+      this.player.lookDir[1],
+      Bullet.BULLET_SPEED)
 
     connection.send({
       fireBullet: {
