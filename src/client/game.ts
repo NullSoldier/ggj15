@@ -201,7 +201,7 @@ class WitchGame {
   moveCameraTo(player : Player) {
     var pos = lerpPos(
       game.camera.view.centerX, this.player.x,
-      game.camera.view.centerY, this.player.y, 0.2)
+      game.camera.view.centerY, this.player.y, 0.1)
 
     game.camera.setPosition(
       pos.x - game.camera.view.halfWidth,
