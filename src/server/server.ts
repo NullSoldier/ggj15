@@ -3,8 +3,10 @@ class Server {
   room = new Room()
 
   constructor(webSocketServer : any) {
-    this.room.addAIPlayer(FollowNearestPlayerAI)
-    this.room.addAIPlayer(AvoidPlayerAI)
+    var followAI = this.room.addAIPlayer(FollowNearestPlayerAI)
+    followAI.speed = 3
+    var avoidAI = this.room.addAIPlayer(AvoidPlayerAI)
+    avoidAI.speed = 2
 
     webSocketServer.on('connection', (socket : any) => {
       this.connections.push(new Connection(this, socket))

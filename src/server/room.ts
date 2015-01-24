@@ -30,12 +30,12 @@ class Room {
     }
   }
 
-  addAIPlayer(aiFactory : new (player : Player) => PlayerAI) : void {
+  addAIPlayer(aiFactory : new (player : Player) => PlayerAI) : Player {
     name = 'Artificial Indigo ' + Math.round(Math.random() * 10)
     var player = this.createPlayer(name)
-    player.speed = 2 // HACK(strager): Make AI players easier to chase down.
     this.addPlayer(player)
     this.ais.push(new aiFactory(player))
+    return player
   }
 
   removePlayer(player : Player) : void {
