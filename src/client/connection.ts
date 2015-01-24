@@ -70,8 +70,8 @@ class Connection {
   }
 
   private onRoomLeft(playerInfo) : void {
-    console.info(playerInfo.name, ' left the room')
     var player = this.game.getPlayerByIDOrNull(playerInfo.id)
+    console.info(player.name, ' left the room')
     this.game.removePlayer(player)
   }
 

@@ -75,8 +75,7 @@ class Room {
   }
 
   sendRoomLeft(playerLeft : Player) {
-    var message = playerLeft.toRoomList()
-    this.sendToAllExcept({roomJoined: message}, playerLeft.id)
+    this.sendToAllExcept({roomLeft: {id: playerLeft.id}}, playerLeft.id)
   }
 
   sendRoomList(to : Player) {
