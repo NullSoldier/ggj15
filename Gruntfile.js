@@ -2,27 +2,27 @@ module.exports = function(grunt) {
   grunt.initConfig({
     watch: {
       options: {
-	livereload: 35729,
+        livereload: 35729,
       },
       build: {
         files: ['index.html', 'src/**/*'],
         tasks: ['build'],
         options: {
-          spawn     : false,
-          interrupt : true,
+          spawn    : false,
+          interrupt: true,
         }
       },
       express: {
-	files: ['build/server.js'],
-	tasks: ['express:dev'],
-	options: {
-	  spawn: false,
-	},
+        files: ['build/server.js'],
+        tasks: ['express:dev'],
+        options: {
+          spawn: false,
+        },
       },
       reload: {
         files: ['index.html', 'src/**/*'],
         options: {
-          spawn     : false,
+          spawn: false,
         }
       }
     },
@@ -66,14 +66,11 @@ module.exports = function(grunt) {
         }
       }
     },
-    exec: {
-      protobuf: 'echo "I am gonna build protobuf stuff"'
-    },
     express: {
       dev: {
         options: {
           script: 'build/server.js',
-	},
+        },
       },
     },
   });
