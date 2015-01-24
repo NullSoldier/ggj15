@@ -46,6 +46,8 @@ class Room {
 
   addAIPlayer(aiFactory : new (player : Player) => PlayerAI) : void {
     var player = this.createPlayer('Artificial Indigo')
+    // HACK(strager): Make AI players easier to chase down.
+    player.speed = 2
     this.addPlayer(player)
     this.ais.push(new aiFactory(player))
   }
@@ -119,6 +121,7 @@ class Server {
 
   constructor(webSocketServer : any) {
     this.room.addAIPlayer(FollowNearestPlayerAI)
+    this.room.addAIPlayer(AvoidPlayerAI)
 
     webSocketServer.on('connection', (socket : any) => {
       this.connections.push(new Connection(this, socket))

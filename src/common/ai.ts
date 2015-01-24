@@ -1,30 +1,15 @@
-interface PlayerAI {
-  update(otherPlayers : Array<Player>) : void
-}
-
-class FollowNearestPlayerAI implements PlayerAI {
+class PlayerAI {
   maxSeeDistance : number
-  minApproachDistance : number
 
-  constructor(private player : Player) {
+  constructor(public player : Player) {
     this.maxSeeDistance = 600
-    this.minApproachDistance = 100
   }
 
-  update(players : Array<Player>) : void {
-    var nearestPlayer = this.nearestPlayer(players)
-    if (nearestPlayer === null) {
-      return
-    }
-    var dx = nearestPlayer.x - this.player.x
-    var dy = nearestPlayer.y - this.player.y
-    if (Math.sqrt(dx * dx + dy * dy) < this.minApproachDistance) {
-      return
-    }
-    this.player.move(dx, dy)
+  update(otherPlayers : Array<Player>) : void {
+    // Override me!
   }
 
-  private nearestPlayer(players: Array<Player>) : Player {
+  protected nearestPlayer(players: Array<Player>) : Player {
     var maxSeeDistance2 = this.maxSeeDistance * this.maxSeeDistance
     var nearestDistance2 : number
     var nearestPlayer : Player = null
@@ -44,5 +29,50 @@ class FollowNearestPlayerAI implements PlayerAI {
       }
     })
     return nearestPlayer
+  }
+}
+
+class FollowNearestPlayerAI extends PlayerAI {
+  minApproachDistance : number
+
+  constructor(player : Player) {
+    super(player)
+    this.minApproachDistance = 100
+  }
+
+  update(players : Array<Player>) : void {
+    var nearestPlayer = this.nearestPlayer(players)
+    if (nearestPlayer === null) {
+      return
+    }
+    var dx = nearestPlayer.x - this.player.x
+    var dy = nearestPlayer.y - this.player.y
+    if (Math.sqrt(dx * dx + dy * dy) < this.minApproachDistance) {
+      return
+    }
+    this.player.move(dx, dy)
+  }
+}
+
+class AvoidPlayerAI extends PlayerAI {
+  maxAvoidDistance : number
+
+  constructor(player : Player) {
+    super(player)
+    this.maxAvoidDistance = 200
+  }
+
+  update(players : Array<Player>) : void {
+    // TODO(strager): Smarter algorithm.
+    var nearestPlayer = this.nearestPlayer(players)
+    if (nearestPlayer === null) {
+      return
+    }
+    var dx = nearestPlayer.x - this.player.x
+    var dy = nearestPlayer.y - this.player.y
+    if (Math.sqrt(dx * dx + dy * dy) > this.maxAvoidDistance) {
+      return
+    }
+    this.player.move(-dx, -dy)
   }
 }
