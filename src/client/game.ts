@@ -5,12 +5,13 @@ enum GameState {
 }
 
 class WitchGame {
-  gameState            : GameState
-  mapGroup             : Phaser.Group;
-  player               : Player
-  playerController     : PlayerController
-  playerInfluenceGroup : Phaser.Group
-  level                : Level
+  gameState               : GameState
+  mapGroup                : Phaser.Group;
+  player                  : Player
+  playerController        : PlayerController
+  teamInfluenceGroupGroup : Phaser.Group
+  teamInfluenceGroups     : any = {}  // Team ID => Phaser.Group
+  level                   : Level
 
   private players : Array<Player> = []
   bullets : Array<Bullet> = []
@@ -49,10 +50,21 @@ class WitchGame {
       'Player-Back-Static.png',
       'Player-Back-RightFoot.png',
       'Player-Back-Static.png'])
+
+    var influenceGroup : Phaser.Group = this.teamInfluenceGroups[player.teamID]
+    if (!influenceGroup) {
+      influenceGroup = game.add.group(this.teamInfluenceGroupGroup)
+      this.teamInfluenceGroups[player.teamID] = influenceGroup
+    }
     player.influenceSprite = game.add.sprite(0, 0, 'player_influence')
-    player.influenceSprite.anchor.set(0.5, 0.5)
-    this.playerInfluenceGroup.addChild(player.influenceSprite)
     player.influenceSprite.blendMode = PIXI.blendModes.ADD
+    player.influenceSprite.anchor.set(0.5, 0.5)
+    influenceGroup.addChild(player.influenceSprite)
+
+    var influenceFilter = new InfluenceFilter(game)
+    this.applyTeamInfluenceColor(player.teamID, influenceFilter)
+    influenceGroup.filters = [influenceFilter]
+
     this.players.push(player)
   }
 
@@ -65,6 +77,31 @@ class WitchGame {
     this.players.splice(index, 1)
   }
 
+  private teamColors : any = {}  // Team ID => [r, g, b]
+  getTeamColor(teamID : number) : Array<number> {
+    if (!(teamID in this.teamColors)) {
+      // Find an unused color.
+      var unusedColors = Team.colors.slice()
+      this.players.forEach((player) => {
+        if (!(player.teamID in this.teamColors)) {
+          return
+        }
+        var teamColor = this.teamColors[player.teamID]
+        var index = unusedColors.indexOf(teamColor)
+        if (index !== -1) {
+          unusedColors.splice(index, 1)
+        }
+      })
+      this.teamColors[teamID] = unusedColors.pop()
+    }
+    return this.teamColors[teamID]
+  }
+
+  private applyTeamInfluenceColor(teamID : number, filter : InfluenceFilter) : void {
+    var teamColor = this.getTeamColor(teamID)
+    filter.setColor(teamColor[0], teamColor[1], teamColor[2])
+  }
+
   create() {
     connection = new Connection('ws://' + window.document.location.host, this)
 
@@ -72,10 +109,7 @@ class WitchGame {
     game.stage.disableVisibilityChange = true;
 
     this.mapGroup = game.add.group(game.world)
-    this.playerInfluenceGroup = game.add.group(game.world)
-    var influenceFilter = new InfluenceFilter(game)
-    influenceFilter.setColor(1.0, 0.0, 0.0)
-    this.playerInfluenceGroup.filters = [influenceFilter]
+    this.teamInfluenceGroupGroup = game.add.group(game.world)
 
     // eat these so the browser doesn't get them
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);

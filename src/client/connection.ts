@@ -65,7 +65,7 @@ class Connection {
 
   private onRoomJoined(playerInfo) : void {
     console.info(playerInfo.name, ' joined the room')
-    var player = new Player(playerInfo.id, playerInfo.name)
+    var player = new Player(playerInfo.id, playerInfo.name, playerInfo.teamID)
     this.game.addPlayer(player)
   }
 
@@ -79,7 +79,7 @@ class Connection {
     console.info("Players")
     playerInfos.forEach((playerInfo) => {
       if(playerInfo.id !== this.game.player.id) {
-        var player = new Player(playerInfo.id, playerInfo.name)
+        var player = new Player(playerInfo.id, playerInfo.name, playerInfo.teamID)
         this.game.addPlayer(player)
         console.info("\t", playerInfo.name)
       }

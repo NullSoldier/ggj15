@@ -2,6 +2,9 @@ class Room {
   players : Array<Player> = []
   ais : Array<PlayerAI> = []
 
+  // Mapping from teamID to Team.colors index.
+  private teamColors : any = {}
+
   private nextPlayerID : number = 1;
 
   private createPlayerID() : number {

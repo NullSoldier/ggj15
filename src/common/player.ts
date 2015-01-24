@@ -19,10 +19,10 @@ class Player extends Entity {
   state : PlayerState = PlayerState.None
   speed : number = 5
 
-  constructor(id : number, name : string) {
+  constructor(id : number, name : string, teamID? : number) {
     super()
     this.id = id
-    this.teamID = id
+    this.teamID = teamID == null ? id : teamID
     this.name = name
   }
 
@@ -35,6 +35,7 @@ class Player extends Entity {
   toRoomList() {
     return {
       id: this.id,
+      teamID: this.teamID,
       name: this.name,
     }
   }

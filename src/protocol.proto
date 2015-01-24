@@ -42,6 +42,7 @@ message ServerMessage {
   message RoomJoined {
     required uint32 id = 1;
     required string name = 2;
+    required uint32 teamID = 3;
   }
 
   message RoomLeft {
@@ -51,6 +52,7 @@ message ServerMessage {
   message RoomList {
     message PlayerInfo {
       required uint32 id = 1;
+      required uint32 teamID = 3;
       required string name = 2;
     }
 
