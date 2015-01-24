@@ -2,8 +2,11 @@ var SCREEN_WIDTH  = 1280
 var SCREEN_HEIGHT = 720
 
 var game : Phaser.Game
+var player : Player
 
 function preload() {
+  player = new Player()
+  console.log(player)
 
 }
 
