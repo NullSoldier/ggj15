@@ -34,7 +34,6 @@ class WitchGame {
   addPlayer(player : Player) : void {
     console.log('Adding player', player.name)
     player.sprite = game.add.sprite(0, 0, 'player')
-    player.speed = 5
     this.players.push(player)
   }
 

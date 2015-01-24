@@ -25,13 +25,6 @@ class PlayerController {
     if(this.controls.down.isDown) {
       dy += 1
     }
-    if (dx != 0 || dy != 0) {
-      var magnitude = Math.sqrt(dx * dx + dy * dy)
-      dx = Math.round(dx * this.player.speed / magnitude)
-      dy = Math.round(dy * this.player.speed / magnitude)
-    }
-
-    this.player.x += dx
-    this.player.y += dy
+    this.player.move(dx, dy)
   }
 }

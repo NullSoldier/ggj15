@@ -1,5 +1,10 @@
 var PORT = 8001
-var UPDATES_PER_SECOND = 30
+
+// Sync with client for move speed
+var MAKE_UPDATES_PER_SECOND = 60
+
+// Number doesn't matter; lag vs bandwidth tradeoff
+var SEND_UPDATES_PER_SECOND = 30
 
 var express = require('express')
 var http = require('http')
@@ -11,16 +16,36 @@ var WebSocketServer = wslib.Server
 
 class Room {
   players : Array<Player> = []
+  ais : Array<PlayerAI> = []
 
   private nextPlayerID : number = 1;
 
-  createPlayerID() : number {
+  private createPlayerID() : number {
     return this.nextPlayerID++;
   }
 
+  // Does not add the player.
+  createPlayer(name : string) : Player {
+    var player = new Player()
+    player.id = this.createPlayerID()
+    player.name = name
+    player.x = Math.floor(Math.random() * 1000)
+    player.y = Math.floor(Math.random() * 1000)
+    return player
+  }
+
   addPlayer(player : Player) : void {
+    if (!player) {
+      throw new Error('Bad player')
+    }
     this.players.push(player)
     this.setNeedSendRoomInfo()
+  }
+
+  addAIPlayer(aiFactory : new (player : Player) => PlayerAI) : void {
+    var player = this.createPlayer('Artificial Indigo')
+    this.addPlayer(player)
+    this.ais.push(new aiFactory(player))
   }
 
   removePlayer(player : Player) : void {
@@ -34,7 +59,19 @@ class Room {
 
   private setNeedSendRoomInfo() : void {
     this.players.forEach((player) => {
-      player.connection.needSendRoomInfo = true
+      if (player.connection) {
+        player.connection.needSendRoomInfo = true
+      }
+    })
+  }
+
+  makeUpdates() : void {
+    this.updateAIs()
+  }
+
+  private updateAIs() : void {
+    this.ais.forEach((ai) => {
+      ai.update(this.players)
     })
   }
 
@@ -48,10 +85,12 @@ class Room {
       }),
     }
     this.players.forEach((player) => {
-      if (player.connection.needSendRoomInfo) {
-        player.connection.send({roomInfo: roomInfo})
+      if (player.connection) {
+        if (player.connection.needSendRoomInfo) {
+          player.connection.send({roomInfo: roomInfo})
+        }
+        player.connection.needSendRoomInfo = false
       }
-      player.connection.needSendRoomInfo = false
     })
 
     var roomState : any = {
@@ -64,7 +103,9 @@ class Room {
       })
     }
     this.players.forEach((player) => {
-      player.connection.send({roomState: roomState})
+      if (player.connection) {
+        player.connection.send({roomState: roomState})
+      }
     })
   }
 }
@@ -74,12 +115,17 @@ class Server {
   room = new Room()
 
   constructor(webSocketServer : any) {
+    this.room.addAIPlayer(FollowNearestPlayerAI)
+
     webSocketServer.on('connection', (socket : any) => {
       this.connections.push(new Connection(this, socket))
     })
     setInterval(() => {
+      this.room.makeUpdates()
+    }, 1000 / MAKE_UPDATES_PER_SECOND)
+    setInterval(() => {
       this.room.sendUpdates()
-    }, 1000 / UPDATES_PER_SECOND)
+    }, 1000 / SEND_UPDATES_PER_SECOND)
   }
 }
 
@@ -126,9 +172,7 @@ class Connection {
     }
 
     this.room = this.server.room
-    this.player = new Player()
-    this.player.id = this.room.createPlayerID()
-    this.player.name = name
+    this.player = this.room.createPlayer(name)
     this.player.connection = this
     this.room.addPlayer(this.player)
     this.send({
