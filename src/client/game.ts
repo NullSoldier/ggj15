@@ -82,10 +82,26 @@ class WitchGame {
     if (this.playerController) {
       this.playerController.update()
     }
+
+    this.send()
+  }
+
+  send() {
+    if (this.player) {
+      this.connection.send({
+        playerState: {
+          x: this.player.x,
+          y: this.player.y,
+        }
+      })
+    }
   }
 
   render() {
-     game.debug.cameraInfo(game.camera, 32, 32);
+    game.debug.cameraInfo(game.camera, 32, 32);
+    this.players.forEach((player) => {
+      player.render()
+    })
   }
 
   loadLevel(level : Level) {

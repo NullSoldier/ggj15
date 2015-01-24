@@ -11,8 +11,8 @@ class PlayerController {
   }
 
   update() {
-    var moveToX = this.player.sprite.x
-    var moveToY = this.player.sprite.y
+    var moveToX = this.player.x
+    var moveToY = this.player.y
 
     if(this.controls.left.isDown) {
       moveToX -= this.player.speed
@@ -27,7 +27,7 @@ class PlayerController {
       moveToY += this.player.speed
     }
 
-    this.player.sprite.x = moveToX
-    this.player.sprite.y = moveToY
+    this.player.x = moveToX
+    this.player.y = moveToY
   }
 }

@@ -3,10 +3,16 @@ package protocol;
 message ClientMessage {
   oneof message {
     Authenticate authenticate = 1;
+    PlayerState playerState = 2;
   }
 
   message Authenticate {
     required string playerName = 1;
+  }
+
+  message PlayerState {
+    required int32 x = 1;
+    required int32 y = 2;
   }
 }
 
@@ -14,6 +20,7 @@ message ServerMessage {
   oneof message {
     Authenticated authenticated = 1;
     RoomInfo roomInfo = 2;
+    RoomState roomState = 3;
   }
 
   message Authenticated {
@@ -27,5 +34,15 @@ message ServerMessage {
     }
 
     repeated PlayerInfo players = 1;
+  }
+
+  message RoomState {
+    message PlayerState {
+      required uint32 id = 1;
+      required int32 x = 2;
+      required int32 y = 3;
+    }
+
+    repeated PlayerState players = 1;
   }
 }

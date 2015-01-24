@@ -13,13 +13,16 @@ class Connection {
     })
     this.connection.addEventListener('message', (event : MessageEvent) => {
       var m : any = protocol.ServerMessage.decode(event.data)
-      console.log('recv', m)
+      //console.log('recv', m)
       switch (m.message) {
       case 'authenticated':
         this.onAuthenticated(m.authenticated.playerID)
         break
       case 'roomInfo':
         this.onRoomInfo(m.roomInfo.players)
+        break
+      case 'roomState':
+        this.onRoomState(m.roomState.players)
         break
       default:
         throw new Error('Unknown message ' + m.message)
@@ -31,7 +34,7 @@ class Connection {
   }
 
   send(messageObject : any) : void {
-    console.log('send', messageObject)
+    //console.log('send', messageObject)
     this.connection.send(new protocol.ClientMessage(messageObject).toBuffer());
   }
 
@@ -39,7 +42,7 @@ class Connection {
     this.game.createPlayer('Billy Bobx', playerID)
   }
 
-  private onRoomInfo(playerInfos : any) : void {
+  private onRoomInfo(playerInfos : Array<any>) : void {
     var playerIDs : Array<number> = []
     playerInfos.forEach((playerInfo) => {
       var id : number = playerInfo.id
@@ -58,6 +61,18 @@ class Connection {
       if (playerIDs.indexOf(player.id) === -1) {
         this.game.removePlayer(player)
       }
+    })
+  }
+
+  private onRoomState(playerStates : Array<any>) : void {
+    playerStates.forEach((playerState) => {
+      var player = this.game.getPlayerByIDOrNull(playerState.id)
+      if (player == this.game.player) {
+        // Ignore updates for the current player.
+        return
+      }
+      player.x = playerState.x
+      player.y = playerState.y
     })
   }
 }

@@ -53,6 +53,19 @@ class Room {
       }
       player.connection.needSendRoomInfo = false
     })
+
+    var roomState : any = {
+      players: this.players.map((player) => {
+        return {
+          id: player.id,
+          x: player.x,
+          y: player.y,
+        }
+      })
+    }
+    this.players.forEach((player) => {
+      player.connection.send({roomState: roomState})
+    })
   }
 }
 
@@ -82,10 +95,13 @@ class Connection {
         return
       }
       var m : any = protocol.ClientMessage.decode(data)
-      console.log('recv', m)
+      //console.log('recv', m)
       switch (m.message) {
       case 'authenticate':
         this.onAuthenticate(m.authenticate.playerName)
+        break;
+      case 'playerState':
+        this.onPlayerState(m.playerState.x, m.playerState.y)
         break;
       default:
         throw new Error('Unknown message ' + m.message)
@@ -99,7 +115,7 @@ class Connection {
   }
 
   send(messageObject : any) : void {
-    console.log('send', messageObject)
+    //console.log('send', messageObject)
     this.socket.send(new protocol.ServerMessage(messageObject).toBuffer());
   }
 
@@ -120,6 +136,14 @@ class Connection {
         playerID: this.player.id,
       },
     })
+  }
+
+  private onPlayerState(x : number, y : number) : void {
+    if (!this.player) {
+      return
+    }
+    this.player.x = x
+    this.player.y = y
   }
 }
 
