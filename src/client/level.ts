@@ -1,3 +1,3 @@
 class Level {
-  background: Phaser.Sprite;
+  backgroundSprites : Array<Phaser.Sprite> = []
 }

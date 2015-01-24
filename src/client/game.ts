@@ -18,7 +18,10 @@ class WitchGame {
     game.load.image('player', 'assets/player.png')
     game.load.image('smoke', 'assets/smoke.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
-    game.load.image('level_sample', 'assets/test_map.png')
+    game.load.image('background_01', 'assets/background_01.png')
+    game.load.image('background_02', 'assets/background_02.png')
+    game.load.image('background_03', 'assets/background_03.png')
+    game.load.image('background_04', 'assets/background_04.png')
   }
 
   getPlayerByIDOrNull(id : number) : Player {
@@ -65,7 +68,10 @@ class WitchGame {
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
 
     var sampleLevel = new Level()
-    sampleLevel.background = game.make.sprite(0, 0, 'level_sample')
+    sampleLevel.backgroundSprites.push(game.make.sprite(0, 0, 'background_01'))
+    sampleLevel.backgroundSprites.push(game.make.sprite(2560, 0, 'background_02'))
+    sampleLevel.backgroundSprites.push(game.make.sprite(0, 1353, 'background_03'))
+    sampleLevel.backgroundSprites.push(game.make.sprite(2560, 1353, 'background_04'))
     this.loadLevel(sampleLevel)
   }
 
@@ -110,7 +116,9 @@ class WitchGame {
   }
 
   loadLevel(level : Level) {
-    this.mapGroup.add(level.background)
+    level.backgroundSprites.forEach((sprite) => {
+      this.mapGroup.add(sprite)
+    })
     game.camera.bounds = null
   }
 
