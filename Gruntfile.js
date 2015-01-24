@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         }
       },
       server: {
-        src: ['src/common/level.ts', 'src/server/*.ts', 'src/common/*.ts'],
+        src: ['src/common/ai/*.ts', 'src/common/level.ts', 'src/server/*.ts', 'src/common/*.ts'],
         dest: 'build/server.js',
         options: {
           basePath  : 'src/',
