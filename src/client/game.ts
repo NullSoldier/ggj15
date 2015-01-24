@@ -61,7 +61,9 @@ class WitchGame {
 
     this.mapGroup = game.add.group(game.world)
     this.playerInfluenceGroup = game.add.group(game.world)
-    this.playerInfluenceGroup.filters = [new InfluenceFilter(game)]
+    var influenceFilter = new InfluenceFilter(game)
+    influenceFilter.setColor(1.0, 0.0, 0.0)
+    this.playerInfluenceGroup.filters = [influenceFilter]
 
     // eat these so the browser doesn't get them
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
