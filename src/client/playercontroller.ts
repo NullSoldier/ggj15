@@ -11,23 +11,27 @@ class PlayerController {
   }
 
   update() {
-    var moveToX = this.player.x
-    var moveToY = this.player.y
-
+    var dx = 0
+    var dy = 0
     if(this.controls.left.isDown) {
-      moveToX -= this.player.speed
+      dx -= 1
     }
     if(this.controls.right.isDown) {
-      moveToX += this.player.speed
+      dx += 1
     }
     if(this.controls.up.isDown) {
-      moveToY -= this.player.speed
+      dy -= 1
     }
     if(this.controls.down.isDown) {
-      moveToY += this.player.speed
+      dy += 1
+    }
+    if (dx != 0 || dy != 0) {
+      var magnitude = Math.sqrt(dx * dx + dy * dy)
+      dx = Math.round(dx * this.player.speed / magnitude)
+      dy = Math.round(dy * this.player.speed / magnitude)
     }
 
-    this.player.x = moveToX
-    this.player.y = moveToY
+    this.player.x += dx
+    this.player.y += dy
   }
 }
