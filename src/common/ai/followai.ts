@@ -8,8 +8,8 @@ class FollowNearestPlayerAI extends PlayerAI {
     this.minApproachDistance = 100
   }
 
-  update(players : Array<Player>) : void {
-    var nearestEnemy = this.nearestEnemy(players)
+  update(room : Room) : void {
+    var nearestEnemy = this.nearestEnemy(room.players)
     if (nearestEnemy === null) {
       return
     }

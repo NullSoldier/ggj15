@@ -10,7 +10,7 @@ class AvoidPlayerAI extends PlayerAI {
 
   update(room : Room) : void {
     // TODO(strager): Smarter algorithm.
-    var nearestEnemy = this.nearestEnemy(players)
+    var nearestEnemy = this.nearestEnemy(room.players)
     if (nearestEnemy === null) {
       return
     }
