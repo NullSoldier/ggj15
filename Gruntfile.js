@@ -43,7 +43,6 @@ module.exports = function(grunt) {
           references: "lib/**/*.d.ts",
           target    : 'es5',
           module    : 'amd',
-          sourceMap : true,
         }
       },
       server: {
