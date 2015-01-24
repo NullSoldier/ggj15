@@ -52,7 +52,8 @@ class Connection {
   sendPlayerState(player : Player) {
     this.send({playerState: {
       x: player.x,
-      y: player.y
+      y: player.y,
+      animation: player.animation,
     }})
   }
 
@@ -98,6 +99,7 @@ class Connection {
       } else {
         player.x = playerState.x
         player.y = playerState.y
+        player.animation = playerState.animation
       }
     })
   }

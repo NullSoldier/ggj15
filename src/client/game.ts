@@ -37,9 +37,9 @@ class WitchGame {
   addPlayer(player : Player) : void {
     player.sprite = game.add.sprite(0, 0, 'player')
     player.sprite.anchor.set(0.5, 1.0)
-    player.sprite.animations.add('idle', [
+    player.sprite.animations.add(Animation[Animation.Idle], [
       'Player_static-front.png'])
-    player.sprite.animations.add('walk_down', [
+    player.sprite.animations.add(Animation[Animation.WalkDown], [
       'Player_leftfoot-front.png',
       'Player_static-front.png',
       'Player_rightfoot-front.png',
