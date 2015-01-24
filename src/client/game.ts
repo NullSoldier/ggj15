@@ -16,6 +16,9 @@ class WitchGame {
   private players : Array<Player> = []
   bullets : Array<Bullet> = []
 
+  // Includes players and bullets.  Sorted by Z index.
+  entities : Array<Entity> = []
+
   preload() {
     game.load.image('smoke', 'assets/smoke.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
@@ -66,16 +69,31 @@ class WitchGame {
     influenceGroup.filters = [influenceFilter]
 
     this.players.push(player)
+    this.entities.push(player)
   }
 
   removePlayer(player : Player) : void {
-    var index = this.players.indexOf(player)
+    var index : number
+
+    index = this.players.indexOf(player)
     if (index === -1) {
       throw new Error('Tried to remove a player not in array')
     }
+    this.players.splice(index, 1)
+
+    index = this.entities.indexOf(player)
+    if (index === -1) {
+      throw new Error('Tried to remove a player not in array')
+    }
+    this.entities.splice(index, 1)
+
     player.sprite.parent.removeChild(player.sprite)
     player.influenceSprite.parent.removeChild(player.influenceSprite)
-    this.players.splice(index, 1)
+  }
+
+  addBullet(bullet : Bullet) : void {
+    this.bullets.push(bullet)
+    this.entities.push(bullet)
   }
 
   private teamColors : any = {}  // Team ID => [r, g, b]
@@ -146,6 +164,8 @@ class WitchGame {
   render() {
     game.debug.text(GameState[this.gameState], 20, 20);
 
+    this.sortPlayers()
+
     var startY = 40
     this.players.forEach((player) => {
       player.render()
@@ -155,6 +175,27 @@ class WitchGame {
     })
 
     this.bullets.forEach((bullet) => bullet.render())
+  }
+
+  sortPlayers() : void {
+    // Z-sort players by Y using Bubble Sort.
+    // https://en.wikipedia.org/wiki/Bubble_sort
+    var entities : Array<Entity> = this.entities
+    var n = entities.length
+    var swapped : Boolean
+    do {
+      swapped = false
+      for (var i = 1; i < n; ++i) {
+        var e1 = entities[i - 1]
+        var e2 = entities[i]
+        if (e1.y > e2.y) {
+          e1.sprite.parent.swapChildren(e1.sprite, e2.sprite)
+          entities[i] = e1
+          entities[i - 1] = e2
+          swapped = true
+        }
+      }
+    } while (swapped)
   }
 
   moveCameraTo(player : Player) {
