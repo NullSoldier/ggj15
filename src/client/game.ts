@@ -44,7 +44,7 @@ class WitchGame {
     if (index === -1) {
       throw new Error('Tried to remove a player not in array')
     }
-    this.player.sprite.parent.removeChild(this.player.sprite)
+    player.sprite.parent.removeChild(player.sprite)
     this.players.splice(index, 1)
   }
 
