@@ -3,6 +3,8 @@ class PlayerController {
   constructor(public player : Player) {
   }
 
+  canFire : boolean = true
+
   controls : any = {
     up   : game.input.keyboard.addKey(Phaser.Keyboard.W),
     right: game.input.keyboard.addKey(Phaser.Keyboard.D),
@@ -30,8 +32,10 @@ class PlayerController {
 
     this.player.move(dx, dy)
 
-    if(this.controls.space.justDown) {
+    if(this.controls.space.justDown && this.canFire) {
       this.fireBullet(dx, dy)
+      this.canFire = false
+      setTimeout(() => this.canFire = true, 250)
     }
   }
 
