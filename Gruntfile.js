@@ -59,7 +59,7 @@ module.exports = function(grunt) {
     sync: {
       main: {
         files: [{
-          src: ['index.html', 'assets/*', 'lib/**'],
+          src: ['index.html', 'lib/**'],
           dest: 'build/',
         }],
         verbose: true
@@ -79,6 +79,7 @@ module.exports = function(grunt) {
         'node build/protocol.server.js  # Check for errors.',
         'node_modules/protobufjs/bin/proto2js src/protocol.proto -class > build/protocol.client.js',
       ].join('\n'),
+      assets: 'ln -s -f ../assets build/assets',
     },
     express: {
       dev: {
@@ -98,7 +99,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-sync')
   grunt.loadNpmTasks('grunt-typescript')
 
-  grunt.registerTask('build', ['mkdir:build', 'sync', 'exec:protobuf', 'typescript']);
+  grunt.registerTask('build', ['mkdir:build', 'sync', 'exec:protobuf', 'exec:assets', 'typescript']);
   grunt.registerTask('default', ['server']);
   grunt.registerTask('server', ['build', 'express:dev', 'watch']);
 };
