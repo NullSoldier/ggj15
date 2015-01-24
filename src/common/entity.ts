@@ -2,6 +2,8 @@ enum Animation {
   Idle = 0,
   WalkDown = 1,
   WalkUp = 2,
+  WalkLeft = 3,
+  WalkRight = 4,
 }
 
 class Entity {
@@ -27,12 +29,23 @@ class Entity {
     this.x = Math.min(witch.level.width, Math.max(0, this.x + Math.round(vec[0])))
     this.y = Math.min(witch.level.height, Math.max(0, this.y + Math.round(vec[1])))
 
-    if (vec[1] > 0) {
-      this.animation = Animation.WalkDown
-    } else if (vec[1] < 0) {
-      this.animation = Animation.WalkUp
-    } else {
+    if (vec[0] === 0 && vec[1] === 0) {
       this.animation = Animation.Idle
+    }
+
+    if (Math.abs(vec[0]) > Math.abs(vec[1])) {
+      // X more prominent than Y.
+      if (vec[0] > 0) {
+        this.animation = Animation.WalkRight
+      } else {
+        this.animation = Animation.WalkLeft
+      }
+    } else {
+      if (vec[1] > 0) {
+        this.animation = Animation.WalkDown
+      } else if (vec[1] < 0) {
+        this.animation = Animation.WalkUp
+      }
     }
 
     if(vec[0] !== 0 || vec[1] !== 0) {

@@ -53,6 +53,16 @@ class WitchGame {
       'Player-Back-Static.png',
       'Player-Back-RightFoot.png',
       'Player-Back-Static.png'])
+    player.sprite.animations.add(Animation[Animation.WalkLeft], [
+      'Player-Left-LeftFoot.png',
+      'Player-Left-Static.png',
+      'Player-Left-RightFoot.png',
+      'Player-Left-Static.png'])
+    player.sprite.animations.add(Animation[Animation.WalkRight], [
+      'Player-Right-LeftFoot.png',
+      'Player-Right-Static.png',
+      'Player-Right-RightFoot.png',
+      'Player-Right-Static.png'])
 
     var influenceGroup : Phaser.Group = this.teamInfluenceGroups[player.teamID]
     if (!influenceGroup) {
