@@ -10,9 +10,6 @@ function iterateLayers(layer, callback) {
         }
         callback(layer)
     } else if (layer.typename === 'Layers') {
-        if (!layer.visible) {
-            return
-        }
         for (var i = 0; i < layer.length; ++i) {
             iterateLayers(layer[i], callback)
         }

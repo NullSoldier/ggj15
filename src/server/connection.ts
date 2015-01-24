@@ -40,7 +40,7 @@ class Connection {
   }
 
   send(messageObject : any) : void {
-    if (!('roomState' in messageObject)) {
+    if (!('roomState' in messageObject) && !('fireBullet' in messageObject)) {
       console.log('send: %s', util.inspect(messageObject, {
         depth: null,
         colors: true,
