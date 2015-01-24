@@ -31,6 +31,9 @@ class Connection {
       case 'roomState':
         this.onRoomState(m.roomState.players)
         break
+      case 'fireBullet':
+        this.onFireBullet(m.fireBullet)
+        break;
       default:
         throw new Error('Unknown message ' + m.message)
       }
@@ -44,6 +47,13 @@ class Connection {
   send(messageObject : any) : void {
     //console.log('send', messageObject)
     this.connection.send(new protocol.ClientMessage(messageObject).toBuffer());
+  }
+
+  sendPlayerState(player : Player) {
+    this.send({playerState: {
+      x: player.x,
+      y: player.y
+    }})
   }
 
   private onAuthenticated(playerID : number) : void {
@@ -90,5 +100,18 @@ class Connection {
         player.y = playerState.y
       }
     })
+  }
+
+  private onFireBullet(bulletInfo) : void {
+    console.log("shot fired from ", bulletInfo.ownerID)
+    var bullet = new Bullet()
+    bullet.x      = bulletInfo.startX
+    bullet.y      = bulletInfo.startY
+    bullet.dirX   = bulletInfo.dirX
+    bullet.dirY   = bulletInfo.dirY
+    bullet.sprite = game.add.sprite(bullet.x, bullet.y, 'smoke')
+    bullet.sprite.anchor.set(0.5, 0.5)
+    bullet.sprite.scale.set(0.5, 0.5)
+    this.game.bullets.push(bullet)
   }
 }

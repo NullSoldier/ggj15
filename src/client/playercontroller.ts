@@ -36,12 +36,14 @@ class PlayerController {
   }
 
   fireBullet(dirX, dirY) {
+    var moveVec = getMoveVector(dirX, dirY, 10)
+
     connection.send({
       fireBullet: {
         startX: this.player.x,
         startY: this.player.y,
-        dirX: dirX,
-        dirY: dirY
+        dirX  : moveVec[0],
+        dirY  : moveVec[1]
       }
     })
   }

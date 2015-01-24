@@ -17,10 +17,10 @@ message ClientMessage {
   }
 
   message FireBullet {
-    required int32 startX = 2;
-    required int32 startY = 3;
-    required float dirX = 4;
-    required float dirY = 5;
+    required int32 startX = 1;
+    required int32 startY = 2;
+    required float dirX = 3;
+    required float dirY = 4;
   }
 }
 
@@ -68,6 +68,7 @@ message ServerMessage {
   }
 
   message FireBullet {
+    required uint32 ownerID = 1;
     required int32 startX = 2;
     required int32 startY = 3;
     required float dirX = 4;

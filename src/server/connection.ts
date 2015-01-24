@@ -26,7 +26,7 @@ class Connection {
         this.onPlayerState(m.playerState.x, m.playerState.y)
         break;
       case 'fireBullet':
-        this.onFireBullet(m.startX, m.startY, m.dirX, m.dirY)
+        this.onFireBullet(m.fireBullet)
         break;
       default:
         throw new Error('Unknown message ' + m.message)
@@ -71,8 +71,15 @@ class Connection {
     this.player.y = y
   }
 
-  private onFireBullet(startX : number, startY : number, dirX : number, dirY : number) {
+  private onFireBullet(bulletInfo) {
+    var message = {
+      ownerID: this.player.id,
+      startX : bulletInfo.startX,
+      startY : bulletInfo.startY,
+      dirX   : bulletInfo.dirX,
+      dirY   : bulletInfo.dirY
+    }
 
-
+    this.room.sendToAll({fireBullet: message})
   }
 }

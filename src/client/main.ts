@@ -6,14 +6,15 @@ var STAGE_COLOR   = "#6495FF"
 
 var game : Phaser.Game
 var connection: Connection
+var witch : WitchGame
 
 window.onload = () => {
-  var witchGame = new WitchGame()
+  witch = new WitchGame()
 
   game = new Phaser.Game(
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
     Phaser.AUTO,
     '',
-    witchGame)
+    witch)
 }

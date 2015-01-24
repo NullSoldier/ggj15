@@ -12,16 +12,13 @@ class WitchGame {
   playerInfluenceGroup : Phaser.Group
 
   private players : Array<Player> = []
+  bullets : Array<Bullet> = []
 
   preload() {
     game.load.image('player', 'assets/player.png')
+    game.load.image('smoke', 'assets/smoke.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
     game.load.image('level_sample', 'assets/test_map.png')
-  }
-
-  // Don't mutate the result, please...
-  getPlayers() : Array<Player> {
-    return this.players
   }
 
   getPlayerByIDOrNull(id : number) : Player {
@@ -82,30 +79,24 @@ class WitchGame {
     if (this.gameState === GameState.Playing && this.player.state === PlayerState.Alive) {
       this.playerController.update()
       this.moveCameraTo(this.player)
-      this.sendPlayerState(this.player)
+      connection.sendPlayerState(this.player)
     }
-  }
 
-  sendPlayerState(player : Player) {
-    connection.send({
-      playerState: {
-        x: player.x,
-        y: player.y,
-      }
-    })
+    this.bullets.forEach((b) => b.update())
   }
 
   render() {
     game.debug.text(GameState[this.gameState], 20, 20);
 
     var startY = 40
-
     this.players.forEach((player) => {
       player.render()
       var text = player.name + ' (' + player.id + '): ' + player.x + ', ' + player.y + '; ' + PlayerState[player.state]
       game.debug.text(text, 20, startY);
       startY += 20
     })
+
+    this.bullets.forEach((bullet) => bullet.render())
   }
 
   moveCameraTo(player : Player) {
