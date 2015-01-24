@@ -77,14 +77,6 @@ class Connection {
   }
 
   private onFireBullet(bulletInfo) {
-    var message = {
-      ownerID: this.player.id,
-      startX : bulletInfo.startX,
-      startY : bulletInfo.startY,
-      dirX   : bulletInfo.dirX,
-      dirY   : bulletInfo.dirY
-    }
-
-    this.room.sendToAll({fireBullet: message})
+    this.room.sendFireBullet(this.player, bulletInfo)
   }
 }

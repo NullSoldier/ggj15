@@ -53,7 +53,7 @@ class Room {
 
   tick() : void {
     this.ais.forEach((ai) => {
-      ai.update(this.players)
+      ai.update(this)
     })
   }
 
@@ -86,5 +86,17 @@ class Room {
   sendRoomState() {
     var message = {players: this.players.map((p) => p.toRoomState())}
     this.sendToAll({roomState: message})
+  }
+
+  sendFireBullet(owner : Player, bulletInfo) {
+    var message = {
+      ownerID: owner.id,
+      startX : bulletInfo.startX,
+      startY : bulletInfo.startY,
+      dirX   : bulletInfo.dirX,
+      dirY   : bulletInfo.dirY
+    }
+
+    this.sendToAll({fireBullet: message})
   }
 }

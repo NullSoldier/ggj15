@@ -6,6 +6,9 @@
 }
 
 class Player extends Entity {
+
+  static FIRE_COOLDOWN = 250
+
   // Server
   connection : Connection
 

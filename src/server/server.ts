@@ -5,9 +5,14 @@ class Server {
   constructor(webSocketServer : any) {
     var followAI = this.room.addAIPlayer(FollowNearestPlayerAI)
     followAI.speed = 3
+
     var avoidAI = this.room.addAIPlayer(AvoidPlayerAI)
     avoidAI.speed = 2
     avoidAI.teamID = followAI.id
+
+    var attackAI = this.room.addAIPlayer(AttackNearestPlayerAI)
+    attackAI.speed = 2
+    attackAI.teamID = followAI.id
 
     webSocketServer.on('connection', (socket : any) => {
       this.connections.push(new Connection(this, socket))

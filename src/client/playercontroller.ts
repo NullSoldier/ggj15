@@ -35,7 +35,7 @@ class PlayerController {
     if(this.controls.space.justDown && this.canFire) {
       this.fireBullet(dx, dy)
       this.canFire = false
-      setTimeout(() => this.canFire = true, 250)
+      setTimeout(() => this.canFire = true, Player.FIRE_COOLDOWN)
     }
   }
 

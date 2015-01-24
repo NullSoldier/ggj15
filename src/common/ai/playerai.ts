@@ -1,11 +1,11 @@
 class PlayerAI {
-  maxSeeDistance : number
+  maxSeeDistance: number = 600
+  canFire       : boolean = true
 
   constructor(public player : Player) {
-    this.maxSeeDistance = 600
   }
 
-  update(otherPlayers : Array<Player>) : void {
+  update(room : Room) : void {
     // Override me!
   }
 
@@ -29,5 +29,24 @@ class PlayerAI {
       }
     })
     return nearestEnemy
+  }
+
+  protected fireBullet(room : Room, dx, dy) {
+    if(!this.canFire) {
+      return
+    }
+
+    var moveVec = getMoveVector(
+      dx, dy, Bullet.BULLET_SPEED)
+
+    room.sendFireBullet(this.player, {
+      startX: this.player.x,
+      startY: this.player.y,
+      dirX  : moveVec[0],
+      dirY  : moveVec[1]
+    })
+
+    this.canFire = false
+    setTimeout(() => this.canFire = true, Player.FIRE_COOLDOWN)
   }
 }
