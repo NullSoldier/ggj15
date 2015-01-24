@@ -47,7 +47,12 @@ class Connection {
       }))
     }
 
-    this.socket.send(new protocol.ServerMessage(messageObject).toBuffer());
+    try {
+      this.socket.send(new protocol.ServerMessage(messageObject).toBuffer());
+    } catch (e) {
+      console.error(e)
+      // Continue!
+    }
   }
 
   private onAuthenticate(name : string) {
