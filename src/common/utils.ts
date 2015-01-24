@@ -12,8 +12,8 @@ function getMoveVector(dx, dy, speed) : Phaser.Point {
   var magnitude = Math.sqrt(dx * dx + dy * dy)
 
   if (magnitude !== 0) {
-    dx = Math.round(dx * this.speed / magnitude)
-    dy = Math.round(dy * this.speed / magnitude)
+    dx = dx * this.speed / magnitude
+    dy = dy * this.speed / magnitude
   }
 
   if (dx !== dx || dy !== dy) {

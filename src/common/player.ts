@@ -26,8 +26,8 @@ class Player {
   move(dx : number, dy : number) : void {
     // TODO(strager): Snap to eight directions.
     vec = getMoveVector(dx, dy, this.speed)
-    this.x += vec.x
-    this.y += vec.y
+    this.x += Math.round(vec.x)
+    this.y += Math.round(vec.y)
   }
 
   render() : void {
