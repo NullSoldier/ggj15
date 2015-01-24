@@ -1,44 +1,51 @@
 module.exports = function(grunt) {
   grunt.initConfig({
-    connect: {
-      server: {
-        options: {
-          base      : 'build',
-          hostname  : 'localhost',
-          port      : 8001,
-          livereload: true,
-          open      : false
-        }
-      }
-    },
     watch: {
+      options: {
+	livereload: 35729,
+      },
       build: {
         files: ['index.html', 'src/**/*'],
         tasks: ['build'],
         options: {
           spawn     : false,
           interrupt : true,
-          livereload: 35729,
         }
+      },
+      express: {
+	files: ['build/src/server/*.js', 'build/src/common/*.js'],
+	tasks: ['express:dev'],
+	options: {
+	  spawn: false,
+	},
       },
       reload: {
         files: ['index.html', 'src/**/*'],
         options: {
           spawn     : false,
-          interrupt : true,
-          livereload: 35729,
         }
       }
     },
     typescript: {
-      base: {
-        src: ['src/**/*.ts'],
+      client: {
+        src: ['src/client/*.ts', 'src/common/*.ts'],
         dest: 'build/src',
         options: {
           basePath  : 'src/',
           references: "lib/**/*.d.ts",
           target    : 'es5',
           module    : 'amd',
+          sourceMap : true
+        }
+      },
+      server: {
+        src: ['src/server/*.ts', 'src/common/*.ts'],
+        dest: 'build/src',
+        options: {
+          basePath  : 'src/',
+          references: "lib/**/*.d.ts",
+          target    : 'es5',
+          module    : 'commonjs',
           sourceMap : true
         }
       }
@@ -52,9 +59,6 @@ module.exports = function(grunt) {
         verbose: true
       }
     },
-    clean: {
-      build: ['build/']
-    },
     mkdir: {
       build: {
         options: {
@@ -64,19 +68,25 @@ module.exports = function(grunt) {
     },
     exec: {
       protobuf: 'echo "I am gonna build protobuf stuff"'
-    }
+    },
+    express: {
+      dev: {
+        options: {
+          script: 'build/src/server/main.js',
+	},
+      },
+    },
   });
 
-  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-mkdir')
-  grunt.loadNpmTasks('grunt-typescript')
-  grunt.loadNpmTasks('grunt-sync')
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-exec')
+  grunt.loadNpmTasks('grunt-express-server')
+  grunt.loadNpmTasks('grunt-mkdir')
+  grunt.loadNpmTasks('grunt-sync')
+  grunt.loadNpmTasks('grunt-typescript')
 
-  grunt.registerTask('build', ['clean:build', 'mkdir:build', 'sync', 'typescript']);
-  grunt.registerTask('default', ['build', 'connect', 'watch:build']);
-  grunt.registerTask('server', ['build', 'connect', 'watch:reload']);
+  grunt.registerTask('build', ['mkdir:build', 'sync', 'typescript']);
+  grunt.registerTask('default', ['build', 'express:dev', 'watch']);
 };
