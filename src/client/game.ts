@@ -3,10 +3,6 @@ enum GameState {
   Playing,
 }
 
-class Level {
-  background: Phaser.Sprite;
-}
-
 class WitchGame {
   gameState       : GameState
   mapGroup        : Phaser.Group;
@@ -81,6 +77,7 @@ class WitchGame {
   update() {
     if (this.playerController) {
       this.playerController.update()
+      this.moveCameraTo(this.player)
     }
 
     this.send()
@@ -104,8 +101,22 @@ class WitchGame {
     })
   }
 
+  lerp(from, to, lerp) {
+    return from + (to - from) * lerp
+  }
+
+  moveCameraTo(player : Player) {
+    var cameraX = this.lerp(game.camera.view.centerX, this.player.x, 0.2)
+    var cameraY = this.lerp(game.camera.view.centerY, this.player.y, 0.2)
+
+    game.camera.setPosition(
+      cameraX - game.camera.view.halfWidth,
+      cameraY - game.camera.view.halfHeight)
+  }
+
   loadLevel(level : Level) {
     this.mapGroup.add(level.background)
+    game.camera.bounds = null
   }
 
   unloadLevel() {
