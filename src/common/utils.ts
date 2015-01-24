@@ -20,5 +20,5 @@ function getMoveVector(dx, dy, speed) : Phaser.Point {
     throw new Error('NaN!')
   }
 
-  return new Point(dx, dy)
+  return new Phaser.Point(dx, dy)
 }
