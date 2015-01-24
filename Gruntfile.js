@@ -43,10 +43,13 @@ module.exports = function(grunt) {
         }
       }
     },
-    copy: {
-      build: {
-        src: ['index.html', 'assets/*', 'lib/*'],
-        dest: 'build/'
+    sync: {
+      main: {
+        files: [{
+          src: ['index.html', 'assets/*', 'lib/*'],
+          dest: 'build/',
+        }],
+        verbose: true
       }
     },
     clean: {
@@ -67,8 +70,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-mkdir')
   grunt.loadNpmTasks('grunt-typescript')
+  grunt.loadNpmTasks('grunt-sync')
 
-  grunt.registerTask('build', ['clean:build', 'mkdir:build', 'copy:build', 'typescript']);
+  grunt.registerTask('build', ['clean:build', 'mkdir:build', 'sync', 'typescript']);
   grunt.registerTask('default', ['build', 'connect', 'watch:build']);
   grunt.registerTask('server', ['build', 'connect', 'watch:reload']);
 };
