@@ -35,10 +35,21 @@ class Player extends Entity {
     this.name = name
   }
 
+  isLeader() : Boolean {
+    return this.isLeaderOf(this)
+  }
+
+  isLeaderOf(other : Player) : Boolean {
+    return this.id === other.teamID
+  }
+
   render() : void {
     super.render()
     this.influenceSprite.x = this.x
     this.influenceSprite.y = this.y
+    var scale = this.isLeader() ? 2 : 1
+    this.influenceSprite.scale.x = scale
+    this.influenceSprite.scale.y = scale
     if (this.nameLabel) {
       this.nameLabel.text = this.name
       this.nameLabel.x = this.x
