@@ -40,11 +40,12 @@ class PlayerController {
   }
 
   fireBullet(dirX, dirY) {
+    var direction : Direction = directionFromVec(this.player.lookDir)
     var bullet = new SmokeBullet(
       this.player.id,
       generateID(),
-      this.player.x,
-      this.player.y)
+      this.player.x + Player.bulletFirePoints[direction][0],
+      this.player.y + Player.bulletFirePoints[direction][1])
 
     bullet.lookDir = this.player.lookDir
     connection.send({fireBullet: bullet.toBulletInfo()})

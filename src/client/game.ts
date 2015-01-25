@@ -218,13 +218,19 @@ class WitchGame {
     this.entities.forEach((entity) => entity.render())
 
     if (this.shouldShowDebug) {
-      game.debug.text(GameState[this.gameState], 20, 20);
-      var startY = 40
+      var y = 20
+      game.debug.text(GameState[this.gameState], 20, y);
+      y += 20
       this.players.forEach((player) => {
         var text = player.name + ' (' + player.id + '): ' + player.x + ', ' + player.y + '; ' + PlayerState[player.state]
-        game.debug.text(text, 20, startY);
-        startY += 20
+        game.debug.text(text, 20, y);
+        y += 20
       })
+      if (this.player) {
+        game.debug.text('Mouse (' + (game.input.activePointer.worldX - this.player.x)
+          + ', ' + (game.input.activePointer.worldY - this.player.y) + ')', 20, y);
+        y += 20
+      }
     }
   }
 
