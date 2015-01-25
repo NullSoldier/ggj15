@@ -107,6 +107,11 @@ class Connection {
   }
 
   private onFireBullet(bulletInfo) : void {
+    var player = witch.getPlayerByIDOrNull(bulletInfo.ownerID)
+    if (player) {
+      player.justFiredBullet()
+    }
+
     var bullet = new Bullet()
     bullet.x      = bulletInfo.startX
     bullet.y      = bulletInfo.startY

@@ -43,6 +43,11 @@ class Player extends Entity {
     }
   }
 
+  justFiredBullet() : void {
+    this.animation |= Animation.Shooting
+    this.shootAnimationCooldown = 20
+  }
+
   toRoomState() {
     return {
       id: this.id,

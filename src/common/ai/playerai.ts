@@ -46,6 +46,8 @@ class PlayerAI {
       dirY  : moveVec[1]
     })
 
+    this.player.justFiredBullet()
+
     this.canFire = false
     setTimeout(() => this.canFire = true, Player.FIRE_COOLDOWN)
   }

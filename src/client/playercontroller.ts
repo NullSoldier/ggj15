@@ -45,9 +45,6 @@ class PlayerController {
       this.player.lookDir[1],
       Bullet.BULLET_SPEED)
 
-    this.player.animation |= Animation.Shooting
-    this.player.shootAnimationCooldown = 20
-
     connection.send({
       fireBullet: {
         startX: this.player.x,
@@ -56,5 +53,7 @@ class PlayerController {
         dirY  : moveVec[1]
       }
     })
+
+    this.player.justFiredBullet()
   }
 }
