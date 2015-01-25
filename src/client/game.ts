@@ -33,7 +33,7 @@ class WitchGame implements Worldish {
   }
 
   preload() {
-    game.load.image('smoke', 'assets/smoke.png')
+    game.load.image('smoke', 'assets/glowing-projectile.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
     game.load.image('leader_icon', 'assets/leader-icon.png')
     game.load.image('health_bar_front', 'assets/health-bar-front.png')

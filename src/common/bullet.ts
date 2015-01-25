@@ -32,9 +32,11 @@ class Bullet extends Entity {
   }
 
   animateIn(game : Phaser.Game) {
-    this.bulletSprite.scale.set(0.1, 0.1)
+    this.bulletSprite.scale.set(0.2, 0.2)
     game.add.tween(this.bulletSprite.scale).to(
-      { x: 0.5, y: 0.5 }, 1000, Phaser.Easing.Cubic.Out, true);
+      { x: 1, y: 1 }, 1000, Phaser.Easing.Cubic.Out, true);
+    game.add.tween(this.bulletSprite).to(
+      { angle: 999999999 }, 999999999, Phaser.Easing.Linear.None, true);
   }
 
   toBulletInfo() {
@@ -96,7 +98,7 @@ class SmokeBullet extends Bullet {
     bullet.emitter.setRotation(-1000, 1000)
     bullet.emitter.setScale(1, 0, 1, 0, 1000, Phaser.Easing.Quintic.In)
     bullet.emitter.gravity = 300
-    bullet.emitter.start(false, 1000, 50)
+    //bullet.emitter.start(false, 1000, 50)
     //bullet.emitter.blendMode = PIXI.blendModes.ADD
 
     bullet.bulletSprite = game.add.sprite(0, 0, 'smoke')
