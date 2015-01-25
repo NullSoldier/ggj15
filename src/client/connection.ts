@@ -158,6 +158,7 @@ class Connection {
     player.state = PlayerState.Dead
     player.teamID = message.teamID
     player.hideClient()
+    this.game.addPoof(player.x, player.y - player.height / 2)
   }
 
   private onPlayerSpawned(message) {

@@ -34,6 +34,7 @@ class WitchGame implements Worldish {
 
   preload() {
     game.load.image('smoke', 'assets/glowing-projectile.png')
+    game.load.image('poof', 'assets/poof.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
     game.load.image('leader_icon', 'assets/leader-icon.png')
     game.load.image('health_bar_front', 'assets/health-bar-front.png')
@@ -155,6 +156,22 @@ class WitchGame implements Worldish {
 
   addObstacle(obstacle : Obstacle) : void {
     this.addEntity(obstacle)
+  }
+
+  addPoof(x : number, y : number) : Poof {
+    var poof = new Poof()
+    poof.x = x
+    poof.y = y
+    poof.sprite = game.add.sprite(x, y, 'poof')
+    poof.sprite.anchor.set(0.5, 0.5)
+    this.addEntity(poof)
+    poof.startAnimation()
+    return poof
+  }
+
+  removePoof(poof : Poof) : void {
+    poof.sprite.parent.removeChild(poof.sprite)
+    removeFromArray(this.entities, poof)
   }
 
   private addEntity(entity : Entity) : void {
