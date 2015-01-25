@@ -107,14 +107,14 @@ class Player extends Entity {
     var b : number
     if (percentage > 0.5) {
       var p = (percentage - 0.5) * 2
-      r = Math.floor(255 * lerp(1, 0, p))
-      g = Math.floor(255 * lerp(1, 1, p))
-      b = Math.floor(255 * lerp(0, 0, p))
+      r = Math.floor(lerp(0xBD, 0x3C, p))
+      g = Math.floor(lerp(0xB4, 0x84, p))
+      b = Math.floor(lerp(0x4F, 0x5E, p))
     } else {
       var p = percentage * 2
-      r = Math.floor(255 * lerp(1, 1, p))
-      g = Math.floor(255 * lerp(0, 1, p))
-      b = Math.floor(255 * lerp(0, 0, p))
+      r = Math.floor(lerp(0x95, 0xBD, p))
+      g = Math.floor(lerp(0x36, 0xB4, p))
+      b = Math.floor(lerp(0x31, 0x4F, p))
     }
     return (r << 16) | (g << 8) | (b << 0)
   }
