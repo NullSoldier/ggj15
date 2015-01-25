@@ -283,7 +283,10 @@ class WitchGame {
       game.debug.text(GameState[this.gameState], 20, y);
       y += 20
       this.players.forEach((player) => {
-        var text = player.name + ' (' + player.id + '): ' + player.x + ', ' + player.y + '; ' + PlayerState[player.state]
+        var text = (player.name + ' (' + player.id + '): '
+          + player.x + ', ' + player.y
+          + '; ' + PlayerState[player.state]
+          + '; ' + player.health + '/' + player.maxHealth + ' HP')
         game.debug.text(text, 20, y);
         y += 20
       })
