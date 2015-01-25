@@ -119,7 +119,7 @@ class Player extends Entity {
 
     this.nameLabel.text = this.name
     this.nameLabel.x = this.x
-    this.nameLabel.y = this.y - this.height
+    this.nameLabel.y = this.y - this.height - 35
     var teamColor = witch.getTeamColor(this.teamID)
     this.nameLabel.fill = makeHexColor(teamColor[0], teamColor[1], teamColor[2])
 
@@ -134,7 +134,7 @@ class Player extends Entity {
     var w = this.healthBarBack.width
     var h = this.healthBarBack.height
     this.healthBarFront.x = this.x - w / 2
-    this.healthBarFront.y = this.y - this.height - 40 - h / 2
+    this.healthBarFront.y = this.y - this.height - 26
     this.healthBarFront.cropRect.width = w * this.health / this.maxHealth
     this.healthBarFront.updateCrop()
     this.healthBarBack.x = this.healthBarFront.x
