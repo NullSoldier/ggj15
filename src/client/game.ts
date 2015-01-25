@@ -45,7 +45,7 @@ class WitchGame implements Worldish {
     game.load.image('background_04', 'assets/background-plain_04.jpg')
     game.load.image('collision_map', 'assets/collision-map.png')
     game.load.atlasJSONHash('player', 'assets/player.png', 'assets/player.json')
-    game.load.atlasJSONHash('foreground', 'assets/Trees.png', 'assets/Trees.json')
+    game.load.atlasJSONHash('foreground', 'assets/final-environment-pieces.png', 'assets/final-environment-pieces.json')
 
     for (var type in obstacleTypes) {
       var count : number = obstacleTypes[type]
@@ -213,14 +213,17 @@ class WitchGame implements Worldish {
     var sampleLevel = new Level()
     sampleLevel.backgroundSprites.push(game.make.sprite(0, 0, 'background_01'))
     sampleLevel.backgroundSprites.push(game.make.sprite(2560, 0, 'background_02'))
-    sampleLevel.backgroundSprites.push(game.make.sprite(0, 1353, 'background_03'))
-    sampleLevel.backgroundSprites.push(game.make.sprite(2560, 1353, 'background_04'))
-    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment2-front-tree-left.png'))
-    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment2-front-trees-right.png'))
+    sampleLevel.backgroundSprites.push(game.make.sprite(0, 1440, 'background_03'))
+    sampleLevel.backgroundSprites.push(game.make.sprite(2560, 1440, 'background_04'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment2-front-trees_01.png'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment2-front-trees_02.png'))
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment3-thicket1.png'))
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment4-thicket2.png'))
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment5-thicket3.png'))
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment6-thicket4.png'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment7-signpost.png'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment8-log.png'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment9-monolith.png'))
     sampleLevel.width = 5120
     sampleLevel.height = 2880
     var collisionMapImage = game.make.image(0, 0, 'collision_map')
