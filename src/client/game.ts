@@ -43,6 +43,7 @@ class WitchGame implements Worldish {
     game.load.image('background_02', 'assets/background-plain_02.jpg')
     game.load.image('background_03', 'assets/background-plain_03.jpg')
     game.load.image('background_04', 'assets/background-plain_04.jpg')
+    game.load.image('collision_map', 'assets/collision-map.png')
     game.load.atlasJSONHash('player', 'assets/player.png', 'assets/player.json')
     game.load.atlasJSONHash('foreground', 'assets/Trees.png', 'assets/Trees.json')
 
@@ -222,6 +223,13 @@ class WitchGame implements Worldish {
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment6-thicket4.png'))
     sampleLevel.width = 5120
     sampleLevel.height = 2880
+    var collisionMapImage = game.make.image(0, 0, 'collision_map')
+    assertNotNull(collisionMapImage)
+    sampleLevel.collisionMap = game.make.bitmapData(collisionMapImage.width, collisionMapImage.height)
+    sampleLevel.collisionMap.draw(collisionMapImage)
+    sampleLevel.collisionMap.update(0, 0, collisionMapImage.width, collisionMapImage.height)  // BULLSHIT!
+    //sampleLevel.collisionMap.addToWorld()
+    assertNotNull(sampleLevel.collisionMap)
     this.loadLevel(sampleLevel)
   }
 

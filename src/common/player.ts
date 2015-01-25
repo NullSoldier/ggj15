@@ -124,7 +124,8 @@ class Player extends Entity {
     this.nameLabel.fill = makeHexColor(teamColor[0], teamColor[1], teamColor[2])
 
     // TODO(strager): Emit particles instead.
-    this.sprite.tint = this.isBoosted() ? 0xFFFF88 : 0xFFFFFF
+    //this.sprite.tint = this.isBoosted() ? 0xFFFF88 : 0xFFFFFF
+    this.sprite.tint = witch.level.isCollision(this.x, this.y) ? 0xFF0000 : 0xFFFFFF;
 
     this.leaderIcon.visible = this.isLeader()
     this.leaderIcon.x = this.x - this.nameLabel.width / 2
