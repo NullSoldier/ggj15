@@ -26,8 +26,9 @@ class Room implements Worldish {
 
   createPlayer() : Player {
     var player = new Player(this.createPlayerID(), this.createPlayerName())
-    player.x = Math.floor(Math.random() * 1000)
-    player.y = Math.floor(Math.random() * 1000)
+    var randSpawn = this.getRandomSpawnVec()
+    player.x = Math.round(randSpawn[0])
+    player.y = Math.round(randSpawn[1])
     return player
   }
 
@@ -133,13 +134,14 @@ class Room implements Worldish {
     setTimeout(() => {
 
       if (player.teamID === null) {
-        player.x = 500
-        player.y = 500
+        var randSpawn = this.getRandomSpawnVec()
+        player.x = Math.round(randSpawn[0])
+        player.y = Math.round(randSpawn[1])
         console.log(player.name, "'s leader died spawning free")
       } else {
         var leader = this.getPlayerByIDOrNull(player.teamID)
-        player.x = leader.x
-        player.y = leader.y
+        player.x = Math.round(leader.x)
+        player.y = Math.round(leader.y)
         console.log("Spawning ", player.name, " at leader ", leader.name)
       }
 
@@ -172,5 +174,24 @@ class Room implements Worldish {
       spawnX  : player.x,
       spawnY  : player.y
     }})
+  }
+
+  getRandomSpawnVec() {
+    // Disable random spawninn
+    return [
+      680 + (Math.random() * 300),
+      639 + (Math.random() * 300)]
+
+    var positions = [
+      [758, 2314],
+      [1100, 1885],
+      [4030, 2366],
+      [4450, 1333],
+      [3050, 260],
+      [1220, 1731],
+      [680, 639],
+    ]
+
+    return positions[Math.round(Math.random() * positions.length)]
   }
 }

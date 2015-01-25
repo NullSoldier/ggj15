@@ -269,8 +269,8 @@ class WitchGame implements Worldish {
       })
 
       if (this.player) {
-        var mouseX = game.input.activePointer.worldX - this.player.x
-        var mouseY = game.input.activePointer.worldY - this.player.y
+        var mouseX = game.input.activePointer.worldX
+        var mouseY = game.input.activePointer.worldY
         appendText('Mouse (' + mouseX + ', ' + mouseY + ')')
       }
     }
