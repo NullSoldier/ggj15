@@ -128,8 +128,8 @@ class Player extends Entity {
     this.sprite.tint = witch.level.isCollision(this.x, this.y) ? 0xFF0000 : 0xFFFFFF;
 
     this.leaderIcon.visible = this.isLeader()
-    this.leaderIcon.x = this.x - this.nameLabel.width / 2
-    this.leaderIcon.y = this.y - this.height
+    this.leaderIcon.x = this.x
+    this.leaderIcon.y = this.y - this.height - 60
 
     var w = this.healthBarBack.width
     var h = this.healthBarBack.height
@@ -198,7 +198,7 @@ class Player extends Entity {
     this.influenceSprite.visible = false
 
     this.leaderIcon = game.add.sprite(0, 0, 'leader_icon')
-    this.leaderIcon.anchor.set(1.0, 1.0)
+    this.leaderIcon.anchor.set(0.5, 1.0)
     this.leaderIcon.visible = false
 
     this.nameLabel = game.add.text(0, 0, '', {font: nameFont})
