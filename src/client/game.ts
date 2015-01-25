@@ -289,34 +289,6 @@ class WitchGame {
       this.mapTopGroup.add(sprite)
     })
     this.level = level
-    this.spawnObstacles(game.cache.getJSON('level_obstacles'))
     game.camera.bounds = null
-  }
-
-  private spawnObstacles(photoshopLayers : any) : void {
-    photoshopLayers.layers.forEach((layer) => {
-      var obstacle : Obstacle = null
-      for (var type in obstacleTypes) {
-        var re = new RegExp('^\\s*' + type.replace('_', '\\s*') + '\\s*(\\d+)')
-        var match = re.exec(layer.name)
-        if (match) {
-          obstacle = new Obstacle()
-          obstacle.sprite = game.add.sprite(0, 0, type + match[1])
-          obstacle.sprite.anchor.set(0.5, 1.0)
-          obstacle.x = (layer.bounds.left + layer.bounds.right) / 2
-          obstacle.y = layer.bounds.bottom
-          // console.log(type + match[1], obstacle.x, obstacle.y)
-          break
-        }
-      }
-
-      if (obstacle) {
-        this.addObstacle(obstacle)
-      }
-    })
-  }
-
-  unloadLevel() {
-    this.mapBottomGroup.removeAll()
   }
 }
