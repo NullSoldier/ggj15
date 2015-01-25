@@ -85,7 +85,7 @@ class SmokeBullet extends Bullet {
     bullet.emitter.setScale(1, 0, 1, 0, 1000, Phaser.Easing.Quintic.In)
     bullet.emitter.gravity = 300
     bullet.emitter.start(false, 1000, 50)
-    bullet.emitter.blendMode = PIXI.blendModes.ADD
+    //bullet.emitter.blendMode = PIXI.blendModes.ADD
 
     bullet.animateIn(game)
     return bullet
