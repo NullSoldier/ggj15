@@ -26,9 +26,8 @@ class WitchGame {
 
   players : Array<Player> = []
   bullets : Array<Bullet> = []
-
-  // Includes players and bullets.  Sorted by Z index.
-  entities : Array<Entity> = []
+  entities : Array<Entity> = [] // Includes players and bullets.  Sorted by Z index.
+  teamColors : any = {}  // Team ID => [r, g, b]
 
   controls : any = {
   }
@@ -76,63 +75,33 @@ class WitchGame {
     return players
   }
 
-  addPlayer(player : Player) : void {
-    player.sprite = game.add.sprite(0, 0, 'player')
-    player.sprite.anchor.set(0.5, 1.0)
-    player.sprite.filters = [this.ambientLightFilter]
+  createPlayer(id : number, name : string) {
+    this.player = this.addPlayer(id, name)
+    this.player.showClient()
+    this.playerController = new PlayerController(this.player)
+  }
 
-    ;['Down', 'Up', 'Left', 'Right', 'DownLeft', 'DownRight', 'UpLeft', 'UpRight'].forEach((direction) => {
-      var artDirection = {
-        'Down': 'Front-',
-        'Up': 'Back-',
-        'Left': 'Left-',
-        'Right': 'Right-',
-        'DownLeft': 'LeftDiagonal-',
-        'DownRight': 'RightDiagonal-',
-        'UpLeft': 'BackDiagonal-Left',
-        'UpRight': 'BackDiagonal-Right',
-      }[direction]
+  setTeam(player : Player, teamID : number) {
+    var group = this.teamInfluenceGroups[player.teamID]
 
-      player.sprite.animations.add('Idle' + direction, [
-        'Player-' + artDirection + 'Static.png',
-        'Player-' + artDirection + 'Static.png',
-        'Player-' + artDirection + 'Bob.png',
-        'Player-' + artDirection + 'Bob.png'])
-      player.sprite.animations.add('Walking' + direction, [
-        'Player-' + artDirection + 'LeftFoot.png',
-        'Player-' + artDirection + 'Static.png',
-        'Player-' + artDirection + 'RightFoot.png',
-        'Player-' + artDirection + 'Static.png'])
-      player.sprite.animations.add('Shooting' + direction, [
-        'Player-' + artDirection + 'StaticShoot.png'])
-      player.sprite.animations.add('ShootingWalking' + direction, [
-        'Player-' + artDirection + 'LeftShoot.png',
-        'Player-' + artDirection + 'StaticShoot.png',
-        'Player-' + artDirection + 'RightShoot.png',
-        'Player-' + artDirection + 'StaticShoot.png'])
-    })
+    if(!group) {
+      var influenceFilter = new InfluenceFilter(game)
+      this.applyTeamInfluenceColor(player.teamID, influenceFilter)
 
-    var influenceGroup : Phaser.Group = this.teamInfluenceGroups[player.teamID]
-    if (!influenceGroup) {
-      influenceGroup = game.add.group(this.teamInfluenceGroupGroup)
-      this.teamInfluenceGroups[player.teamID] = influenceGroup
+      group = game.add.group(this.teamInfluenceGroupGroup)
+      group.filters = [influenceFilter]
+      this.teamInfluenceGroups[teamID] = group
     }
-    player.influenceSprite = game.add.sprite(0, 0, 'player_influence')
-    player.influenceSprite.blendMode = PIXI.blendModes.ADD
-    player.influenceSprite.anchor.set(0.5, 0.5)
-    influenceGroup.addChild(player.influenceSprite)
 
-    var influenceFilter = new InfluenceFilter(game)
-    this.applyTeamInfluenceColor(player.teamID, influenceFilter)
-    influenceGroup.filters = [influenceFilter]
+    group.addChild(player.influenceSprite)
+  }
 
-    player.nameLabel = game.add.text(0, 0, '', {
-      font: 'normal 18px "Helvetica"',
-    })
-    player.nameLabel.anchor.set(0.5, 1.0)
+  addPlayer(id : number, name : string, teamID = null) : Player {
+    var player = new Player(id, name)
+    player.loadClient(game, this)
 
-    player.leaderIcon = game.add.sprite(0, 0, 'leader_icon')
-    player.leaderIcon.anchor.set(1.0, 1.0)
+    if(teamID !== null)
+      this.setTeam(player, teamID)
 
     player.healthBarBack = game.add.sprite(0, 0, 'health_bar_back')
     player.healthBarFront = game.add.sprite(0, 0, 'health_bar_front')
@@ -144,6 +113,7 @@ class WitchGame {
 
     this.players.push(player)
     this.addEntity(player)
+    return player
   }
 
   removePlayer(player : Player) : void {
@@ -181,7 +151,6 @@ class WitchGame {
     this.entitiesGroup.addChild(entity.sprite)
   }
 
-  private teamColors : any = {}  // Team ID => [r, g, b]
   getTeamColor(teamID : number) : Array<number> {
     if (!(teamID in this.teamColors)) {
       // Find an unused color.
@@ -246,12 +215,6 @@ class WitchGame {
     this.loadLevel(sampleLevel)
   }
 
-  createPlayer(name : string, id : number) : void {
-    this.player = new Player(id, name)
-    this.playerController = new PlayerController(this.player)
-    this.addPlayer(this.player)
-  }
-
   update() {
     if (this.controls.debugToggle.justDown) {
       this.shouldShowDebug = !this.shouldShowDebug
@@ -280,20 +243,25 @@ class WitchGame {
 
     if (this.shouldShowDebug) {
       var y = 20
-      game.debug.text(GameState[this.gameState], 20, y);
-      y += 20
-      this.players.forEach((player) => {
-        var text = (player.name + ' (' + player.id + '): '
-          + player.x + ', ' + player.y
-          + '; ' + PlayerState[player.state]
-          + '; ' + player.health + '/' + player.maxHealth + ' HP')
+      function appendText(text) {
         game.debug.text(text, 20, y);
         y += 20
+      }
+
+      appendText(GameState[this.gameState])
+
+      this.players.forEach((player) => {
+        var id    = player.name + ' (' + player.id + ')'
+        var loc   = ': ' + player.x + ', ' + player.y
+        var state = '; ' + PlayerState[player.state]
+        var health = '; ' + player.health + '/' + player.maxHealth + ' HP'
+        appendText(id + loc + state + health)
       })
+
       if (this.player) {
-        game.debug.text('Mouse (' + (game.input.activePointer.worldX - this.player.x)
-          + ', ' + (game.input.activePointer.worldY - this.player.y) + ')', 20, y);
-        y += 20
+        var mouseX = game.input.activePointer.worldX - this.player.x
+        var mouseY = game.input.activePointer.worldY - this.player.y
+        appendText('Mouse (' + mouseX + ', ' + mouseY + ')')
       }
     }
   }

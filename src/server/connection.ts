@@ -18,6 +18,11 @@ class Connection {
       //   }))
       // }
 
+      if(m.message == 'authenticate' && this.player)
+        return
+      else if (m.message !== 'authenticate' && !this.player)
+        return
+
       switch (m.message) {
       case 'authenticate':
         this.onAuthenticate()
@@ -58,26 +63,19 @@ class Connection {
   }
 
   private onAuthenticate() {
-    if (this.player) {
-      // Drop bad request.
-      return;
-    }
-
     this.player = this.server.room.createPlayer()
-    this.room = this.server.room
     this.send({authenticated: {playerID: this.player.id, playerName: this.player.name}})
     this.player.connection = this
+
+    this.room = this.server.room
     this.room.addPlayer(this.player)
   }
 
   private onPlayerState(playerState : any) : void {
-    if (!this.player) {
-      return
-    }
     this.player.x = playerState.x
     this.player.y = playerState.y
-    this.player.animation = playerState.animation
     this.player.lookDir = [playerState.lookDirX, playerState.lookDirY]
+    this.player.animation = playerState.animation
   }
 
   private onFireBullet(bulletInfo) {

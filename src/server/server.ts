@@ -3,16 +3,15 @@ class Server {
   room = new Room()
 
   constructor(webSocketServer : any) {
-    var followAI = this.room.addAIPlayer(FollowNearestPlayerAI)
+
+    var followAI = this.addAIPlayer(FollowNearestPlayerAI)
     followAI.speed = 3
 
-    var avoidAI = this.room.addAIPlayer(AvoidPlayerAI)
+    var avoidAI = this.addAIPlayer(AvoidPlayerAI)
     avoidAI.speed = 2
-    avoidAI.teamID = followAI.id
 
-    var attackAI = this.room.addAIPlayer(AttackNearestPlayerAI)
+    var attackAI = this.addAIPlayer(AttackNearestPlayerAI)
     attackAI.speed = 2
-    attackAI.teamID = followAI.id
 
     webSocketServer.on('connection', (socket : any) => {
       this.connections.push(new Connection(this, socket))
@@ -20,5 +19,19 @@ class Server {
 
     setInterval(() => this.room.tick(), 1000 / MAKE_UPDATES_PER_SECOND)
     setInterval(() => this.room.sendRoomState(), 1000 / SEND_UPDATES_PER_SECOND)
+  }
+
+  addAIPlayer(aiFactory : new (player : Player) => PlayerAI) : Player {
+    var player = this.room.createPlayer()
+    var ai = new aiFactory(player)
+
+    // Mock connection for CPUs
+    var p : any = player
+    p.connection = {send: () => {}}
+    p.isAI = true
+
+    this.room.addPlayer(player)
+    this.room.ais.push(ai)
+    return player
   }
 }

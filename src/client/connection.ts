@@ -7,9 +7,7 @@ class Connection {
     this.connection = new WebSocket(host)
     this.connection.binaryType = 'arraybuffer';
     this.connection.addEventListener('open', (event : Event) => {
-      this.send({
-        authenticate: {},
-      })
+      this.send({authenticate: {}})
     })
 
     this.connection.addEventListener('message', (event : MessageEvent) => {
@@ -65,16 +63,15 @@ class Connection {
     }})
   }
 
-  private onAuthenticated(playerID : number, playerName : string) : void {
+  private onAuthenticated(playerID : number, playerName) : void {
     console.info('Logged in as', playerName, playerID)
-    this.game.createPlayer(playerName, playerID)
+    this.game.createPlayer(playerID, playerName)
     this.game.gameState = GameState.Playing
   }
 
   private onRoomJoined(playerInfo) : void {
     console.info(playerInfo.name, ' joined the room')
-    var player = new Player(playerInfo.id, playerInfo.name, playerInfo.teamID)
-    this.game.addPlayer(player)
+    this.game.addPlayer(playerInfo.id, playerInfo.name)
   }
 
   private onRoomLeft(playerInfo) : void {
@@ -84,14 +81,26 @@ class Connection {
   }
 
   private onRoomList(playerInfos : Array<any>) : void {
-    console.info("Players")
+    var msg = "Players"
     playerInfos.forEach((playerInfo) => {
+
       if(playerInfo.id !== this.game.player.id) {
-        var player = new Player(playerInfo.id, playerInfo.name, playerInfo.teamID)
-        this.game.addPlayer(player)
-        console.info("\t", playerInfo.name)
+        msg += "\n\t" + playerInfo.name
+        var player = this.game.addPlayer(
+          playerInfo.id,
+          playerInfo.name,
+          playerInfo.teamID)
+
+        if (player.state == PlayerState.Alive) {
+          player.showClient()
+        } else {
+          player.hideClient()
+        }
+
+        player.state = playerInfo.state
       }
     })
+    console.info(msg)
   }
 
   private onRoomState(playerStates : Array<any>) : void {
@@ -99,6 +108,7 @@ class Connection {
     playerStates.forEach((playerState) => {
       // sync server state with local state
       var player = this.game.getPlayerByIDOrNull(playerState.id)
+
       player.state = playerState.state
 
       if (player === this.game.player && player.state === PlayerState.Alive) {

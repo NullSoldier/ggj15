@@ -16,11 +16,7 @@ class Room {
 
   // Mapping from teamID to Team.colors index.
   private teamColors : any = {}
-
-  private nextPlayerID : number = 1;
-  private createPlayerID() : number {
-    return this.nextPlayerID++;
-  }
+  private createPlayerID = createIDGenerator()
 
   private nextPlayerName : number = 0;
   private createPlayerName() : string {
@@ -35,35 +31,10 @@ class Room {
     return player
   }
 
-  addPlayer(player : Player) : void {
-    if (!player) {
-      throw new Error('Bad player')
-    }
-    player.state = PlayerState.Alive
-    this.players.push(player)
-    this.sendRoomJoined(player)
-
-    // Don't send room list to AI
-    if (player.connection) {
-      this.sendRoomList(player)
-    }
-  }
-
-  addAIPlayer(aiFactory : new (player : Player) => PlayerAI) : Player {
-    var player = this.createPlayer()
-    this.addPlayer(player)
-    this.ais.push(new aiFactory(player))
+  getPlayerByID(id : number) : Player {
+    var player = _.find(this.players, (p) => p.id === id)
+    assertNotNull(player)
     return player
-  }
-
-  removePlayer(player : Player) : void {
-    var index = this.players.indexOf(player)
-    if (index === -1) {
-      throw new Error('Tried to remove player not in array')
-    }
-    this.players.splice(index, 1)
-    player.state = PlayerState.Left
-    this.sendRoomLeft(player)
   }
 
   tick() : void {
@@ -71,7 +42,7 @@ class Room {
       .filter((ai) => ai.player.state === PlayerState.Alive)
       .each((ai) => ai.update(this))
 
-    this.bullets.forEach((bullet) => bullet.update())
+    _.each(this.bullets, (b) => b.update())
   }
 
   sendToAll(message) {
@@ -80,10 +51,25 @@ class Room {
 
   sendToAllExcept(message, exemptPlayerId : number) {
     this.players.forEach((player) => {
-      if (player.connection && player.id !== exemptPlayerId) {
+      if (player.id !== exemptPlayerId) {
         player.connection.send(message)
       }
     })
+  }
+
+  addPlayer(player : Player) : void {
+    assertNotNull(player)
+    this.players.push(player)
+    this.spawnPlayer(player)
+    this.sendRoomJoined(player)
+    this.sendRoomList(player)
+  }
+
+  removePlayer(player : Player) : void {
+    assertNotNull(player)
+    player.state = PlayerState.Left
+    removeFromArray(this.players, player)
+    this.sendRoomLeft(player)
   }
 
   sendRoomJoined(playerJoined : Player) {
@@ -115,12 +101,11 @@ class Room {
     this.sendToAll({destroyBullet: message})
   }
 
-  sendPlayerKilled(killed : Player, killerID : number) {
-    console.log("Player killed ", killed.name)
-    killed.state = PlayerState.Dead
+  playerKilled(player : Player, killer : Player) {
+    player.state = PlayerState.Dead
     var message = {
-      playerID : killed.id,
-      killerID : killerID,
+      playerID : player.id,
+      teamID   : killer.teamID,
       respawnIn: 2000
     }
     this.sendToAll({playerKilled: message})
@@ -130,5 +115,9 @@ class Room {
     this.sendToAll({fireBullet: bulletInfo})
     var bullet = SmokeBullet.fromBulletInfo(bulletInfo)
     this.bullets.push(bullet)
+  }
+
+  spawnPlayer(player : Player) {
+    player.state = PlayerState.Alive
   }
 }

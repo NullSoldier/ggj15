@@ -92,3 +92,10 @@ function makeHexColor(r : number, g : number, b : number) : string {
     + padLeft(Math.floor(g * 255).toString(16), '00')
     + padLeft(Math.floor(b * 255).toString(16), '00'))
 }
+
+
+function assertNotNull(value) {
+  if (!value) {
+    throw new Error('Assert: value cannot be null')
+  }
+}

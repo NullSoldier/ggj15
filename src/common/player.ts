@@ -8,7 +8,6 @@
 class Player extends Entity {
 
   static bulletFirePoints = {}
-
   static FIRE_COOLDOWN = 250
 
   // Server
@@ -23,7 +22,7 @@ class Player extends Entity {
 
   // Both
   id    : number
-  teamID: number  // ID of the team leader.
+  teamID: number  // ID of the team leader, empty for no leader
   name  : string
   state : PlayerState = PlayerState.None
   maxHealth : number = 5
@@ -32,11 +31,11 @@ class Player extends Entity {
   width : number = 123
   height: number = 173
 
-  constructor(id : number, name : string, teamID? : number) {
+  constructor(id : number, name : string) {
     super()
     this.id = id
-    this.teamID = teamID == null ? id : teamID
     this.name = name
+    this.teamID = null
   }
 
   isLeader() : boolean {
@@ -119,17 +118,18 @@ class Player extends Entity {
     return (r << 16) | (g << 8) | (b << 0)
   }
 
+  justFiredBullet() : void {
+    this.animation |= Animation.Shooting
+    this.shootAnimationCooldown = 20
+  }
+
   toRoomList() {
     return {
       id: this.id,
       teamID: this.teamID,
       name: this.name,
+      state: this.state
     }
-  }
-
-  justFiredBullet() : void {
-    this.animation |= Animation.Shooting
-    this.shootAnimationCooldown = 20
   }
 
   toRoomState() {
@@ -143,6 +143,69 @@ class Player extends Entity {
       lookDirY: this.lookDir[1],
       health: this.health,
     }
+  }
+
+  showClient() {
+    this.sprite.visible = true
+    this.nameLabel.visible = true
+  }
+
+  hideClient() {
+    this.sprite.visible = true
+    this.nameLabel.visible = true
+  }
+
+  loadClient(game, witch) {
+    var nameFont = "normal 18px Helvetica"
+
+    this.sprite = game.add.sprite(0, 0, 'player')
+    this.sprite.anchor.set(0.5, 1.0)
+    this.sprite.filters = [witch.ambientLightFilter]
+    this.sprite.visible = false
+
+    this.influenceSprite = game.add.sprite(0, 0, 'player_influence')
+    this.influenceSprite.blendMode = PIXI.blendModes.ADD
+    this.influenceSprite.anchor.set(0.5, 0.5)
+    this.influenceSprite.visible = false
+
+    this.leaderIcon = game.add.sprite(0, 0, 'leader_icon')
+    this.leaderIcon.anchor.set(1.0, 1.0)
+    this.leaderIcon.visible = false
+
+    this.nameLabel = game.add.text(0, 0, '', {font: nameFont})
+    this.nameLabel.anchor.set(0.5, 1.0)
+    this.nameLabel.visible = false
+
+    ;['Down', 'Up', 'Left', 'Right', 'DownLeft', 'DownRight', 'UpLeft', 'UpRight'].forEach((direction) => {
+      var artDirection = {
+        'Down': 'Front-',
+        'Up': 'Back-',
+        'Left': 'Left-',
+        'Right': 'Right-',
+        'DownLeft': 'LeftDiagonal-',
+        'DownRight': 'RightDiagonal-',
+        'UpLeft': 'BackDiagonal-Left',
+        'UpRight': 'BackDiagonal-Right',
+      }[direction]
+
+      this.sprite.animations.add('Idle' + direction, [
+        'Player-' + artDirection + 'Static.png',
+        'Player-' + artDirection + 'Static.png',
+        'Player-' + artDirection + 'Bob.png',
+        'Player-' + artDirection + 'Bob.png'])
+      this.sprite.animations.add('Walking' + direction, [
+        'Player-' + artDirection + 'LeftFoot.png',
+        'Player-' + artDirection + 'Static.png',
+        'Player-' + artDirection + 'RightFoot.png',
+        'Player-' + artDirection + 'Static.png'])
+      this.sprite.animations.add('Shooting' + direction, [
+        'Player-' + artDirection + 'StaticShoot.png'])
+      this.sprite.animations.add('ShootingWalking' + direction, [
+        'Player-' + artDirection + 'LeftShoot.png',
+        'Player-' + artDirection + 'StaticShoot.png',
+        'Player-' + artDirection + 'RightShoot.png',
+        'Player-' + artDirection + 'StaticShoot.png'])
+    })
   }
 }
 

@@ -19,8 +19,8 @@ class PlayerAI {
       // Is the player dead?
       if (this.player.health <= 0) {
         console.log(this.player.name + " died")
-        this.player.state = PlayerState.Dead
-        room.sendPlayerKilled(this.player, bullet.ownerID)
+        var killer = room.getPlayerByID(bullet.ownerID)
+        room.playerKilled(this.player, killer)
         break;
       }
     }
