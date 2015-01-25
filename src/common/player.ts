@@ -17,6 +17,7 @@ class Player extends Entity {
   // Client
   influenceSprite : Phaser.Sprite
   nameLabel       : Phaser.Text
+  leaderIcon      : Phaser.Sprite
 
   // Both
   id    : number
@@ -35,11 +36,11 @@ class Player extends Entity {
     this.name = name
   }
 
-  isLeader() : Boolean {
+  isLeader() : boolean {
     return this.isLeaderOf(this)
   }
 
-  isLeaderOf(other : Player) : Boolean {
+  isLeaderOf(other : Player) : boolean {
     return this.id === other.teamID
   }
 
@@ -50,13 +51,16 @@ class Player extends Entity {
     var scale = this.isLeader() ? 2 : 1
     this.influenceSprite.scale.x = scale
     this.influenceSprite.scale.y = scale
-    if (this.nameLabel) {
-      this.nameLabel.text = this.name
-      this.nameLabel.x = this.x
-      this.nameLabel.y = this.y - this.height
-      var teamColor = witch.getTeamColor(this.teamID)
-      this.nameLabel.fill = makeHexColor(teamColor[0], teamColor[1], teamColor[2])
-    }
+
+    this.nameLabel.text = this.name
+    this.nameLabel.x = this.x
+    this.nameLabel.y = this.y - this.height
+    var teamColor = witch.getTeamColor(this.teamID)
+    this.nameLabel.fill = makeHexColor(teamColor[0], teamColor[1], teamColor[2])
+
+    this.leaderIcon.visible = this.isLeader()
+    this.leaderIcon.x = this.x - this.nameLabel.width / 2
+    this.leaderIcon.y = this.y - this.height
   }
 
   toRoomList() {

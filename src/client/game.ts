@@ -35,6 +35,7 @@ class WitchGame {
   preload() {
     game.load.image('smoke', 'assets/smoke.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
+    game.load.image('leader_icon', 'assets/leader-icon.png')
     game.load.image('particle1', 'assets/particle1.png')
     game.load.image('background_01', 'assets/background-plain_01.jpg')
     game.load.image('background_02', 'assets/background-plain_02.jpg')
@@ -115,6 +116,9 @@ class WitchGame {
     })
     player.nameLabel.anchor.set(0.5, 1.0)
 
+    player.leaderIcon = game.add.sprite(0, 0, 'leader_icon')
+    player.leaderIcon.anchor.set(1.0, 1.0)
+
     this.players.push(player)
     this.addEntity(player)
   }
@@ -128,6 +132,7 @@ class WitchGame {
     player.sprite.parent.removeChild(player.sprite)
     player.influenceSprite.parent.removeChild(player.influenceSprite)
     player.nameLabel.parent.removeChild(player.nameLabel)
+    player.leaderIcon.parent.removeChild(player.leaderIcon)
   }
 
   addBullet(bullet : Bullet) : void {
