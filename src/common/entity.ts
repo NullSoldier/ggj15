@@ -57,7 +57,7 @@ class Entity {
     var animation : Animation = this.animation
     if (vec[0] === 0 && vec[1] === 0) {
       direction = this.direction
-      animation = Animation.Idle
+      animation &= ~Animation.Walking
     } else {
       animation |= Animation.Walking
       if (Math.abs(vec[0]) > Math.abs(vec[1])) {
