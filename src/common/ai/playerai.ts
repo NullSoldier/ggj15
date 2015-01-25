@@ -9,7 +9,11 @@ class PlayerAI {
     for(var i in room.bullets) {
       var bullet = room.bullets[i]
 
-      var owner = room.getPlayerByID(bullet.ownerID)
+      var owner = room.getPlayerByIDOrNull(bullet.ownerID)
+      if (!owner) {
+        // Owner left the game
+        continue
+      }
 
       // Could be buggy if the player shoes a bullet, dies, switches team
       // because the bullets can kill their previous team mate

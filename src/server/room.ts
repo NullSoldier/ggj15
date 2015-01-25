@@ -31,8 +31,12 @@ class Room {
     return player
   }
 
+  getPlayerByIDOrNull(id : number) : Player {
+    return _.find(this.players, (p) => p.id === id)
+  }
+
   getPlayerByID(id : number) : Player {
-    var player = _.find(this.players, (p) => p.id === id)
+    var player = this.getPlayerByID(id)
     assertNotNull(player)
     return player
   }
