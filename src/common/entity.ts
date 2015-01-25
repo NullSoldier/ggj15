@@ -20,8 +20,9 @@ class Entity {
   // Both
   x         : number = 0
   y         : number = 0
+  width     : number = 0
+  height    : number = 0
   speed     : number = 5
-  direction : Direction = Direction.Down
   animation : Animation = Animation.Idle
 
   shootAnimationCooldown : number = 0
@@ -42,43 +43,28 @@ class Entity {
 
     var animationFPS = 8
     var animationLoop = true
+    var direction = directionFromVec(this.lookDir)
+
     this.sprite.animations.play(
-      Animation[this.animation] + Direction[this.direction],
+      Animation[this.animation] + Direction[direction],
       animationFPS,
       animationLoop)
   }
 
   move(dx : number, dy : number) : Array<number> {
     var vec = getMoveVector(dx, dy, this.speed)
+
+    // Move player and clamp to level
     this.x = Math.min(witch.level.width, Math.max(0, this.x + Math.round(vec[0])))
     this.y = Math.min(witch.level.height, Math.max(0, this.y + Math.round(vec[1])))
 
-    var direction : Direction
-    var animation : Animation = this.animation
     if (vec[0] === 0 && vec[1] === 0) {
-      direction = this.direction
-      animation &= ~Animation.Walking
+      this.animation &= ~Animation.Walking
     } else {
-      animation |= Animation.Walking
-      if (Math.abs(vec[0]) > Math.abs(vec[1])) {
-        // X more prominent than Y.
-        if (vec[0] > 0) {
-          direction = Direction.Right
-        } else {
-          direction = Direction.Left
-        }
-      } else {
-        if (vec[1] > 0) {
-          direction = Direction.Down
-        } else if (vec[1] < 0) {
-          direction = Direction.Up
-        }
-      }
+      this.animation |= Animation.Walking
     }
-    this.direction = direction
-    this.animation = animation
 
-    if(vec[0] !== 0 || vec[1] !== 0) {
+    if(!isVecZero(vec)) {
       this.lookDir = vec
     }
 

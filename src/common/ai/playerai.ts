@@ -6,7 +6,25 @@ class PlayerAI {
   }
 
   update(room : Room) : void {
-    // Override me!
+    for(var i in room.bullets) {
+      var bullet = room.bullets[i]
+
+      // did the player get hit?
+
+      if (originRectIntersects(bullet, this.player)) {
+        console.log(this.player.name + " was hit!")
+        this.player.health -= bullet.damage
+        room.sendDestroyBullet(bullet)
+      }
+
+      // Is the player dead?
+      if (this.player.health <= 0) {
+        console.log(this.player.name + " died")
+        this.player.state = PlayerState.Dead
+        room.sendPlayerKilled(this.player, bullet.ownerID)
+        break;
+      }
+    }
   }
 
   protected nearestEnemy(players: Array<Player>) : Player {
@@ -36,15 +54,9 @@ class PlayerAI {
       return
     }
 
-    var moveVec = getMoveVector(
-      dx, dy, Bullet.BULLET_SPEED)
-
-    room.sendFireBullet(this.player, {
-      startX: this.player.x,
-      startY: this.player.y,
-      dirX  : moveVec[0],
-      dirY  : moveVec[1]
-    })
+    var bullet = new SmokeBullet(this.player.id, this.player.x, this.player.y)
+    bullet.lookDir = [dx, dy]
+    room.sendFireBullet(this.player, bullet.toBulletInfo())
 
     this.player.justFiredBullet()
 

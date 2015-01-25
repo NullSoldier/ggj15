@@ -40,20 +40,10 @@ class PlayerController {
   }
 
   fireBullet(dirX, dirY) {
-    var moveVec = getMoveVector(
-      this.player.lookDir[0],
-      this.player.lookDir[1],
-      Bullet.BULLET_SPEED)
-
-    connection.send({
-      fireBullet: {
-        startX: this.player.x,
-        startY: this.player.y,
-        dirX  : moveVec[0],
-        dirY  : moveVec[1]
-      }
-    })
-
+    var bullet = new SmokeBullet(this.player.id, this.player.x, this.player.y)
+    bullet.lookDir = this.player.lookDir
+    connection.send({fireBullet: bullet.toBulletInfo()})
+    this.player.animation |= Animation.Shooting
     this.player.justFiredBullet()
   }
 }

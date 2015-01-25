@@ -11,12 +11,12 @@ class Connection {
       }
       var m : any = protocol.ClientMessage.decode(data)
 
-      if (m.message !== 'playerState') {
-        console.log('recv: %s', util.inspect(m, {
-          depth: null,
-          colors: true,
-        }))
-      }
+      // if (m.message !== 'playerState') {
+      //   console.log('recv: %s', util.inspect(m, {
+      //     depth: null,
+      //     colors: true,
+      //   }))
+      // }
 
       switch (m.message) {
       case 'authenticate':
@@ -40,15 +40,17 @@ class Connection {
   }
 
   send(messageObject : any) : void {
-    if (!('roomState' in messageObject) && !('fireBullet' in messageObject)) {
-      console.log('send: %s', util.inspect(messageObject, {
-        depth: null,
-        colors: true,
-      }))
-    }
+    // if (!('roomState' in messageObject) && !('fireBullet' in messageObject)) {
+    //   console.log('send: %s', util.inspect(messageObject, {
+    //     depth: null,
+    //     colors: true,
+    //   }))
+    // }
+
+    var msg = new protocol.ServerMessage(messageObject).toBuffer()
 
     try {
-      this.socket.send(new protocol.ServerMessage(messageObject).toBuffer());
+      this.socket.send(msg);
     } catch (e) {
       console.error(e)
       // Continue!
@@ -75,7 +77,7 @@ class Connection {
     this.player.x = playerState.x
     this.player.y = playerState.y
     this.player.animation = playerState.animation
-    this.player.direction = playerState.direction
+    this.player.lookDir = [playerState.lookDirX, playerState.lookDirY]
   }
 
   private onFireBullet(bulletInfo) {

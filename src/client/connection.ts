@@ -54,7 +54,8 @@ class Connection {
       x: player.x,
       y: player.y,
       animation: player.animation,
-      direction: player.direction,
+      lookDirX: player.lookDir[0],
+      lookDirY: player.lookDir[1]
     }})
   }
 
@@ -100,26 +101,19 @@ class Connection {
       } else {
         player.x = playerState.x
         player.y = playerState.y
+        player.lookDir = [playerState.lookDirX, playerState.lookDirY]
         player.animation = playerState.animation
-        player.direction = playerState.direction
       }
     })
   }
 
   private onFireBullet(bulletInfo) : void {
+    var bullet = SmokeBullet.fromBulletInfoClient(bulletInfo, game)
+    this.game.addBullet(bullet)
+
     var player = witch.getPlayerByIDOrNull(bulletInfo.ownerID)
     if (player) {
       player.justFiredBullet()
     }
-
-    var bullet = new Bullet()
-    bullet.x      = bulletInfo.startX
-    bullet.y      = bulletInfo.startY
-    bullet.dirX   = bulletInfo.dirX
-    bullet.dirY   = bulletInfo.dirY
-    bullet.sprite = game.add.sprite(bullet.x, bullet.y, 'smoke')
-    bullet.sprite.anchor.set(0.5, 0.5)
-    bullet.start_animate(game)
-    this.game.addBullet(bullet)
   }
 }

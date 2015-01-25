@@ -20,6 +20,7 @@ class Player extends Entity {
   teamID: number  // ID of the team leader.
   name  : string
   state : PlayerState = PlayerState.None
+  health: number = 10
   speed : number = 5
 
   constructor(id : number, name : string, teamID? : number) {
@@ -55,7 +56,8 @@ class Player extends Entity {
       y: this.y,
       state: this.state,
       animation: this.animation,
-      direction: this.direction,
+      lookDirX: this.lookDir[0],
+      lookDirY: this.lookDir[1]
     }
   }
 }

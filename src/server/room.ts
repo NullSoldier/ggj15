@@ -1,6 +1,7 @@
 class Room {
-  players : Array<Player> = []
-  ais : Array<PlayerAI> = []
+  players: Array<Player> = []
+  ais    : Array<PlayerAI> = []
+  bullets: Array<Bullet> = []
 
   // Mapping from teamID to Team.colors index.
   private teamColors : any = {}
@@ -52,9 +53,8 @@ class Room {
   }
 
   tick() : void {
-    this.ais.forEach((ai) => {
-      ai.update(this)
-    })
+    this.ais.forEach((ai) => ai.update(this))
+    this.bullets.forEach((bullet) => bullet.update())
   }
 
   sendToAll(message) {
@@ -88,15 +88,17 @@ class Room {
     this.sendToAll({roomState: message})
   }
 
-  sendFireBullet(owner : Player, bulletInfo) {
-    var message = {
-      ownerID: owner.id,
-      startX : bulletInfo.startX,
-      startY : bulletInfo.startY,
-      dirX   : bulletInfo.dirX,
-      dirY   : bulletInfo.dirY
-    }
+  sendDestroyBullet(bullet : Bullet) {
+    console.log("Bullet destroyed ", bullet.ownerID)
+  }
 
-    this.sendToAll({fireBullet: message})
+  sendPlayerKilled(killed : Player, killerID : number) {
+    console.log("Player killed ", killed.name)
+  }
+
+  sendFireBullet(owner : Player, bulletInfo) {
+    this.sendToAll({fireBullet: bulletInfo})
+    var bullet = SmokeBullet.fromBulletInfo(bulletInfo)
+    this.bullets.push(bullet)
   }
 }
