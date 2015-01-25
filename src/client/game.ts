@@ -216,6 +216,7 @@ class WitchGame implements Worldish {
     this.mapTopGroup = game.add.group(game.world)
 
     this.playerBoard = new PlayerBoard()
+    this.playerBoard.sprite.fixedToCamera = true
 
     // eat these so the browser doesn't get them
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
@@ -285,9 +286,6 @@ class WitchGame implements Worldish {
     this.entities.forEach((entity) => entity.render())
 
     this.playerBoard.render()
-    // lolhacks
-    this.playerBoard.sprite.x = game.camera.x
-    this.playerBoard.sprite.y = game.camera.y
 
     if (this.shouldShowDebug) {
       var y = 20
