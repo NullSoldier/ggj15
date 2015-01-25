@@ -12,7 +12,9 @@ var obstacleTypes = {
 
 class WitchGame {
   gameState               : GameState
-  mapGroup                : Phaser.Group;
+  mapBottomGroup          : Phaser.Group
+  mapTopGroup             : Phaser.Group
+  entitiesGroup           : Phaser.Group
   player                  : Player
   playerController        : PlayerController
   teamInfluenceGroupGroup : Phaser.Group
@@ -39,6 +41,7 @@ class WitchGame {
     game.load.image('background_03', 'assets/background-plain_03.jpg')
     game.load.image('background_04', 'assets/background-plain_04.jpg')
     game.load.atlasJSONHash('player', 'assets/player.png', 'assets/player.json')
+    game.load.atlasJSONHash('foreground', 'assets/Trees.png', 'assets/Trees.json')
 
     for (var type in obstacleTypes) {
       var count : number = obstacleTypes[type]
@@ -108,7 +111,7 @@ class WitchGame {
     influenceGroup.filters = [influenceFilter]
 
     this.players.push(player)
-    this.entities.push(player)
+    this.addEntity(player)
   }
 
   removePlayer(player : Player) : void {
@@ -123,7 +126,7 @@ class WitchGame {
 
   addBullet(bullet : Bullet) : void {
     this.bullets.push(bullet)
-    this.entities.push(bullet)
+    this.addEntity(bullet)
   }
 
   removeBullet(bullet : Bullet) : void {
@@ -134,7 +137,12 @@ class WitchGame {
   }
 
   addObstacle(obstacle : Obstacle) : void {
-    this.entities.push(obstacle)
+    this.addEntity(obstacle)
+  }
+
+  private addEntity(entity : Entity) : void {
+    this.entities.push(entity)
+    this.entitiesGroup.addChild(entity.sprite)
   }
 
   private teamColors : any = {}  // Team ID => [r, g, b]
@@ -168,8 +176,10 @@ class WitchGame {
     game.stage.backgroundColor = STAGE_COLOR
     game.stage.disableVisibilityChange = true;
 
-    this.mapGroup = game.add.group(game.world)
+    this.mapBottomGroup = game.add.group(game.world)
     this.teamInfluenceGroupGroup = game.add.group(game.world)
+    this.entitiesGroup = game.add.group(game.world)
+    this.mapTopGroup = game.add.group(game.world)
 
     // eat these so the browser doesn't get them
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
@@ -187,6 +197,12 @@ class WitchGame {
     sampleLevel.backgroundSprites.push(game.make.sprite(2560, 0, 'background_02'))
     sampleLevel.backgroundSprites.push(game.make.sprite(0, 1353, 'background_03'))
     sampleLevel.backgroundSprites.push(game.make.sprite(2560, 1353, 'background_04'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment2-front-tree-left.png'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment2-front-trees-right.png'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment3-thicket1.png'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment4-thicket2.png'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment5-thicket3.png'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment6-thicket4.png'))
     sampleLevel.width = 5120
     sampleLevel.height = 2880
     this.loadLevel(sampleLevel)
@@ -267,7 +283,10 @@ class WitchGame {
 
   loadLevel(level : Level) {
     level.backgroundSprites.forEach((sprite) => {
-      this.mapGroup.add(sprite)
+      this.mapBottomGroup.add(sprite)
+    })
+    level.foregroundSprites.forEach((sprite) => {
+      this.mapTopGroup.add(sprite)
     })
     this.level = level
     this.spawnObstacles(game.cache.getJSON('level_obstacles'))
@@ -298,6 +317,6 @@ class WitchGame {
   }
 
   unloadLevel() {
-    this.mapGroup.removeAll()
+    this.mapBottomGroup.removeAll()
   }
 }
