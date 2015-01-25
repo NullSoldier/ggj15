@@ -10,4 +10,8 @@ class Game {
   getTeamColor(teamID : number) : Array<number> {
     throw new Error('LOL')
   }
+
+  getPlayerByIDOrNull(id : number) : Player {
+    throw new Error('LOL')
+  }
 }

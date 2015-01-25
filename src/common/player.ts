@@ -47,6 +47,28 @@ class Player extends Entity {
     return this.id === other.teamID
   }
 
+  getLeader() : Player {
+    return witch.getPlayerByIDOrNull(this.teamID)
+  }
+
+  isBoosted() : boolean {
+    var leader = this.getLeader()
+    if (leader === this) {
+      // TODO(strager): This should return 'true' when
+      // teamless players are implemented.
+      return false
+    }
+    var dx = leader.x - this.x
+    var dy = leader.y - this.y
+    var distance2 = dx * dx + dy * dy
+    var r = this.influenceRadius()
+    return distance2 < r * r
+  }
+
+  private influenceRadius() : number {
+    return 150
+  }
+
   render() : void {
     super.render()
     this.influenceSprite.x = this.x
@@ -60,6 +82,9 @@ class Player extends Entity {
     this.nameLabel.y = this.y - this.height
     var teamColor = witch.getTeamColor(this.teamID)
     this.nameLabel.fill = makeHexColor(teamColor[0], teamColor[1], teamColor[2])
+
+    // TODO(strager): Emit particles instead.
+    this.sprite.tint = this.isBoosted() ? 0xFFFF88 : 0xFFFFFF
 
     this.leaderIcon.visible = this.isLeader()
     this.leaderIcon.x = this.x - this.nameLabel.width / 2
