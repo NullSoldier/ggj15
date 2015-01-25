@@ -52,6 +52,10 @@ class Player extends Entity {
 
   isBoosted() : boolean {
     var leader = this.getLeader()
+    if (!leader) {
+      // you have no leader
+      return false
+    }
     if (leader === this) {
       // TODO(strager): This should return 'true' when
       // teamless players are implemented.
