@@ -8,9 +8,9 @@ class Server {
     followAI.speed = 3
     this.room.spawnPlayer(followAI)
 
-    var avoidAI = this.addAIPlayer(AvoidPlayerAI)
-    avoidAI.speed = 2
-    this.room.spawnPlayer(avoidAI)
+    //var avoidAI = this.addAIPlayer(AvoidPlayerAI)
+    //avoidAI.speed = 2
+    //this.room.spawnPlayer(avoidAI)
 
     //var attackAI = this.addAIPlayer(AttackNearestPlayerAI)
     //attackAI.speed = 2
