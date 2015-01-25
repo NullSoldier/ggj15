@@ -22,8 +22,9 @@ class WitchGame {
   level                   : Level
   shouldShowDebug         : Boolean = false
   ambientLightFilter      : AmbientLightFilter
+  playerBoard             : PlayerBoard
 
-  private players : Array<Player> = []
+  players : Array<Player> = []
   bullets : Array<Bullet> = []
 
   // Includes players and bullets.  Sorted by Z index.
@@ -63,6 +64,16 @@ class WitchGame {
       }
     }
     return null
+  }
+
+  getTeamPlayers(teamID : number) : Array<Player> {
+    var players : Array<Player> = []
+    for (var i : number = 0; i < this.players.length; ++i) {
+      if (this.players[i].teamID === teamID) {
+        players.push(this.players[i])
+      }
+    }
+    return players
   }
 
   addPlayer(player : Player) : void {
@@ -206,6 +217,8 @@ class WitchGame {
     this.entitiesGroup = game.add.group(game.world)
     this.mapTopGroup = game.add.group(game.world)
 
+    this.playerBoard = new PlayerBoard()
+
     // eat these so the browser doesn't get them
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
@@ -252,11 +265,18 @@ class WitchGame {
     }
 
     this.entities.forEach((e) => e.update())
+
+    this.playerBoard.update()
   }
 
   render() {
     this.sortEntities()
     this.entities.forEach((entity) => entity.render())
+
+    this.playerBoard.render()
+    // lolhacks
+    this.playerBoard.sprite.x = game.camera.x
+    this.playerBoard.sprite.y = game.camera.y
 
     if (this.shouldShowDebug) {
       var y = 20
