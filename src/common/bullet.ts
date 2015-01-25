@@ -106,7 +106,7 @@ class SmokeBullet extends Bullet {
     bullet.sprite.anchor.set(0.5, 0.5)
 
     bullet.emitter = game.add.emitter(0, 0, 50)
-    bullet.emitter.makeParticles('glowing-projectile-dust')
+    bullet.emitter.makeParticles(['glowing-projectile-dust', 'glowing-projectile-dust2'])
     bullet.emitter.setAlpha(1, 0.3, 1000)
     bullet.emitter.setSize(22, 22)
     bullet.emitter.setRotation(-1000, 1000)

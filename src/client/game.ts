@@ -40,6 +40,7 @@ class WitchGame implements Worldish {
     game.load.image('health_bar_front', 'assets/health-bar-front.png')
     game.load.image('health_bar_back', 'assets/health-bar-back.png')
     game.load.image('glowing-projectile-dust', 'assets/glowing-projectile-dust.png')
+    game.load.image('glowing-projectile-dust2', 'assets/glowing-projectile-dust2.png')
     game.load.image('background_01', 'assets/background-plain_01.jpg')
     game.load.image('background_02', 'assets/background-plain_02.jpg')
     game.load.image('background_03', 'assets/background-plain_03.jpg')
