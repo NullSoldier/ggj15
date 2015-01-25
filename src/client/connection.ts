@@ -54,6 +54,7 @@ class Connection {
       x: player.x,
       y: player.y,
       animation: player.animation,
+      direction: player.direction,
     }})
   }
 
@@ -100,6 +101,7 @@ class Connection {
         player.x = playerState.x
         player.y = playerState.y
         player.animation = playerState.animation
+        player.direction = playerState.direction
       }
     })
   }

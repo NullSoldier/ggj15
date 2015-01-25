@@ -23,7 +23,7 @@ class Connection {
         this.onAuthenticate(m.authenticate.playerName)
         break;
       case 'playerState':
-        this.onPlayerState(m.playerState.x, m.playerState.y)
+        this.onPlayerState(m.playerState)
         break;
       case 'fireBullet':
         this.onFireBullet(m.fireBullet)
@@ -68,12 +68,14 @@ class Connection {
     this.room.addPlayer(this.player)
   }
 
-  private onPlayerState(x : number, y : number) : void {
+  private onPlayerState(playerState : any) : void {
     if (!this.player) {
       return
     }
-    this.player.x = x
-    this.player.y = y
+    this.player.x = playerState.x
+    this.player.y = playerState.y
+    this.player.animation = playerState.animation
+    this.player.direction = playerState.direction
   }
 
   private onFireBullet(bulletInfo) {

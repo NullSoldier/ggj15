@@ -15,6 +15,7 @@ message ClientMessage {
     required int32 x = 1;
     required int32 y = 2;
     required uint32 animation = 5;
+    required uint32 direction = 7;
   }
 
   message FireBullet {
@@ -66,6 +67,7 @@ message ServerMessage {
       required int32 y = 3;
       required uint32 state = 4;
       required uint32 animation = 5;
+      required uint32 direction = 7;
     }
 
     repeated PlayerState players = 1;

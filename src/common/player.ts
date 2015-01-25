@@ -50,6 +50,7 @@ class Player extends Entity {
       y: this.y,
       state: this.state,
       animation: this.animation,
+      direction: this.direction,
     }
   }
 }
