@@ -134,6 +134,9 @@ class Player extends Entity {
     this.influenceSprite.scale.x = scale
     this.influenceSprite.scale.y = scale
 
+    // hack
+    this.influenceSprite.visible = this.teamID !== null
+
     this.nameLabel.text = this.name
     this.nameLabel.x = this.x
     this.nameLabel.y = this.y - this.height - 35
