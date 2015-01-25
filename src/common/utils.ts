@@ -58,10 +58,16 @@ function directionFromVec(vec : Array<number>) : Direction {
   if (angle < p) {
     return Direction.DownLeft
   }
-  if (angle < p * 1.5) {
+  if (angle < p * 1.25) {
     return Direction.Left
   }
-  return Direction.Up
+  if (angle < p * 1.5) {
+    return Direction.UpLeft
+  }
+  if (angle < p * 1.75) {
+    return Direction.Up
+  }
+  return Direction.UpRight
 }
 
 function isVecZero(vec) : Boolean {

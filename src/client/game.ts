@@ -70,33 +70,35 @@ class WitchGame {
     player.sprite.anchor.set(0.5, 1.0)
     player.sprite.filters = [this.ambientLightFilter]
 
-    ;['Down', 'Up', 'Left', 'Right', 'DownLeft', 'DownRight'].forEach((direction) => {
+    ;['Down', 'Up', 'Left', 'Right', 'DownLeft', 'DownRight', 'UpLeft', 'UpRight'].forEach((direction) => {
       var artDirection = {
-        'Down': 'Front',
-        'Up': 'Back',
-        'Left': 'Left',
-        'Right': 'Right',
-        'DownLeft': 'LeftDiagonal',
-        'DownRight': 'RightDiagonal',
+        'Down': 'Front-',
+        'Up': 'Back-',
+        'Left': 'Left-',
+        'Right': 'Right-',
+        'DownLeft': 'LeftDiagonal-',
+        'DownRight': 'RightDiagonal-',
+        'UpLeft': 'BackDiagonal-Left',
+        'UpRight': 'BackDiagonal-Right',
       }[direction]
 
       player.sprite.animations.add('Idle' + direction, [
-        'Player-' + artDirection + '-Static.png',
-        'Player-' + artDirection + '-Static.png',
-        'Player-' + artDirection + '-Bob.png',
-        'Player-' + artDirection + '-Bob.png'])
+        'Player-' + artDirection + 'Static.png',
+        'Player-' + artDirection + 'Static.png',
+        'Player-' + artDirection + 'Bob.png',
+        'Player-' + artDirection + 'Bob.png'])
       player.sprite.animations.add('Walking' + direction, [
-        'Player-' + artDirection + '-LeftFoot.png',
-        'Player-' + artDirection + '-Static.png',
-        'Player-' + artDirection + '-RightFoot.png',
-        'Player-' + artDirection + '-Static.png'])
+        'Player-' + artDirection + 'LeftFoot.png',
+        'Player-' + artDirection + 'Static.png',
+        'Player-' + artDirection + 'RightFoot.png',
+        'Player-' + artDirection + 'Static.png'])
       player.sprite.animations.add('Shooting' + direction, [
-        'Player-' + artDirection + '-StaticShoot.png'])
+        'Player-' + artDirection + 'StaticShoot.png'])
       player.sprite.animations.add('ShootingWalking' + direction, [
-        'Player-' + artDirection + '-LeftShoot.png',
-        'Player-' + artDirection + '-StaticShoot.png',
-        'Player-' + artDirection + '-RightShoot.png',
-        'Player-' + artDirection + '-StaticShoot.png'])
+        'Player-' + artDirection + 'LeftShoot.png',
+        'Player-' + artDirection + 'StaticShoot.png',
+        'Player-' + artDirection + 'RightShoot.png',
+        'Player-' + artDirection + 'StaticShoot.png'])
     })
 
     var influenceGroup : Phaser.Group = this.teamInfluenceGroups[player.teamID]

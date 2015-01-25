@@ -5,6 +5,8 @@ enum Direction {
   Right = 8,
   DownLeft = Down | Left,
   DownRight = Down | Right,
+  UpLeft = Up | Left,
+  UpRight = Up | Right,
 }
 
 enum Animation {
