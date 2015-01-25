@@ -1,6 +1,8 @@
 IMPORTANT MISC STUFF
 - Integrate Nika art
 - Particle effects at players feet
+
+LOW PRIORITY
 - Respawn indicator
 - Add offscreen indicators
 - Sound effects
@@ -8,8 +10,6 @@ IMPORTANT MISC STUFF
 
 
 GAMEPLAY
-- Start player out on no team
-- Fix bug with team id for killer
 - Promote players to a team once killed
 - Promote players to a team when you kill someone and are not on a team
 - When king is killed, demote all players on his team

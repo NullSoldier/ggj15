@@ -41,6 +41,11 @@ class Connection {
       case 'playerSpawned':
         this.onPlayerSpawned(m.playerSpawned)
         break;
+      case 'playerTeamChanged':
+        this.onPlayerTeamChanged(
+            m.playerTeamChanged.playerID,
+            m.playerTeamChanged.teamID)
+        break;
       default:
         throw new Error('Unknown message ' + m.message)
       }
@@ -144,24 +149,29 @@ class Connection {
 
   private onPlayerKilled(message) {
     var player = this.game.getPlayerByIDOrNull(message.playerID)
-
     player.state = PlayerState.Dead
     player.teamID = message.teamID
     player.hideClient()
-
-    // Local player created a team by killing this person
-    if(message.killerID == this.game.player.id && this.game.player.teamID === null) {
-      this.game.player.teamID = message.teamID
-      this.game.setTeam(this.game.player, player.teamID)
-    }
   }
 
   private onPlayerSpawned(message) {
     var player = this.game.getPlayerByIDOrNull(message.playerID)
-
     player.state = PlayerState.Alive
     player.teamID = message.teamID
-    this.game.setTeam(player, player.teamID)
     player.showClient()
+
+    this.game.setTeam(player, player.teamID)
+  }
+
+  private onPlayerTeamChanged(playerID, teamID) {
+    var player = this.game.getPlayerByIDOrNull(playerID)
+    this.game.setTeam(player, teamID)
+
+    // FOR DEBUGGING
+    var leader = this.game.getPlayerByIDOrNull(teamID)
+    if (leader)
+      console.log('Changing ', player.name, ' to ', leader.name, '\'s team')
+    else
+      console.log(player.name, '\'s leader was killed freeing them')
   }
 }

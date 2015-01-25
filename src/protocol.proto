@@ -45,6 +45,7 @@ message ServerMessage {
     DestroyBullet destroyBullet = 7;
     PlayerKilled playerKilled = 8;
     PlayerSpawned playerSpawned = 9;
+    PlayerTeamChanged playerTeamChanged = 10;
   }
 
   message Authenticated {
@@ -109,6 +110,11 @@ message ServerMessage {
   }
 
   message PlayerSpawned {
+    required uint32 playerID  = 1;
+    optional uint32 teamID    = 2;
+  }
+
+  message PlayerTeamChanged {
     required uint32 playerID  = 1;
     optional uint32 teamID    = 2;
   }

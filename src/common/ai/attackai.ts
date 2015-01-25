@@ -10,11 +10,13 @@ class AttackNearestPlayerAI extends PlayerAI {
     if (nearestPlayer === null) {
       return
     }
+
     var dx = nearestPlayer.x - this.player.x
     var dy = nearestPlayer.y - this.player.y
     if (Math.sqrt(dx * dx + dy * dy) > this.maxAttackDistance) {
       return
     }
+
     this.fireBullet(room, dx, dy)
   }
 }

@@ -109,21 +109,23 @@ class Room {
     // Create a team if killer doesn't belong to one
     if (killer.teamID === null) {
       killer.teamID = killer.id
+      this.changeTeam(killer, killer.id)
     }
 
     player.state = PlayerState.Dead
-    player.teamID = killer.teamID
+    this.changeTeam(player, killer.teamID)
 
-    // if (player.isLeader()) {
-    //   // Reassign all subordinates
-    //   var sub = _.filter(this.players, (p) => player.isLeaderOf(p))
-    //   _.each(sub, (s) => s.teamID = null)
-    // }
+    if (player.isLeader()) {
+      console.log("Leader", player.name, "died, demoting")
+      _.chain(this.players)
+        .filter((p) => player.isLeaderOf(p))
+        .each((p) => this.changeTeam(p, null))
+    }
 
     var message = {
       playerID: player.id,
+      teamID  : player.teamID,
       killerID: killer.id,
-      teamID  : player.teamID
     }
     this.sendToAll({playerKilled: message})
 
@@ -131,12 +133,14 @@ class Room {
       this.spawnPlayer(player)
 
       if (player.teamID === null) {
-        player.x = 100
-        player.y = 100 // TODO: make random
+        player.x = 300
+        player.y = 300
+        console.log(player.name, "'s leader died spawning free")
       } else {
         var leader = this.getPlayerByID(player.teamID)
         player.x = leader.x
         player.y = leader.y
+        console.log("Spawning ", player.name, " at leader ", leader.name)
       }
 
       var message = {
@@ -145,6 +149,15 @@ class Room {
       }
       this.sendToAll({playerSpawned: message})
     }, 500)
+  }
+
+  changeTeam(player : Player, toTeamID) {
+    player.teamID = toTeamID
+    var message = {
+      playerID: player.id,
+      teamID  : toTeamID,
+    }
+    this.sendToAll({playerTeamChanged: message})
   }
 
   sendFireBullet(owner : Player, bulletInfo) {
