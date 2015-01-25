@@ -79,7 +79,7 @@ class PlayerBoard {
       entry.render()
       entry.nameLabel.y = y
       entry.teamSizeLabel.y = y
-      y += 20
+      y += 24
     })
   }
 }
