@@ -4,3 +4,4 @@ build/
 .sync/
 *.swp
 assets/assets
+assets/
