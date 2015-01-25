@@ -200,17 +200,22 @@ class WitchGame {
   }
 
   render() {
-    game.debug.text(GameState[this.gameState], 20, 20);
-
     this.sortEntities()
     this.entities.forEach((entity) => entity.render())
 
-    var startY = 40
-    this.players.forEach((player) => {
-      var text = player.name + ' (' + player.id + '): ' + player.x + ', ' + player.y + '; ' + PlayerState[player.state]
-      game.debug.text(text, 20, startY);
-      startY += 20
-    })
+    if (this.shouldShowDebug()) {
+      game.debug.text(GameState[this.gameState], 20, 20);
+      var startY = 40
+      this.players.forEach((player) => {
+        var text = player.name + ' (' + player.id + '): ' + player.x + ', ' + player.y + '; ' + PlayerState[player.state]
+        game.debug.text(text, 20, startY);
+        startY += 20
+      })
+    }
+  }
+
+  shouldShowDebug() : Boolean {
+    return false
   }
 
   sortEntities() : void {
