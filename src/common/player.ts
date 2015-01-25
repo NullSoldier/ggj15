@@ -22,7 +22,7 @@ class Player extends Entity {
   teamID: number  // ID of the team leader.
   name  : string
   state : PlayerState = PlayerState.None
-  health: number = 10
+  health: number = 4
   speed : number = 5
   width : number = 123
   height: number = 173
