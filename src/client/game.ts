@@ -110,6 +110,11 @@ class WitchGame {
     this.applyTeamInfluenceColor(player.teamID, influenceFilter)
     influenceGroup.filters = [influenceFilter]
 
+    player.nameLabel = game.add.text(0, 0, '', {
+      font: 'normal 18px "Helvetica"',
+    })
+    player.nameLabel.anchor.set(0.5, 1.0)
+
     this.players.push(player)
     this.addEntity(player)
   }
@@ -122,6 +127,7 @@ class WitchGame {
 
     player.sprite.parent.removeChild(player.sprite)
     player.influenceSprite.parent.removeChild(player.influenceSprite)
+    player.nameLabel.parent.removeChild(player.nameLabel)
   }
 
   addBullet(bullet : Bullet) : void {

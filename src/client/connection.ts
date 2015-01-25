@@ -136,6 +136,7 @@ class Connection {
     player.teamID = message.killerID
     player.sprite.visible = false
     player.influenceSprite.visible = false
+    player.nameLabel.visible = false
 
     var influenceGroup = this.game.teamInfluenceGroups[message.killerID]
     influenceGroup.addChild(player.influenceSprite)
@@ -145,6 +146,7 @@ class Connection {
       player.y = killer.y
       player.sprite.visible = true
       player.influenceSprite.visible = true
+      player.nameLabel.visible = true
       player.state = PlayerState.Alive
     }, message.respawnIn)
   }

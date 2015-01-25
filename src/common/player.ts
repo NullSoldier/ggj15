@@ -16,6 +16,7 @@ class Player extends Entity {
 
   // Client
   influenceSprite : Phaser.Sprite
+  nameLabel       : Phaser.Text
 
   // Both
   id    : number
@@ -38,6 +39,13 @@ class Player extends Entity {
     super.render()
     this.influenceSprite.x = this.x
     this.influenceSprite.y = this.y
+    if (this.nameLabel) {
+      this.nameLabel.text = this.name
+      this.nameLabel.x = this.x
+      this.nameLabel.y = this.y - this.height
+      var teamColor = witch.getTeamColor(this.teamID)
+      this.nameLabel.fill = makeHexColor(teamColor[0], teamColor[1], teamColor[2])
+    }
   }
 
   toRoomList() {

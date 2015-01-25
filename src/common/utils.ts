@@ -75,3 +75,14 @@ function removeFromArray(array, item) {
   }
   array.splice(index, 1)
 }
+
+function padLeft(s : string, pad : string) : string {
+  return (pad + s).substr(-pad.length)
+}
+
+function makeHexColor(r : number, g : number, b : number) : string {
+  return ('#'
+    + padLeft(Math.floor(r * 255).toString(16), '00')
+    + padLeft(Math.floor(g * 255).toString(16), '00')
+    + padLeft(Math.floor(b * 255).toString(16), '00'))
+}

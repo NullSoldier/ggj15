@@ -6,4 +6,8 @@ class Game {
     this.level.width = 5120
     this.level.height = 2880
   }
+
+  getTeamColor(teamID : number) : Array<number> {
+    throw new Error('LOL')
+  }
 }
