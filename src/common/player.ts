@@ -69,7 +69,7 @@ class Player extends Entity {
   }
 
   private influenceRadius() : number {
-    return 150
+    return 200
   }
 
   update() : void {
