@@ -118,22 +118,24 @@ class Room implements Worldish {
 
     this.destroyAllBullets()
 
-    for(var index in this.players) {
-      var player = this.players[index]
+    setTimeout(() => {
+      for(var index in this.players) {
+        var player = this.players[index]
 
-      var message = {
-        playerID: player.id,
-        teamID  : null,
+        var message = {
+          playerID: player.id,
+          teamID  : null,
+        }
+        this.sendToAll({playerKilled: message})
+
+        this.changeTeam(player, null)
+
+          var randSpawn = this.getRandomSpawnVec()
+          player.x = Math.round(randSpawn[0])
+          player.y = Math.round(randSpawn[1])
+          this.spawnPlayer(player)
       }
-      this.sendToAll({playerKilled: message})
-
-      this.changeTeam(player, null)
-
-      var randSpawn = this.getRandomSpawnVec()
-      player.x = Math.round(randSpawn[0])
-      player.y = Math.round(randSpawn[1])
-      this.spawnPlayer(player)
-    }
+    }, 2000)
   }
 
   isOneTeam() {
