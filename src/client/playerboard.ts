@@ -2,14 +2,15 @@ class PlayerBoardEntry {
   nameLabel : Phaser.Text
   teamSizeLabel : Phaser.Text
 
-  static textStyle : any = {
-    fill: '#FFFFFF',
-    font: 'bold 20px "Helvetica"',
-  }
-
   constructor(public teamID : number, board : PlayerBoard) {
-    this.nameLabel = game.add.text(0, 0, '', PlayerBoardEntry.textStyle)
-    this.teamSizeLabel = game.add.text(0, 0, '', PlayerBoardEntry.textStyle)
+    var color = witch.getTeamColor(teamID)
+    var textStyle : any = {
+      fill: makeHexColor(color[0], color[1], color[2]),
+      font: 'bold 20px "Helvetica"',
+    }
+
+    this.nameLabel = game.add.text(0, 0, '', textStyle)
+    this.teamSizeLabel = game.add.text(0, 0, '', textStyle)
     this.nameLabel.x = 40
     this.teamSizeLabel.x = 10
     board.sprite.addChild(this.nameLabel)
