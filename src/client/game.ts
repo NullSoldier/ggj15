@@ -289,6 +289,6 @@ class WitchGame {
       this.mapTopGroup.add(sprite)
     })
     this.level = level
-    game.camera.bounds = null
+    game.camera.bounds = new Phaser.Rectangle(0, 0, 5120, 2880)
   }
 }
