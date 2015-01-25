@@ -13,7 +13,6 @@ class Player extends Entity {
   connection : Connection
 
   // Client
-  maskSprite : Phaser.Sprite
   influenceSprite : Phaser.Sprite
 
   // Both
