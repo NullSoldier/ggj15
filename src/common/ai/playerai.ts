@@ -10,11 +10,10 @@ class PlayerAI {
       var bullet = room.bullets[i]
 
       // did the player get hit?
-
       if (originRectIntersects(bullet, this.player)) {
         console.log(this.player.name + " was hit!")
-        this.player.health -= bullet.damage
         room.sendDestroyBullet(bullet)
+        this.player.health -= bullet.damage
       }
 
       // Is the player dead?
@@ -54,7 +53,14 @@ class PlayerAI {
       return
     }
 
-    var bullet = new SmokeBullet(this.player.id, this.player.x, this.player.y)
+    var bullet = new SmokeBullet(
+      this.player.id,
+      generateID(),
+      this.player.x,
+      this.player.y)
+
+    console.log('Generated ID', bullet.bulletID)
+
     bullet.lookDir = [dx, dy]
     room.sendFireBullet(this.player, bullet.toBulletInfo())
 

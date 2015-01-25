@@ -14,6 +14,7 @@
     "grunt-mkdir": "^0.1.2",
     "grunt-sync": "^0.2.3",
     "grunt-typescript": "^0.6.1",
+    "lodash": "^2.4.1",
     "protobufjs": "^3.8.2",
     "typescript": "^1.4.1",
     "ws": "^0.6.5"

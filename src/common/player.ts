@@ -22,6 +22,8 @@ class Player extends Entity {
   state : PlayerState = PlayerState.None
   health: number = 10
   speed : number = 5
+  width : number = 123
+  height: number = 173
 
   constructor(id : number, name : string, teamID? : number) {
     super()

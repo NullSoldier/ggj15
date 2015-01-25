@@ -5,6 +5,7 @@ message ClientMessage {
     Authenticate authenticate = 1;
     PlayerState playerState = 2;
     FireBullet fireBullet = 3;
+    DestroyBullet destroyBullet = 4;
   }
 
   message Authenticate {
@@ -21,10 +22,20 @@ message ClientMessage {
 
   message FireBullet {
     required uint32 ownerID = 1;
-    required int32 startX = 2;
-    required int32 startY = 3;
-    required float lookDirX = 4;
-    required float lookDirY = 5;
+    required uint32 bulletID = 3;
+    required int32 startX = 4;
+    required int32 startY = 5;
+    required float lookDirX = 6;
+    required float lookDirY = 7;
+  }
+
+  message DestroyBullet {
+    required uint32 ownerID = 1;
+    required uint32 bulletID = 2;
+  }
+
+  message PlayerKilled {
+    required uint32 ownerID = 1;
   }
 }
 
@@ -36,6 +47,8 @@ message ServerMessage {
     RoomList roomList = 4;
     RoomState roomState = 5;
     FireBullet fireBullet = 6;
+    DestroyBullet destroyBullet = 7;
+    PlayerKilled playerKilled = 8;
   }
 
   message Authenticated {
@@ -78,9 +91,19 @@ message ServerMessage {
 
   message FireBullet {
     required uint32 ownerID = 1;
-    required int32 startX = 2;
-    required int32 startY = 3;
-    required float lookDirX = 4;
-    required float lookDirY = 5;
+    required uint32 bulletID = 2;
+    required int32 startX = 3;
+    required int32 startY = 4;
+    required float lookDirX = 5;
+    required float lookDirY = 6;
+  }
+
+  message DestroyBullet {
+    required uint32 ownerID = 1;
+    required uint32 bulletID = 2;
+  }
+
+  message PlayerKilled {
+    required uint32 playerID = 1;
   }
 }

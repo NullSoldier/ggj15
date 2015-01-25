@@ -9,6 +9,7 @@ class FollowNearestPlayerAI extends PlayerAI {
   }
 
   update(room : Room) : void {
+    super.update(room)
     var nearestEnemy = this.nearestEnemy(room.players)
     if (nearestEnemy === null) {
       this.player.move(0, 0)

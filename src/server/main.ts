@@ -4,11 +4,14 @@ var MAKE_UPDATES_PER_SECOND = 60
 // Number doesn't matter; lag vs bandwidth tradeoff
 var SEND_UPDATES_PER_SECOND = 30
 
+var _ = require('lodash')
 var express = require('express')
 var http = require('http')
 var util = require('util')
 var websocket = require('ws')
 var protocol = require('./protocol.server.js')
+
+var generateID = createIDGenerator()
 
 var app = express()
 app.use(express.static(__dirname))

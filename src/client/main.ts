@@ -7,6 +7,9 @@ var STAGE_COLOR   = "#6495FF"
 var game : Phaser.Game
 var connection: Connection
 var witch : WitchGame
+var generateID = createIDGenerator()
+
+var _ = window['_']
 
 window.onload = () => {
   witch = new WitchGame()

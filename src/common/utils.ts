@@ -67,3 +67,11 @@ function directionFromVec(vec : Array<number>) : Direction {
 function isVecZero(vec) : Boolean {
   return (vec[0] === 0) && (vec[1] === 0)
 }
+
+function removeFromArray(array, item) {
+  var index = array.indexOf(item)
+  if (index === -1) {
+    throw new Error('Tried to remove an item not in array')
+  }
+  array.splice(index, 1)
+}

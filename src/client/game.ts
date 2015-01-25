@@ -114,17 +114,8 @@ class WitchGame {
   removePlayer(player : Player) : void {
     var index : number
 
-    index = this.players.indexOf(player)
-    if (index === -1) {
-      throw new Error('Tried to remove a player not in array')
-    }
-    this.players.splice(index, 1)
-
-    index = this.entities.indexOf(player)
-    if (index === -1) {
-      throw new Error('Tried to remove a player not in array')
-    }
-    this.entities.splice(index, 1)
+    removeFromArray(this.players, player)
+    removeFromArray(this.entities, player)
 
     player.sprite.parent.removeChild(player.sprite)
     player.influenceSprite.parent.removeChild(player.influenceSprite)
@@ -133,6 +124,12 @@ class WitchGame {
   addBullet(bullet : Bullet) : void {
     this.bullets.push(bullet)
     this.entities.push(bullet)
+  }
+
+  removeBullet(bullet : Bullet) : void {
+    bullet.sprite.parent.removeChild(bullet.sprite)
+    removeFromArray(this.bullets, bullet)
+    removeFromArray(this.entities, bullet)
   }
 
   addObstacle(obstacle : Obstacle) : void {
@@ -282,7 +279,7 @@ class WitchGame {
           obstacle.sprite.anchor.set(0.5, 1.0)
           obstacle.x = (layer.bounds.left + layer.bounds.right) / 2
           obstacle.y = layer.bounds.bottom
-          console.log(type + match[1], obstacle.x, obstacle.y)
+          // console.log(type + match[1], obstacle.x, obstacle.y)
           break
         }
       }

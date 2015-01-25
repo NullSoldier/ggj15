@@ -2,19 +2,21 @@
 
 class Bullet extends Entity {
 
-  constructor(ownerID, startX, startY) {
+  constructor(ownerID, bulletID, startX, startY) {
     super()
     this.ownerID = ownerID
+    this.bulletID = bulletID
     this.startX = startX
     this.startY = startY
     this.x = startX
     this.y = startY
   }
 
-  ownerID: number // The id of the personal who fired the bullet
-  damage : number
-  startX : number
-  startY : number
+  ownerID : number // The id of the personal who fired the bullet
+  bulletID: number
+  damage  : number
+  startX  : number
+  startY  : number
   emitter : Phaser.Particles.Arcade.Emitter = null
 
   update() {
@@ -42,11 +44,16 @@ class Bullet extends Entity {
   toBulletInfo() {
     return {
       ownerID : this.ownerID,
+      bulletID: this.bulletID,
       startX  : this.x,
       startY  : this.y,
       lookDirX: this.lookDir[0],
       lookDirY: this.lookDir[1]
     }
+  }
+
+  static areEqual(a, b) {
+    return a.ownerID == b.ownerID && a.bulletID == b.bulletID
   }
 }
 
@@ -59,6 +66,7 @@ class SmokeBullet extends Bullet {
   static fromBulletInfo(bulletInfo) {
     var bullet = new SmokeBullet(
       bulletInfo.ownerID,
+      bulletInfo.bulletID,
       bulletInfo.startX,
       bulletInfo.startY)
 

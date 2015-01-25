@@ -40,9 +40,15 @@ class PlayerController {
   }
 
   fireBullet(dirX, dirY) {
-    var bullet = new SmokeBullet(this.player.id, this.player.x, this.player.y)
+    var bullet = new SmokeBullet(
+      this.player.id,
+      generateID(),
+      this.player.x,
+      this.player.y)
+
     bullet.lookDir = this.player.lookDir
     connection.send({fireBullet: bullet.toBulletInfo()})
+
     this.player.animation |= Animation.Shooting
     this.player.justFiredBullet()
   }

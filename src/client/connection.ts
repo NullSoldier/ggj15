@@ -34,6 +34,13 @@ class Connection {
       case 'fireBullet':
         this.onFireBullet(m.fireBullet)
         break;
+      case 'destroyBullet':
+        console.log('destroy bullet', m.destroyBullet)
+        this.onDestroyBullet(m.destroyBullet)
+        break;
+      case 'playerKilled':
+        this.onPlayerKilled(m.playerKilled.playerID)
+        break;
       default:
         throw new Error('Unknown message ' + m.message)
       }
@@ -109,11 +116,25 @@ class Connection {
 
   private onFireBullet(bulletInfo) : void {
     var bullet = SmokeBullet.fromBulletInfoClient(bulletInfo, game)
+    console.log('create bullet ', bulletInfo.ownerID, bulletInfo.bulletID)
     this.game.addBullet(bullet)
 
     var player = witch.getPlayerByIDOrNull(bulletInfo.ownerID)
     if (player) {
       player.justFiredBullet()
     }
+  }
+
+  private onDestroyBullet(bulletInfo) : void {
+    console.log('destroy bullet ', bulletInfo.ownerID, bulletInfo.bulletID)
+    var bullet = _.find(this.game.bullets, (b) => Bullet.areEqual(b, bulletInfo))
+    this.game.removeBullet(bullet)
+  }
+
+  private onPlayerKilled(playerID : number) {
+    var player = this.game.getPlayerByIDOrNull(playerID)
+    player.state = PlayerState.Dead
+    player.sprite.visible = false
+    player.influenceSprite.visible = false
   }
 }

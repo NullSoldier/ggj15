@@ -4,6 +4,7 @@ class AttackNearestPlayerAI extends PlayerAI {
   maxAttackDistance : number = 600
 
   update(room : Room) : void {
+    super.update(room)
     var nearestPlayer = this.nearestEnemy(room.players)
     if (nearestPlayer === null) {
       return

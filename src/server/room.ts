@@ -12,7 +12,6 @@ class Room {
     return this.nextPlayerID++;
   }
 
-  // Does not add the player.
   createPlayer(name : string) : Player {
     var player = new Player(this.createPlayerID(), name)
     player.x = Math.floor(Math.random() * 1000)
@@ -53,7 +52,10 @@ class Room {
   }
 
   tick() : void {
-    this.ais.forEach((ai) => ai.update(this))
+    _.chain(this.ais)
+      .filter((ai) => ai.player.state === PlayerState.Alive)
+      .each((ai) => ai.update(this))
+
     this.bullets.forEach((bullet) => bullet.update())
   }
 
@@ -89,11 +91,23 @@ class Room {
   }
 
   sendDestroyBullet(bullet : Bullet) {
-    console.log("Bullet destroyed ", bullet.ownerID)
+    console.log("Bullet destroyed ", bullet.ownerID, bullet.bulletID)
+    this.bullets = _.reject(this.bullets, (b) => {
+      return b.ownerID == bullet.ownerID && b.bulletID == bullet.bulletID
+    })
+
+    var message = {
+      ownerID: bullet.ownerID,
+      bulletID: bullet.bulletID
+    }
+    this.sendToAll({destroyBullet: message})
   }
 
   sendPlayerKilled(killed : Player, killerID : number) {
     console.log("Player killed ", killed.name)
+    killed.state = PlayerState.Dead
+    var message = {playerID: killed.id}
+    this.sendToAll({playerKilled: message})
   }
 
   sendFireBullet(owner : Player, bulletInfo) {
