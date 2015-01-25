@@ -18,6 +18,7 @@ class WitchGame {
   teamInfluenceGroupGroup : Phaser.Group
   teamInfluenceGroups     : any = {}  // Team ID => Phaser.Group
   level                   : Level
+  shouldShowDebug         : Boolean = false
   ambientLightFilter      : AmbientLightFilter
 
   private players : Array<Player> = []
@@ -25,6 +26,9 @@ class WitchGame {
 
   // Includes players and bullets.  Sorted by Z index.
   entities : Array<Entity> = []
+
+  controls : any = {
+  }
 
   preload() {
     game.load.image('smoke', 'assets/smoke.png')
@@ -168,8 +172,11 @@ class WitchGame {
 
     // eat these so the browser doesn't get them
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
-    game.input.keyboard.addKeyCapture(Phaser.Keyboard.UP);
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
+    game.input.keyboard.addKeyCapture(Phaser.Keyboard.TAB);
+    game.input.keyboard.addKeyCapture(Phaser.Keyboard.UP);
+
+    this.controls.debugToggle = game.input.keyboard.addKey(Phaser.Keyboard.TAB),
 
     this.ambientLightFilter = new AmbientLightFilter(game)
     this.ambientLightFilter.setColor(0x08 / 0xFF, 0x1B / 0xFF, 0x19 / 0xFF, 0.55)
@@ -191,6 +198,11 @@ class WitchGame {
   }
 
   update() {
+    if (this.controls.debugToggle.justDown) {
+      this.shouldShowDebug = !this.shouldShowDebug
+      // FIXME(strager): Why does disabling again not work?
+    }
+
     if (this.gameState === GameState.Playing && this.player.state === PlayerState.Alive) {
       this.playerController.update()
       this.moveCameraTo(this.player)
@@ -204,7 +216,7 @@ class WitchGame {
     this.sortEntities()
     this.entities.forEach((entity) => entity.render())
 
-    if (this.shouldShowDebug()) {
+    if (this.shouldShowDebug) {
       game.debug.text(GameState[this.gameState], 20, 20);
       var startY = 40
       this.players.forEach((player) => {
@@ -213,10 +225,6 @@ class WitchGame {
         startY += 20
       })
     }
-  }
-
-  shouldShowDebug() : Boolean {
-    return false
   }
 
   sortEntities() : void {
