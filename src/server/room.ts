@@ -243,6 +243,11 @@ class Room implements Worldish {
   }
 
   getRandomSpawnVec() {
+    // Disable random spawninn
+    return [
+      680 + (Math.random() * 300),
+      639 + (Math.random() * 300)]
+
     var positions = [
       [758, 2314],
       [1100, 1885],
