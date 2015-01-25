@@ -38,6 +38,9 @@ class Connection {
       case 'playerKilled':
         this.onPlayerKilled(m.playerKilled)
         break;
+      case 'playerSpawned':
+        this.onPlayerSpawned(m.playerSpawned)
+        break;
       default:
         throw new Error('Unknown message ' + m.message)
       }
@@ -141,24 +144,18 @@ class Connection {
 
   private onPlayerKilled(message) {
     var player = this.game.getPlayerByIDOrNull(message.playerID)
-    var killer = this.game.getPlayerByIDOrNull(message.killerID)
 
     player.state = PlayerState.Dead
-    player.teamID = message.killerID
-    player.sprite.visible = false
-    player.influenceSprite.visible = false
-    player.nameLabel.visible = false
+    player.teamID = message.teamID
+    player.hideClient()
+  }
 
-    var influenceGroup = this.game.teamInfluenceGroups[message.killerID]
-    influenceGroup.addChild(player.influenceSprite)
+  private onPlayerSpawned(message) {
+    var player = this.game.getPlayerByIDOrNull(message.playerID)
 
-    setTimeout(() => {
-      player.x = killer.x
-      player.y = killer.y
-      player.sprite.visible = true
-      player.influenceSprite.visible = true
-      player.nameLabel.visible = true
-      player.state = PlayerState.Alive
-    }, message.respawnIn)
+    player.showClient()
+    player.state = PlayerState.Alive
+    player.teamID = message.teamID
+    this.game.setTeam(player, player.teamID)
   }
 }

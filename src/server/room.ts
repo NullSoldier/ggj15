@@ -103,12 +103,41 @@ class Room {
 
   playerKilled(player : Player, killer : Player) {
     player.state = PlayerState.Dead
+    player.teamID = killer.teamID
+
+    if (player.isLeader()) {
+      // Reassign all subordinates
+      var sub = _.filter(this.players, (p) => player.isLeaderOf(p))
+      _.each(sub, (s) => s.teamID = null)
+    }
+
     var message = {
       playerID : player.id,
       teamID   : killer.teamID,
       respawnIn: 2000
     }
     this.sendToAll({playerKilled: message})
+
+    setTimeout(() => {
+      this.spawnPlayer(player)
+
+      console.log(player.health)
+
+      if (player.teamID === null) {
+        player.x = 100
+        player.y = 100 // TODO: make random
+      } else {
+        var leader = this.getPlayerByID(player.teamID)
+        player.x = leader.x
+        player.y = leader.y
+      }
+
+      var message = {
+        playerID: player.id,
+        teamID  : player.teamID
+      }
+      this.sendToAll({playerSpawned: message})
+    }, message.respawnIn)
   }
 
   sendFireBullet(owner : Player, bulletInfo) {
@@ -119,5 +148,6 @@ class Room {
 
   spawnPlayer(player : Player) {
     player.state = PlayerState.Alive
+    player.health = player.maxHealth
   }
 }
