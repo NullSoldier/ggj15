@@ -103,6 +103,7 @@ message ServerMessage {
   message DestroyBullet {
     required uint32 ownerID = 1;
     required uint32 bulletID = 2;
+    required bool expired = 3;
   }
 
   message PlayerKilled {

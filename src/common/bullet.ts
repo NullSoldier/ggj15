@@ -17,10 +17,17 @@ class Bullet extends Entity {
   damage  : number
   startX  : number
   startY  : number
+  distance: number
+  active  : boolean = true
+  expired : boolean = false // did it expire naturally?
   emitter : Phaser.Particles.Arcade.Emitter = null
   bulletSprite : Phaser.Sprite
 
   update() {
+    if(!this.active) {
+      console.log('bullet not cleaned up: ' + this.bulletID)
+    }
+
     super.update()
     var moveVec = getMoveVector(
       this.lookDir[0],
@@ -29,6 +36,12 @@ class Bullet extends Entity {
 
     this.x += moveVec[0]
     this.y += moveVec[1]
+
+    var travelled = distanceBetween(this.startX, this.startY, this.x, this.y)
+    if (travelled > this.distance) {
+      this.active = false
+      this.expired = true
+    }
   }
 
   animateIn(game : Phaser.Game) {
@@ -66,10 +79,11 @@ class Bullet extends Entity {
 }
 
 class SmokeBullet extends Bullet {
-  width  = 20
-  height = 20
-  speed  = 10
-  damage = 1
+  width    = 20
+  height   = 20
+  speed    = 10
+  damage   = 1
+  distance = 1000
 
   static fromBulletInfo(bulletInfo) {
     var bullet = new SmokeBullet(

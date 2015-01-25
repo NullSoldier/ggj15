@@ -93,9 +93,14 @@ function makeHexColor(r : number, g : number, b : number) : string {
     + padLeft(Math.floor(b * 255).toString(16), '00'))
 }
 
-
 function assertNotNull(value) {
   if (!value) {
     throw new Error('Assert: value cannot be null')
   }
+}
+
+function distanceBetween(x1, y1, x2, y2) {
+  var dx = x1 - x2;
+  var dy = y1 - y2;
+  return Math.sqrt(dx * dx + dy * dy);
 }

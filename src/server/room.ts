@@ -43,12 +43,14 @@ class Room implements Worldish {
   }
 
   tick() : void {
+    _.each(this.players, (p) => p.updatePhysicsServer(this))
+    _.each(this.bullets, (b) => b.update())
+
     _.chain(this.ais)
       .filter((ai) => ai.player.state === PlayerState.Alive)
       .each((ai) => ai.update(this))
 
-    _.each(this.players, (p) => p.updatePhysicsServer(this))
-    _.each(this.bullets, (b) => b.update())
+    this.destroyInactiveBullets()
   }
 
   sendToAll(message) {
@@ -97,12 +99,13 @@ class Room implements Worldish {
     this.sendToAll({roomState: message})
   }
 
-  sendDestroyBullet(bullet : Bullet) {
+  sendDestroyBullet(bullet : Bullet, expired=false) {
     removeFromArray(this.bullets, bullet)
 
     var message = {
       ownerID: bullet.ownerID,
-      bulletID: bullet.bulletID
+      bulletID: bullet.bulletID,
+      expired: expired
     }
     this.sendToAll({destroyBullet: message})
   }
@@ -142,7 +145,7 @@ class Room implements Worldish {
         var leader = this.getPlayerByIDOrNull(player.teamID)
         player.x = Math.round(leader.x)
         player.y = Math.round(leader.y)
-        console.log("Spawning ", player.name, " at leader ", leader.name)
+        console.log("Spawning", player.name, "at leader", leader.name)
       }
 
       this.spawnPlayer(player)
@@ -174,6 +177,16 @@ class Room implements Worldish {
       spawnX  : player.x,
       spawnY  : player.y
     }})
+  }
+
+  destroyInactiveBullets() {
+
+    for(var i=this.bullets.length-1; i>=0; i--) {
+      var bullet = this.bullets[i]
+      if (!bullet.active) {
+        this.sendDestroyBullet(bullet, bullet.expired)
+      }
+    }
   }
 
   getRandomSpawnVec() {

@@ -91,7 +91,7 @@ class Player extends Entity {
 
       // did the player get hit?
       if (originRectIntersects(bullet, this)) {
-        console.log(this.name + "was hit by", owner.name)
+        console.log(this.name, "was hit by", owner.name)
         this.health -= bullet.damage
 
         var room : any = worldish
