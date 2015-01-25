@@ -33,6 +33,7 @@ class WitchGame {
   preload() {
     game.load.image('smoke', 'assets/smoke.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
+    game.load.image('player_mask', 'assets/player-mask.png')
     game.load.image('particle1', 'assets/particle1.png')
     game.load.image('background_01', 'assets/background-plain_01.jpg')
     game.load.image('background_02', 'assets/background-plain_02.jpg')
@@ -62,7 +63,10 @@ class WitchGame {
   addPlayer(player : Player) : void {
     player.sprite = game.add.sprite(0, 0, 'player')
     player.sprite.anchor.set(0.5, 1.0)
-    player.sprite.filters = [this.ambientLightFilter]
+    player.maskSprite = game.add.sprite(0, 0, 'player_mask')
+    player.maskSprite.anchor.set(player.sprite.anchor.x, player.sprite.anchor.y)
+    var colorShiftFilter = new ColorShiftFilter(player.maskSprite.texture, game)
+    player.sprite.filters = [colorShiftFilter, this.ambientLightFilter]
 
     ;['Down', 'Up', 'Left', 'Right'].forEach((direction) => {
       var artDirection = {
