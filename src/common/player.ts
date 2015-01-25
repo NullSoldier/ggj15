@@ -25,7 +25,7 @@ class Player extends Entity {
   teamID: number  // ID of the team leader, empty for no leader
   name  : string
   state : PlayerState = PlayerState.None
-  maxHealth : number = 5
+  maxHealth : number = 4
   health: number = this.maxHealth
   speed : number = 5
   width : number = 123
@@ -137,27 +137,8 @@ class Player extends Entity {
     this.healthBarFront.y = this.y - this.height - 40 - h / 2
     this.healthBarFront.cropRect.width = w * this.health / this.maxHealth
     this.healthBarFront.updateCrop()
-    this.healthBarFront.tint = Player.healthBarColor(this.health / this.maxHealth)
     this.healthBarBack.x = this.healthBarFront.x
     this.healthBarBack.y = this.healthBarFront.y
-  }
-
-  private static healthBarColor(percentage : number) : number {
-    var r : number
-    var g : number
-    var b : number
-    if (percentage > 0.5) {
-      var p = (percentage - 0.5) * 2
-      r = Math.floor(lerp(0xBD, 0x3C, p))
-      g = Math.floor(lerp(0xB4, 0x84, p))
-      b = Math.floor(lerp(0x4F, 0x5E, p))
-    } else {
-      var p = percentage * 2
-      r = Math.floor(lerp(0x95, 0xBD, p))
-      g = Math.floor(lerp(0x36, 0xB4, p))
-      b = Math.floor(lerp(0x31, 0x4F, p))
-    }
-    return (r << 16) | (g << 8) | (b << 0)
   }
 
   justFiredBullet() : void {
