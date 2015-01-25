@@ -32,7 +32,7 @@ class WitchGame {
     game.load.image('background_02', 'assets/background-plain_02.jpg')
     game.load.image('background_03', 'assets/background-plain_03.jpg')
     game.load.image('background_04', 'assets/background-plain_04.jpg')
-    game.load.atlasJSONHash('player', 'assets/player.png', 'assets/player.json');
+    game.load.atlasJSONHash('player', 'assets/player.png', 'assets/player.json')
 
     for (var type in obstacleTypes) {
       var count : number = obstacleTypes[type]
@@ -56,31 +56,33 @@ class WitchGame {
   addPlayer(player : Player) : void {
     player.sprite = game.add.sprite(0, 0, 'player')
     player.sprite.anchor.set(0.5, 1.0)
-    player.sprite.animations.add(Animation[Animation.Idle], [
-      'Player-Front-Static.png',
-      'Player-Front-Static.png',
-      'Player-Front-Bob.png',
-      'Player-Front-Bob.png'])
-    player.sprite.animations.add(Animation[Animation.WalkDown], [
-      'Player-Front-LeftFoot.png',
-      'Player-Front-Static.png',
-      'Player-Front-RightFoot.png',
-      'Player-Front-Static.png'])
-    player.sprite.animations.add(Animation[Animation.WalkUp], [
-      'Player-Back-LeftFoot.png',
-      'Player-Back-Static.png',
-      'Player-Back-RightFoot.png',
-      'Player-Back-Static.png'])
-    player.sprite.animations.add(Animation[Animation.WalkLeft], [
-      'Player-Left-LeftFoot.png',
-      'Player-Left-Static.png',
-      'Player-Left-RightFoot.png',
-      'Player-Left-Static.png'])
-    player.sprite.animations.add(Animation[Animation.WalkRight], [
-      'Player-Right-LeftFoot.png',
-      'Player-Right-Static.png',
-      'Player-Right-RightFoot.png',
-      'Player-Right-Static.png'])
+
+    ;['Down', 'Up', 'Left', 'Right'].forEach((direction) => {
+      var artDirection = {
+        'Down': 'Front',
+        'Up': 'Back',
+        'Left': 'Left',
+        'Right': 'Right',
+      }[direction]
+
+      player.sprite.animations.add('Idle' + direction, [
+        'Player-' + artDirection + '-Static.png',
+        'Player-' + artDirection + '-Static.png',
+        'Player-' + artDirection + '-Bob.png',
+        'Player-' + artDirection + '-Bob.png'])
+      player.sprite.animations.add('Walking' + direction, [
+        'Player-' + artDirection + '-LeftFoot.png',
+        'Player-' + artDirection + '-Static.png',
+        'Player-' + artDirection + '-RightFoot.png',
+        'Player-' + artDirection + '-Static.png'])
+      player.sprite.animations.add('Shooting' + direction, [
+        'Player-' + artDirection + '-StaticShoot.png'])
+      player.sprite.animations.add('ShootingWalking' + direction, [
+        'Player-' + artDirection + '-LeftShoot.png',
+        'Player-' + artDirection + '-StaticShoot.png',
+        'Player-' + artDirection + '-RightShoot.png',
+        'Player-' + artDirection + '-StaticShoot.png'])
+    })
 
     var influenceGroup : Phaser.Group = this.teamInfluenceGroups[player.teamID]
     if (!influenceGroup) {

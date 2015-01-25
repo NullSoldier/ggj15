@@ -207,6 +207,15 @@
             <filename>../Witches Game/New Player/Front Shoot/Player-Front-LeftShoot.png</filename>
             <filename>../Witches Game/New Player/Front Shoot/Player-Front-RightShoot.png</filename>
             <filename>../Witches Game/New Player/Front Shoot/Player-Front-StaticShoot.png</filename>
+            <filename>../Witches Game/New Player/Back Shoot/Player-Back-LeftShoot.png</filename>
+            <filename>../Witches Game/New Player/Back Shoot/Player-Back-RightShoot.png</filename>
+            <filename>../Witches Game/New Player/Back Shoot/Player-Back-StaticShoot.png</filename>
+            <filename>../Witches Game/New Player/Left Shoot/Player-Left-LeftShoot.png</filename>
+            <filename>../Witches Game/New Player/Left Shoot/Player-Left-RightShoot.png</filename>
+            <filename>../Witches Game/New Player/Left Shoot/Player-Left-StaticShoot.png</filename>
+            <filename>../Witches Game/New Player/Right Shoot/Player-Right-LeftShoot.png</filename>
+            <filename>../Witches Game/New Player/Right Shoot/Player-Right-RightShoot.png</filename>
+            <filename>../Witches Game/New Player/Right Shoot/Player-Right-StaticShoot.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

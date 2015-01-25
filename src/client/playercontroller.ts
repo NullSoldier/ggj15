@@ -45,6 +45,8 @@ class PlayerController {
       this.player.lookDir[1],
       Bullet.BULLET_SPEED)
 
+    this.player.animation |= Animation.Shooting
+
     connection.send({
       fireBullet: {
         startX: this.player.x,

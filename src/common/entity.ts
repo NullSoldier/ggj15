@@ -1,9 +1,15 @@
+enum Direction {
+  Down = 1,
+  Up = 2,
+  Left = 3,
+  Right = 4,
+}
+
 enum Animation {
   Idle = 0,
-  WalkDown = 1,
-  WalkUp = 2,
-  WalkLeft = 3,
-  WalkRight = 4,
+  Walking = 32,
+  Shooting = 64,
+  ShootingWalking = Shooting | Walking,
 }
 
 class Entity {
@@ -15,13 +21,20 @@ class Entity {
   x         : number = 0
   y         : number = 0
   speed     : number = 5
+  direction : Direction = Direction.Down
   animation : Animation = Animation.Idle
 
   render() {
     // sync for client only
     this.sprite.x = this.x
     this.sprite.y = this.y
-    this.sprite.animations.play(Animation[this.animation], 8, true)
+
+    var animationFPS = 8
+    var animationLoop = true
+    this.sprite.animations.play(
+      Animation[this.animation] + Direction[this.direction],
+      animationFPS,
+      animationLoop)
   }
 
   move(dx : number, dy : number) : Array<number> {
@@ -29,24 +42,30 @@ class Entity {
     this.x = Math.min(witch.level.width, Math.max(0, this.x + Math.round(vec[0])))
     this.y = Math.min(witch.level.height, Math.max(0, this.y + Math.round(vec[1])))
 
+    var direction : Direction
+    var animation : Animation = this.animation
     if (vec[0] === 0 && vec[1] === 0) {
-      this.animation = Animation.Idle
-    }
-
-    if (Math.abs(vec[0]) > Math.abs(vec[1])) {
-      // X more prominent than Y.
-      if (vec[0] > 0) {
-        this.animation = Animation.WalkRight
-      } else {
-        this.animation = Animation.WalkLeft
-      }
+      direction = this.direction
+      animation = Animation.Idle
     } else {
-      if (vec[1] > 0) {
-        this.animation = Animation.WalkDown
-      } else if (vec[1] < 0) {
-        this.animation = Animation.WalkUp
+      animation |= Animation.Walking
+      if (Math.abs(vec[0]) > Math.abs(vec[1])) {
+        // X more prominent than Y.
+        if (vec[0] > 0) {
+          direction = Direction.Right
+        } else {
+          direction = Direction.Left
+        }
+      } else {
+        if (vec[1] > 0) {
+          direction = Direction.Down
+        } else if (vec[1] < 0) {
+          direction = Direction.Up
+        }
       }
     }
+    this.direction = direction
+    this.animation = animation
 
     if(vec[0] !== 0 || vec[1] !== 0) {
       this.lookDir = vec
