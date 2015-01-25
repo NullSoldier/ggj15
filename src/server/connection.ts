@@ -20,7 +20,7 @@ class Connection {
 
       switch (m.message) {
       case 'authenticate':
-        this.onAuthenticate(m.authenticate.playerName)
+        this.onAuthenticate()
         break;
       case 'playerState':
         this.onPlayerState(m.playerState)
@@ -57,15 +57,15 @@ class Connection {
     }
   }
 
-  private onAuthenticate(name : string) {
+  private onAuthenticate() {
     if (this.player) {
       // Drop bad request.
       return;
     }
 
-    this.player = this.server.room.createPlayer(name)
+    this.player = this.server.room.createPlayer()
     this.room = this.server.room
-    this.send({authenticated: {playerID: this.player.id}})
+    this.send({authenticated: {playerID: this.player.id, playerName: this.player.name}})
     this.player.connection = this
     this.room.addPlayer(this.player)
   }

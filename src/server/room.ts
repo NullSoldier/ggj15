@@ -1,4 +1,15 @@
 class Room {
+  static playerNames : Array<string> = [
+    'Billy Bob',
+    'Willie Wonda',
+    'Happy Camper',
+    'Mean Buzz',
+    'Wheat Crusher',
+    'Angry Tooth',
+    'The Wizz',
+    'The Grinch',
+  ]
+
   players: Array<Player> = []
   ais    : Array<PlayerAI> = []
   bullets: Array<Bullet> = []
@@ -7,13 +18,18 @@ class Room {
   private teamColors : any = {}
 
   private nextPlayerID : number = 1;
-
   private createPlayerID() : number {
     return this.nextPlayerID++;
   }
 
-  createPlayer(name : string) : Player {
-    var player = new Player(this.createPlayerID(), name)
+  private nextPlayerName : number = 0;
+  private createPlayerName() : string {
+    var index : number = this.nextPlayerName++;
+    return Room.playerNames[index % Room.playerNames.length]
+  }
+
+  createPlayer() : Player {
+    var player = new Player(this.createPlayerID(), this.createPlayerName())
     player.x = Math.floor(Math.random() * 1000)
     player.y = Math.floor(Math.random() * 1000)
     return player
@@ -34,8 +50,7 @@ class Room {
   }
 
   addAIPlayer(aiFactory : new (player : Player) => PlayerAI) : Player {
-    name = 'Artificial Indigo ' + Math.round(Math.random() * 10)
-    var player = this.createPlayer(name)
+    var player = this.createPlayer()
     this.addPlayer(player)
     this.ais.push(new aiFactory(player))
     return player

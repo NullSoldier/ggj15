@@ -8,7 +8,7 @@ class Connection {
     this.connection.binaryType = 'arraybuffer';
     this.connection.addEventListener('open', (event : Event) => {
       this.send({
-        authenticate: {playerName: 'Billy Bob'},
+        authenticate: {},
       })
     })
 
@@ -17,7 +17,7 @@ class Connection {
       //console.log('recv', m)
       switch (m.message) {
       case 'authenticated':
-        this.onAuthenticated(m.authenticated.playerID)
+        this.onAuthenticated(m.authenticated.playerID, m.authenticated.playerName)
         break
       case 'roomJoined':
         this.onRoomJoined(m.roomJoined)
@@ -65,9 +65,9 @@ class Connection {
     }})
   }
 
-  private onAuthenticated(playerID : number) : void {
-    console.info('Logged in as Billy Bob ', playerID)
-    this.game.createPlayer('Billy Bob', playerID)
+  private onAuthenticated(playerID : number, playerName : string) : void {
+    console.info('Logged in as', playerName, playerID)
+    this.game.createPlayer(playerName, playerID)
     this.game.gameState = GameState.Playing
   }
 

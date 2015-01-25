@@ -9,7 +9,6 @@ message ClientMessage {
   }
 
   message Authenticate {
-    required string playerName = 1;
   }
 
   message PlayerState {
@@ -49,6 +48,7 @@ message ServerMessage {
 
   message Authenticated {
     required uint32 playerID = 1;
+    required string playerName = 2;
   }
 
   message RoomJoined {
