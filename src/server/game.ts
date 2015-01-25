@@ -17,4 +17,8 @@ class Game {
   getPlayerByIDOrNull(id : number) : Player {
     throw new Error('LOL')
   }
+
+  getTeamPlayers(teamID : number) : Array<Player> {
+    throw new Error('LOL')
+  }
 }
