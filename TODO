@@ -1,12 +1,9 @@
 IMPORTANT MISC STUFF
 - Integrate Nika art
-- Random spawning on the map
 - Particle effects at players feet
 
 
 GAMEPLAY
-- Promote players to a team once killed
-- Promote players to a team when you kill someone and are not on a team
 - When king is killed, demote all players on his team
 
 LOW PRIORITY
