@@ -21,7 +21,19 @@ class PlayerBoardEntry {
     var leader = witch.getPlayerByIDOrNull(this.teamID)
     assertNotNull(leader)
     this.nameLabel.text = leader.name
-    this.teamSizeLabel.text = '' + witch.getTeamPlayers(this.teamID).length
+
+    var teamPlayers = witch.getTeamPlayers(this.teamID)
+    this.teamSizeLabel.text = '' + teamPlayers.length
+
+    if (teamPlayers.length < 2) {
+      this.nameLabel.fill = '#FFFFFF'
+      this.teamSizeLabel.fill = '#FFFFFF'
+    } else {
+      var color = witch.getTeamColor(this.teamID)
+      var hex = makeHexColor(color[0], color[1], color[2])
+      this.nameLabel.fill = hex
+      this.teamSizeLabel.fill = hex
+    }
   }
 
   remove() : void {
@@ -41,7 +53,7 @@ class PlayerBoard {
   update() : void {
     // Prune old teams.
     for (var i = 0; i < this.entries.length; ++i) {
-      if (witch.getTeamPlayers(this.entries[i].teamID).length < 2) {
+      if (witch.getTeamPlayers(this.entries[i].teamID).length < 1) {
         this.entries[i].remove()
         this.entries.splice(i, 1)
         i -= 1  // =D
@@ -53,7 +65,7 @@ class PlayerBoard {
     for (var i = 0; i < witch.players.length; ++i) {
       var p = witch.players[i]
       if (p.teamID !== null && existingEntryTeamIDs.indexOf(p.teamID) === -1) {
-        if (witch.getTeamPlayers(p.teamID).length >= 2) {
+        if (witch.getTeamPlayers(p.teamID).length >= 1) {
           this.entries.push(new PlayerBoardEntry(p.teamID, this))
           existingEntryTeamIDs.push(p.teamID)
         }
