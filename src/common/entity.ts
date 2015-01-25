@@ -58,9 +58,17 @@ class Entity {
   move(dx : number, dy : number) : Array<number> {
     var vec = getMoveVector(dx, dy, this.speed)
 
-    // Move player and clamp to level
-    this.x = Math.min(witch.level.width, Math.max(0, this.x + Math.round(vec[0])))
-    this.y = Math.min(witch.level.height, Math.max(0, this.y + Math.round(vec[1])))
+    // Check collisions
+    var isColliding = witch.level.isCollision(this.x + vec[0], this.y + vec[1])
+    if(isColliding) {vec = [0, 0]}
+
+    // move the player
+    this.x += Math.round(vec[0])
+    this.y += Math.round(vec[1])
+
+    // clamp to level
+    this.x = Math.min(witch.level.width, Math.max(0, this.x))
+    this.y = Math.min(witch.level.height, Math.max(0, this.y))
 
     if (vec[0] === 0 && vec[1] === 0) {
       this.animation &= ~Animation.Walking

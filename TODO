@@ -1,8 +1,9 @@
 - When king is killed, demote all players on his team
 - Particle effects at players feet
-- Collision of map
 
 LOW PRIORITY
+- Tween influence circle
+- Make happy camper not suicidal
 - Add offscreen indicators
 - Respawn indicator
 - Sound effects
