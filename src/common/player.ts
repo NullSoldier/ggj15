@@ -96,8 +96,18 @@ class Player extends Entity {
         continue
       }
 
+      // Don't let players shoot themselves.
+      if (bullet.ownerID === this.id) {
+        continue
+      }
+
       // did the player get hit?
-      if (originRectIntersects(bullet, this)) {
+      if (originRectIntersects(bullet, {
+        x: this.x - this.width / 2,
+        y: this.y - this.height,
+        width: this.width,
+        height: this.height,
+      })) {
         console.log(this.name, "was hit by", owner.name)
         this.health -= bullet.damage
 

@@ -23,7 +23,7 @@ function getMoveVector(dx, dy, speed) {
   return [dx, dy]
 }
 
-function originRectIntersects(a : Entity, b : Entity) {
+function originRectIntersects(a : Entity, b : any) {
   if (a.width <= 0 || a.height <= 0 || b.width <= 0 || b.height <= 0) {
       return false;
   }
