@@ -56,6 +56,7 @@ class WitchGame {
   addPlayer(player : Player) : void {
     player.sprite = game.add.sprite(0, 0, 'player')
     player.sprite.anchor.set(0.5, 1.0)
+    player.sprite.filters = [this.ambientLightFilter]
 
     ;['Down', 'Up', 'Left', 'Right'].forEach((direction) => {
       var artDirection = {
@@ -97,10 +98,6 @@ class WitchGame {
     var influenceFilter = new InfluenceFilter(game)
     this.applyTeamInfluenceColor(player.teamID, influenceFilter)
     influenceGroup.filters = [influenceFilter]
-
-    var ambientLightFilter = new AmbientLightFilter(game)
-    ambientLightFilter.setColor(0x08 / 0xFF, 0x1B / 0xFF, 0x19 / 0xFF, 0.55)
-    player.sprite.filters = [ambientLightFilter]
 
     this.players.push(player)
     this.entities.push(player)
@@ -172,6 +169,9 @@ class WitchGame {
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.UP);
     game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
+
+    this.ambientLightFilter = new AmbientLightFilter(game)
+    this.ambientLightFilter.setColor(0x08 / 0xFF, 0x1B / 0xFF, 0x19 / 0xFF, 0.55)
 
     var sampleLevel = new Level()
     sampleLevel.backgroundSprites.push(game.make.sprite(0, 0, 'background_01'))
