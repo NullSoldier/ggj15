@@ -15,6 +15,7 @@ class Bullet extends Entity {
   damage : number
   startX : number
   startY : number
+  emitter : Phaser.Particles.Arcade.Emitter = null
 
   update() {
     super.update()
@@ -25,6 +26,11 @@ class Bullet extends Entity {
 
     this.x += moveVec[0]
     this.y += moveVec[1]
+
+    if (this.emitter) {
+      this.emitter.emitX = this.x
+      this.emitter.emitY = this.y
+    }
   }
 
   animateIn(game : Phaser.Game) {
@@ -68,6 +74,19 @@ class SmokeBullet extends Bullet {
     var bullet = SmokeBullet.fromBulletInfo(bulletInfo)
     bullet.sprite = game.add.sprite(bullet.x, bullet.y, 'smoke')
     bullet.sprite.anchor.set(0.5, 0.5)
+
+    bullet.emitter = game.add.emitter(0, 0, 0)
+    bullet.emitter.makeParticles('particle1')
+    bullet.emitter.setAlpha(1, 0.3, 1000)
+    bullet.emitter.setXSpeed(0, 0)
+    bullet.emitter.setYSpeed(2, 2)
+    bullet.emitter.setSize(30, 30)
+    bullet.emitter.setRotation(-1000, 1000)
+    bullet.emitter.setScale(1, 0, 1, 0, 1000, Phaser.Easing.Quintic.In)
+    bullet.emitter.gravity = 300
+    bullet.emitter.start(false, 1000, 50)
+    bullet.emitter.blendMode = PIXI.blendModes.ADD
+
     bullet.animateIn(game)
     return bullet
   }

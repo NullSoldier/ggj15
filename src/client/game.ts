@@ -33,6 +33,7 @@ class WitchGame {
   preload() {
     game.load.image('smoke', 'assets/smoke.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
+    game.load.image('particle1', 'assets/particle1.png')
     game.load.image('background_01', 'assets/background-plain_01.jpg')
     game.load.image('background_02', 'assets/background-plain_02.jpg')
     game.load.image('background_03', 'assets/background-plain_03.jpg')
