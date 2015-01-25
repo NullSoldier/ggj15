@@ -33,10 +33,6 @@ message ClientMessage {
     required uint32 ownerID = 1;
     required uint32 bulletID = 2;
   }
-
-  message PlayerKilled {
-    required uint32 ownerID = 1;
-  }
 }
 
 message ServerMessage {
@@ -104,6 +100,8 @@ message ServerMessage {
   }
 
   message PlayerKilled {
-    required uint32 playerID = 1;
+    required uint32 playerID  = 1;
+    required uint32 killerID  = 2;
+    required uint32 respawnIn = 3;
   }
 }

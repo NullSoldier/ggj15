@@ -35,11 +35,10 @@ class Connection {
         this.onFireBullet(m.fireBullet)
         break;
       case 'destroyBullet':
-        console.log('destroy bullet', m.destroyBullet)
         this.onDestroyBullet(m.destroyBullet)
         break;
       case 'playerKilled':
-        this.onPlayerKilled(m.playerKilled.playerID)
+        this.onPlayerKilled(m.playerKilled)
         break;
       default:
         throw new Error('Unknown message ' + m.message)
@@ -116,7 +115,6 @@ class Connection {
 
   private onFireBullet(bulletInfo) : void {
     var bullet = SmokeBullet.fromBulletInfoClient(bulletInfo, game)
-    console.log('create bullet ', bulletInfo.ownerID, bulletInfo.bulletID)
     this.game.addBullet(bullet)
 
     var player = witch.getPlayerByIDOrNull(bulletInfo.ownerID)
@@ -126,15 +124,28 @@ class Connection {
   }
 
   private onDestroyBullet(bulletInfo) : void {
-    console.log('destroy bullet ', bulletInfo.ownerID, bulletInfo.bulletID)
     var bullet = _.find(this.game.bullets, (b) => Bullet.areEqual(b, bulletInfo))
     this.game.removeBullet(bullet)
   }
 
-  private onPlayerKilled(playerID : number) {
-    var player = this.game.getPlayerByIDOrNull(playerID)
+  private onPlayerKilled(message) {
+    var player = this.game.getPlayerByIDOrNull(message.playerID)
+    var killer = this.game.getPlayerByIDOrNull(message.killerID)
+
     player.state = PlayerState.Dead
+    player.teamID = message.killerID
     player.sprite.visible = false
     player.influenceSprite.visible = false
+
+    var influenceGroup = this.game.teamInfluenceGroups[message.killerID]
+    influenceGroup.addChild(player.influenceSprite)
+
+    setTimeout(() => {
+      player.x = killer.x
+      player.y = killer.y
+      player.sprite.visible = true
+      player.influenceSprite.visible = true
+      player.state = PlayerState.Alive
+    }, message.respawnIn)
   }
 }

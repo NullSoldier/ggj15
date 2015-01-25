@@ -91,7 +91,6 @@ class Room {
   }
 
   sendDestroyBullet(bullet : Bullet) {
-    console.log("Bullet destroyed ", bullet.ownerID, bullet.bulletID)
     removeFromArray(this.bullets, bullet)
 
     var message = {
@@ -104,7 +103,11 @@ class Room {
   sendPlayerKilled(killed : Player, killerID : number) {
     console.log("Player killed ", killed.name)
     killed.state = PlayerState.Dead
-    var message = {playerID: killed.id}
+    var message = {
+      playerID : killed.id,
+      killerID : killerID,
+      respawnIn: 2000
+    }
     this.sendToAll({playerKilled: message})
   }
 

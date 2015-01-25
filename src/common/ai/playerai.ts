@@ -59,8 +59,6 @@ class PlayerAI {
       this.player.x,
       this.player.y)
 
-    console.log('Generated ID', bullet.bulletID)
-
     bullet.lookDir = [dx, dy]
     room.sendFireBullet(this.player, bullet.toBulletInfo())
 

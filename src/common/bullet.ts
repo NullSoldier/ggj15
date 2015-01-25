@@ -58,8 +58,8 @@ class Bullet extends Entity {
 }
 
 class SmokeBullet extends Bullet {
-  width  = 10
-  height = 10
+  width  = 20
+  height = 20
   speed  = 10
   damage = 1
 
