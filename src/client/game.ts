@@ -88,6 +88,7 @@ class WitchGame implements Worldish {
   }
 
   setTeam(player : Player, teamID : number) {
+    player.teamID = teamID
 
     // if you set the team to null, clear the influence sprite
     if (teamID === null && player.influenceSprite.parent) {
