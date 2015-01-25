@@ -130,7 +130,7 @@ class Player extends Entity {
     super.render()
     this.influenceSprite.x = this.x
     this.influenceSprite.y = this.y
-    var scale = this.isLeader() ? 2 : 1
+    var scale = this.isLeader() ? witch.getTeamPlayers(this.teamID).length * 0.5 + 1.5 : 1
     this.influenceSprite.scale.x = scale
     this.influenceSprite.scale.y = scale
 
