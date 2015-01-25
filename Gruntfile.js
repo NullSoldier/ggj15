@@ -36,7 +36,7 @@ module.exports = function(grunt) {
     },
     typescript: {
       client: {
-        src: ['src/client/*.ts', 'src/common/*.ts'],
+        src: ['src/common/entity.ts', 'src/client/*.ts', 'src/common/*.ts'],
         dest: 'build/client.js',
         options: {
           basePath  : 'src/',

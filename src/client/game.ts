@@ -210,6 +210,18 @@ class WitchGame implements Worldish {
     this.ambientLightFilter = new AmbientLightFilter(game)
     this.ambientLightFilter.setColor(0x08 / 0xFF, 0x1B / 0xFF, 0x19 / 0xFF, 0.55)
 
+    var e : Obstacle
+    // Add obstacles as entities for Z sorting.
+    e = new Obstacle(game.make.sprite(0, 0, 'foreground', 'environment7-signpost.png'))
+    e.y = 823
+    this.addEntity(e)
+    e = new Obstacle(game.make.sprite(0, 0, 'foreground', 'environment8-log.png'))
+    e.y = 1866
+    this.addEntity(e)
+    e = new Obstacle(game.make.sprite(0, 0, 'foreground', 'environment9-monolith.png'))
+    e.y = 2002
+    this.addEntity(e)
+
     var sampleLevel = new Level()
     sampleLevel.backgroundSprites.push(game.make.sprite(0, 0, 'background_01'))
     sampleLevel.backgroundSprites.push(game.make.sprite(2560, 0, 'background_02'))
@@ -221,9 +233,6 @@ class WitchGame implements Worldish {
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment4-thicket2.png'))
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment5-thicket3.png'))
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment6-thicket4.png'))
-    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment7-signpost.png'))
-    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment8-log.png'))
-    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment9-monolith.png'))
     sampleLevel.width = 5120
     sampleLevel.height = 2880
     var collisionMapImage = game.make.image(0, 0, 'collision_map')
