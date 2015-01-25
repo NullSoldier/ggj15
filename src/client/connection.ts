@@ -109,6 +109,7 @@ class Connection {
         player.y = playerState.y
         player.lookDir = [playerState.lookDirX, playerState.lookDirY]
         player.animation = playerState.animation
+        player.health = playerState.health
       }
     })
   }

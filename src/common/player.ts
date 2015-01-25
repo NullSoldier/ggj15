@@ -18,13 +18,16 @@ class Player extends Entity {
   influenceSprite : Phaser.Sprite
   nameLabel       : Phaser.Text
   leaderIcon      : Phaser.Sprite
+  healthBarFront  : Phaser.Sprite
+  healthBarBack   : Phaser.Sprite
 
   // Both
   id    : number
   teamID: number  // ID of the team leader.
   name  : string
   state : PlayerState = PlayerState.None
-  health: number = 4
+  maxHealth : number = 4
+  health: number = this.maxHealth
   speed : number = 5
   width : number = 123
   height: number = 173
@@ -61,6 +64,34 @@ class Player extends Entity {
     this.leaderIcon.visible = this.isLeader()
     this.leaderIcon.x = this.x - this.nameLabel.width / 2
     this.leaderIcon.y = this.y - this.height
+
+    var w = this.healthBarBack.width
+    var h = this.healthBarBack.height
+    this.healthBarFront.x = this.x - w / 2
+    this.healthBarFront.y = this.y - this.height - 40 - h / 2
+    this.healthBarFront.cropRect.width = w * this.health / this.maxHealth
+    this.healthBarFront.updateCrop()
+    this.healthBarFront.tint = Player.healthBarColor(this.health / this.maxHealth)
+    this.healthBarBack.x = this.healthBarFront.x
+    this.healthBarBack.y = this.healthBarFront.y
+  }
+
+  private static healthBarColor(percentage : number) : number {
+    var r : number
+    var g : number
+    var b : number
+    if (percentage > 0.5) {
+      var p = (percentage - 0.5) * 2
+      r = Math.floor(255 * lerp(1, 0, p))
+      g = Math.floor(255 * lerp(1, 1, p))
+      b = Math.floor(255 * lerp(0, 0, p))
+    } else {
+      var p = percentage * 2
+      r = Math.floor(255 * lerp(1, 1, p))
+      g = Math.floor(255 * lerp(0, 1, p))
+      b = Math.floor(255 * lerp(0, 0, p))
+    }
+    return (r << 16) | (g << 8) | (b << 0)
   }
 
   toRoomList() {
@@ -84,7 +115,8 @@ class Player extends Entity {
       state: this.state,
       animation: this.animation,
       lookDirX: this.lookDir[0],
-      lookDirY: this.lookDir[1]
+      lookDirY: this.lookDir[1],
+      health: this.health,
     }
   }
 }

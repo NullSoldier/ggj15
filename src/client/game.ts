@@ -36,6 +36,8 @@ class WitchGame {
     game.load.image('smoke', 'assets/smoke.png')
     game.load.image('player_influence', 'assets/metaball-falloff.png')
     game.load.image('leader_icon', 'assets/leader-icon.png')
+    game.load.image('health_bar_front', 'assets/health-bar-front.png')
+    game.load.image('health_bar_back', 'assets/health-bar-back.png')
     game.load.image('particle1', 'assets/particle1.png')
     game.load.image('background_01', 'assets/background-plain_01.jpg')
     game.load.image('background_02', 'assets/background-plain_02.jpg')
@@ -119,6 +121,14 @@ class WitchGame {
     player.leaderIcon = game.add.sprite(0, 0, 'leader_icon')
     player.leaderIcon.anchor.set(1.0, 1.0)
 
+    player.healthBarBack = game.add.sprite(0, 0, 'health_bar_back')
+    player.healthBarFront = game.add.sprite(0, 0, 'health_bar_front')
+    player.healthBarFront.crop(new Phaser.Rectangle(
+      0,
+      0,
+      player.healthBarFront.width,
+      player.healthBarFront.height), false)
+
     this.players.push(player)
     this.addEntity(player)
   }
@@ -133,6 +143,8 @@ class WitchGame {
     player.influenceSprite.parent.removeChild(player.influenceSprite)
     player.nameLabel.parent.removeChild(player.nameLabel)
     player.leaderIcon.parent.removeChild(player.leaderIcon)
+    player.healthBarFront.parent.removeChild(player.healthBarFront)
+    player.healthBarBack.parent.removeChild(player.healthBarBack)
   }
 
   addBullet(bullet : Bullet) : void {

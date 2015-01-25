@@ -80,6 +80,7 @@ message ServerMessage {
       required uint32 animation = 5;
       required float lookDirX = 6;
       required float lookDirY = 7;
+      required int32 health = 8;
     }
 
     repeated PlayerState players = 1;
