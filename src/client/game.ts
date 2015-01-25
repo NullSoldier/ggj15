@@ -128,6 +128,7 @@ class WitchGame {
 
   removeBullet(bullet : Bullet) : void {
     bullet.sprite.parent.removeChild(bullet.sprite)
+    bullet.emitter.parent.removeChild(bullet.emitter)
     removeFromArray(this.bullets, bullet)
     removeFromArray(this.entities, bullet)
   }

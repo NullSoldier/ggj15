@@ -92,9 +92,7 @@ class Room {
 
   sendDestroyBullet(bullet : Bullet) {
     console.log("Bullet destroyed ", bullet.ownerID, bullet.bulletID)
-    this.bullets = _.reject(this.bullets, (b) => {
-      return b.ownerID == bullet.ownerID && b.bulletID == bullet.bulletID
-    })
+    removeFromArray(this.bullets, bullet)
 
     var message = {
       ownerID: bullet.ownerID,
