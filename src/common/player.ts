@@ -90,7 +90,7 @@ class Player extends Entity {
         continue
       }
 
-      // Could be buggy if the player shoes a bullet, dies, switches team
+      // Could be buggy if the player shoots a bullet, dies, switches team
       // because the bullets can kill their previous team mate
       if (owner.teamID == this.teamID && owner.teamID !== null) {
         continue

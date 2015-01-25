@@ -50,6 +50,7 @@ class Room implements Worldish {
       .filter((ai) => ai.player.state === PlayerState.Alive)
       .each((ai) => ai.update(this))
 
+    this.checkRestartGame()
     this.destroyInactiveBullets()
   }
 
@@ -108,6 +109,51 @@ class Room implements Worldish {
       expired: expired
     }
     this.sendToAll({destroyBullet: message})
+  }
+
+  checkRestartGame() {
+    if (!this.isOneTeam()) {
+      return
+    }
+
+    this.destroyAllBullets()
+
+    for(var index in this.players) {
+      var player = this.players[index]
+
+      var message = {
+        playerID: player.id,
+        teamID  : null,
+        killerID: null,
+      }
+      this.sendToAll({playerKilled: message})
+
+      var randSpawn = this.getRandomSpawnVec()
+      player.x = Math.round(randSpawn[0])
+      player.y = Math.round(randSpawn[1])
+      this.spawnPlayer(player)
+    }
+  }
+
+  isOneTeam() {
+    if (this.players.length <= 2)
+      return false
+
+    var lastTeam = -1
+    for(var index in this.players) {
+      var player = this.players[index]
+
+      if (player.teamID === null) {
+        return false
+      }
+
+      if(player.teamID != lastTeam && lastTeam != -1) {
+        return false
+      }
+
+      lastTeam = player.teamID
+    }
+    return true
   }
 
   playerKilled(player : Player, killer : Player) {
@@ -181,12 +227,18 @@ class Room implements Worldish {
   }
 
   destroyInactiveBullets() {
-
     for(var i=this.bullets.length-1; i>=0; i--) {
       var bullet = this.bullets[i]
       if (!bullet.active) {
         this.sendDestroyBullet(bullet, bullet.expired)
       }
+    }
+  }
+
+  destroyAllBullets() {
+    for(var i=this.bullets.length-1; i>=0; i--) {
+      var bullet = this.bullets[i]
+      this.sendDestroyBullet(bullet, bullet.expired)
     }
   }
 
