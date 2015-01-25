@@ -35,6 +35,12 @@ class Room implements Worldish {
     return _.find(this.players, (p) => p.id === id)
   }
 
+  getPlayerByID(id : number) : Player {
+    var p = this.getPlayerByIDOrNull(id)
+    assertNotNull(p)
+    return p
+  }
+
   tick() : void {
     _.chain(this.ais)
       .filter((ai) => ai.player.state === PlayerState.Alive)
