@@ -256,6 +256,6 @@ class Room implements Worldish {
       [680, 639],
     ]
 
-    return positions[Math.round(Math.random() * positions.length)]
+    return positions[Math.floor(Math.random() * positions.length)]
   }
 }
