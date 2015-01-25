@@ -124,9 +124,10 @@ class Room implements Worldish {
       var message = {
         playerID: player.id,
         teamID  : null,
-        killerID: null,
       }
       this.sendToAll({playerKilled: message})
+
+      this.changeTeam(player, null)
 
       var randSpawn = this.getRandomSpawnVec()
       player.x = Math.round(randSpawn[0])
@@ -176,7 +177,6 @@ class Room implements Worldish {
     var message = {
       playerID: player.id,
       teamID  : player.teamID,
-      killerID: killer.id,
     }
     this.sendToAll({playerKilled: message})
 
