@@ -18,6 +18,7 @@ class Bullet extends Entity {
   startX  : number
   startY  : number
   emitter : Phaser.Particles.Arcade.Emitter = null
+  bulletSprite : Phaser.Sprite
 
   update() {
     super.update()
@@ -28,16 +29,11 @@ class Bullet extends Entity {
 
     this.x += moveVec[0]
     this.y += moveVec[1]
-
-    if (this.emitter) {
-      this.emitter.emitX = this.x
-      this.emitter.emitY = this.y
-    }
   }
 
   animateIn(game : Phaser.Game) {
-    this.sprite.scale.set(0.1, 0.1)
-    game.add.tween(this.sprite.scale).to(
+    this.bulletSprite.scale.set(0.1, 0.1)
+    game.add.tween(this.bulletSprite.scale).to(
       { x: 0.5, y: 0.5 }, 1000, Phaser.Easing.Cubic.Out, true);
   }
 
@@ -80,20 +76,27 @@ class SmokeBullet extends Bullet {
 
   static fromBulletInfoClient(bulletInfo, game : Phaser.Game) {
     var bullet = SmokeBullet.fromBulletInfo(bulletInfo)
-    bullet.sprite = game.add.sprite(bullet.x, bullet.y, 'smoke')
+    bullet.sprite = game.add.sprite(bullet.x, bullet.y)
     bullet.sprite.anchor.set(0.5, 0.5)
 
-    bullet.emitter = game.add.emitter(0, 0, 0)
+    bullet.emitter = game.add.emitter(0, 0, 50)
     bullet.emitter.makeParticles('particle1')
     bullet.emitter.setAlpha(1, 0.3, 1000)
-    bullet.emitter.setXSpeed(0, 0)
-    bullet.emitter.setYSpeed(2, 2)
+    // FIXME(strager): Why does set*Speed not work!?!?!
+    bullet.emitter.setXSpeed(-bullet.lookDir[0] * bullet.speed, -bullet.lookDir[0] * bullet.speed)
+    bullet.emitter.setYSpeed(-bullet.lookDir[1] * bullet.speed, -bullet.lookDir[1] * bullet.speed)
     bullet.emitter.setSize(30, 30)
     bullet.emitter.setRotation(-1000, 1000)
     bullet.emitter.setScale(1, 0, 1, 0, 1000, Phaser.Easing.Quintic.In)
     bullet.emitter.gravity = 300
     bullet.emitter.start(false, 1000, 50)
     //bullet.emitter.blendMode = PIXI.blendModes.ADD
+
+    bullet.bulletSprite = game.add.sprite(0, 0, 'smoke')
+    bullet.bulletSprite.anchor.set(0.5, 0.5)
+
+    bullet.sprite.addChild(bullet.bulletSprite)
+    bullet.sprite.addChild(bullet.emitter)
 
     bullet.animateIn(game)
     return bullet
