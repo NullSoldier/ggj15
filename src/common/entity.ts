@@ -1,8 +1,10 @@
 enum Direction {
   Down = 1,
   Up = 2,
-  Left = 3,
-  Right = 4,
+  Left = 4,
+  Right = 8,
+  DownLeft = Down | Left,
+  DownRight = Down | Right,
 }
 
 enum Animation {

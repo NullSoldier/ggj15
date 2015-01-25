@@ -64,12 +64,14 @@ class WitchGame {
     player.sprite.anchor.set(0.5, 1.0)
     player.sprite.filters = [this.ambientLightFilter]
 
-    ;['Down', 'Up', 'Left', 'Right'].forEach((direction) => {
+    ;['Down', 'Up', 'Left', 'Right', 'DownLeft', 'DownRight'].forEach((direction) => {
       var artDirection = {
         'Down': 'Front',
         'Up': 'Back',
         'Left': 'Left',
         'Right': 'Right',
+        'DownLeft': 'LeftDiagonal',
+        'DownRight': 'RightDiagonal',
       }[direction]
 
       player.sprite.animations.add('Idle' + direction, [

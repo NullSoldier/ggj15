@@ -37,20 +37,31 @@ function originRectIntersects(a : Entity, b : Entity) {
 }
 
 function directionFromVec(vec : Array<number>) : Direction {
-  if (Math.abs(vec[0]) > Math.abs(vec[1])) {
-    // X more prominent than Y.
-    if (vec[0] > 0) {
-      return Direction.Right
-    } else {
-      return Direction.Left
-    }
-  } else {
-    if (vec[1] > 0) {
-      return Direction.Down
-    } else if (vec[1] < 0) {
-      return Direction.Up
-    }
+  var p = Math.PI
+  var p2 = p * 2
+  var angle = Math.atan2(vec[1], vec[0])
+  while (angle < 0) {
+    angle += p2
   }
+  while (angle >= p2) {
+    angle -= p2
+  }
+  if (angle < p * 0.25) {
+    return Direction.Right
+  }
+  if (angle < p * 0.5) {
+    return Direction.DownRight
+  }
+  if (angle < p * 0.75) {
+    return Direction.Down
+  }
+  if (angle < p) {
+    return Direction.DownLeft
+  }
+  if (angle < p * 1.5) {
+    return Direction.Left
+  }
+  return Direction.Up
 }
 
 function isVecZero(vec) : Boolean {
