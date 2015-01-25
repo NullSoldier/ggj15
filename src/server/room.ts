@@ -14,6 +14,8 @@ class Room implements Worldish {
   ais    : Array<PlayerAI> = []
   bullets: Array<Bullet> = []
 
+  private gameRestarting : boolean = false
+
   // Mapping from teamID to Team.colors index.
   private teamColors : any = {}
   private createPlayerID = createIDGenerator()
@@ -112,13 +114,15 @@ class Room implements Worldish {
   }
 
   checkRestartGame() {
-    if (!this.isOneTeam()) {
+    if (!this.isOneTeam() || this.gameRestarting) {
       return
     }
 
     this.destroyAllBullets()
+    this.gameRestarting = true
 
     setTimeout(() => {
+      this.gameRestarting = false
       for(var index in this.players) {
         var player = this.players[index]
 
