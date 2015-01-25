@@ -144,7 +144,13 @@ class Connection {
 
   private onDestroyBullet(bulletInfo) : void {
     var bullet = _.find(this.game.bullets, (b) => Bullet.areEqual(b, bulletInfo))
-    this.game.removeBullet(bullet)
+
+    if (!bulletInfo.expired) {
+      this.game.removeBullet(bullet)
+    } else {
+      setTimeout(() => { this.game.removeBullet(bullet) }, 200)
+      game.add.tween(bullet.sprite).to({ alpha: 0 }, 200, Phaser.Easing.Cubic.Out, true);
+    }
   }
 
   private onPlayerKilled(message) {
