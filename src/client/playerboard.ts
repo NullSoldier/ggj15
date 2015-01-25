@@ -18,10 +18,7 @@ class PlayerBoardEntry {
 
   render() : void {
     var leader = witch.getPlayerByIDOrNull(this.teamID)
-    if (leader === null) {
-      this.nameLabel.text = '?!?!!?!'
-      return
-    }
+    assertNotNull(leader)
     this.nameLabel.text = leader.name
     this.teamSizeLabel.text = '' + witch.getTeamPlayers(this.teamID).length
   }
@@ -54,7 +51,7 @@ class PlayerBoard {
     var existingEntryTeamIDs : Array<number> = this.entries.map((entry) => entry.teamID)
     for (var i = 0; i < witch.players.length; ++i) {
       var p = witch.players[i]
-      if (existingEntryTeamIDs.indexOf(p.teamID) === -1) {
+      if (p.teamID !== null && existingEntryTeamIDs.indexOf(p.teamID) === -1) {
         if (witch.getTeamPlayers(p.teamID).length >= 2) {
           this.entries.push(new PlayerBoardEntry(p.teamID, this))
           existingEntryTeamIDs.push(p.teamID)
