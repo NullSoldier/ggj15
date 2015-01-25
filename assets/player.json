@@ -133,7 +133,7 @@
 	"frame": {"x":168,"y":797,"w":82,"h":160},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":20,"y":6,"w":82,"h":160},
+	"spriteSourceSize": {"x":20,"y":8,"w":82,"h":160},
 	"sourceSize": {"w":123,"h":173}
 },
 "Player-Left-RightFoot.png":
@@ -149,7 +149,7 @@
 	"frame": {"x":2,"y":632,"w":82,"h":159},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":20,"y":5,"w":82,"h":159},
+	"spriteSourceSize": {"x":20,"y":7,"w":82,"h":159},
 	"sourceSize": {"w":123,"h":173}
 },
 "Player-Left-Static.png":
@@ -165,7 +165,7 @@
 	"frame": {"x":85,"y":1121,"w":82,"h":161},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":20,"y":4,"w":82,"h":161},
+	"spriteSourceSize": {"x":20,"y":6,"w":82,"h":161},
 	"sourceSize": {"w":123,"h":173}
 },
 "Player-Right-Bob.png":
@@ -231,6 +231,6 @@
 	"format": "RGBA8888",
 	"size": {"w":252,"h":1964},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:44cabbe0c23b8a3f12b43f138debd311:a8b5e1bce6e0019342ea2b8165f46755:86d5339b780aedd87b35e2b7c0a7e11b$"
+	"smartupdate": "$TexturePacker:SmartUpdate:44cabbe0c23b8a3f12b43f138debd311:61a243f0574c96869088d9359cb6806b:86d5339b780aedd87b35e2b7c0a7e11b$"
 }
 }
