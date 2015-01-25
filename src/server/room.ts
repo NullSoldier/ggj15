@@ -175,7 +175,8 @@ class Room implements Worldish {
       playerID: player.id,
       teamID  : player.teamID,
       spawnX  : player.x,
-      spawnY  : player.y
+      spawnY  : player.y,
+      health  : player.health
     }})
   }
 

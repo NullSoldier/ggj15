@@ -118,6 +118,7 @@ class Connection {
       var player = this.game.getPlayerByIDOrNull(playerState.id)
 
       player.state = playerState.state
+      player.health = playerState.health
 
       if (player === this.game.player && player.state === PlayerState.Alive) {
         // Ignore updates to position for the current player if it's alive.
@@ -127,7 +128,6 @@ class Connection {
         player.y = playerState.y
         player.lookDir = [playerState.lookDirX, playerState.lookDirY]
         player.animation = playerState.animation
-        player.health = playerState.health
       }
     })
   }
@@ -165,8 +165,9 @@ class Connection {
     var player = this.game.getPlayerByIDOrNull(message.playerID)
     player.x = message.spawnX
     player.y = message.spawnY
-    player.state = PlayerState.Alive
+    player.health = message.health
     player.teamID = message.teamID
+    player.state = PlayerState.Alive
     player.render()
     player.showClient()
   }

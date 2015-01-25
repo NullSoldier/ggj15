@@ -117,6 +117,7 @@ message ServerMessage {
     optional uint32 teamID   = 2;
     required int32 spawnX    = 3;
     required int32 spawnY    = 4;
+    required int32 health    = 5;
   }
 
   message PlayerTeamChanged {
