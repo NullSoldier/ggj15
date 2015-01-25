@@ -68,7 +68,7 @@ class Player extends Entity {
 
 Player.bulletFirePoints[Direction.Down] = [26, -54]
 Player.bulletFirePoints[Direction.Up] = [-32, -93]
-Player.bulletFirePoints[Direction.Left] = [-35, 60]
+Player.bulletFirePoints[Direction.Left] = [-35, -79]
 Player.bulletFirePoints[Direction.Right] = [35, -79]
 Player.bulletFirePoints[Direction.DownLeft] = [-23, -52]
 Player.bulletFirePoints[Direction.DownRight] = [45, -62]
