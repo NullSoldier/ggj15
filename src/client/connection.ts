@@ -160,6 +160,7 @@ class Connection {
     player.y = message.spawnY
     player.state = PlayerState.Alive
     player.teamID = message.teamID
+    player.render()
     player.showClient()
   }
 
