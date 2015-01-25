@@ -156,11 +156,11 @@ class Connection {
 
   private onPlayerSpawned(message) {
     var player = this.game.getPlayerByIDOrNull(message.playerID)
+    player.x = message.spawnX
+    player.y = message.spawnY
     player.state = PlayerState.Alive
     player.teamID = message.teamID
     player.showClient()
-
-    this.game.setTeam(player, player.teamID)
   }
 
   private onPlayerTeamChanged(playerID, teamID) {

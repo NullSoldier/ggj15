@@ -112,8 +112,10 @@ message ServerMessage {
   }
 
   message PlayerSpawned {
-    required uint32 playerID  = 1;
-    optional uint32 teamID    = 2;
+    required uint32 playerID = 1;
+    optional uint32 teamID   = 2;
+    required int32 spawnX    = 3;
+    required int32 spawnY    = 4;
   }
 
   message PlayerTeamChanged {

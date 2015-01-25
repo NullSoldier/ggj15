@@ -83,7 +83,6 @@ class WitchGame implements Worldish {
 
   createPlayer(id : number, name : string) {
     this.player = this.addPlayer(id, name)
-    this.player.showClient()
     this.playerController = new PlayerController(this.player)
   }
 

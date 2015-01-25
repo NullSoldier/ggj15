@@ -65,9 +65,9 @@ class Room implements Worldish {
   addPlayer(player : Player) : void {
     assertNotNull(player)
     this.players.push(player)
-    this.spawnPlayer(player)
     this.sendRoomJoined(player)
     this.sendRoomList(player)
+    this.spawnPlayer(player)
   }
 
   removePlayer(player : Player) : void {
@@ -131,11 +131,10 @@ class Room implements Worldish {
     this.sendToAll({playerKilled: message})
 
     setTimeout(() => {
-      this.spawnPlayer(player)
 
       if (player.teamID === null) {
-        player.x = 300
-        player.y = 300
+        player.x = 500
+        player.y = 500
         console.log(player.name, "'s leader died spawning free")
       } else {
         var leader = this.getPlayerByIDOrNull(player.teamID)
@@ -144,11 +143,7 @@ class Room implements Worldish {
         console.log("Spawning ", player.name, " at leader ", leader.name)
       }
 
-      var message = {
-        playerID: player.id,
-        teamID  : player.teamID
-      }
-      this.sendToAll({playerSpawned: message})
+      this.spawnPlayer(player)
     }, 500)
   }
 
@@ -170,5 +165,12 @@ class Room implements Worldish {
   spawnPlayer(player : Player) {
     player.state = PlayerState.Alive
     player.health = player.maxHealth
+
+    this.sendToAll({playerSpawned: {
+      playerID: player.id,
+      teamID  : player.teamID,
+      spawnX  : player.x,
+      spawnY  : player.y
+    }})
   }
 }
