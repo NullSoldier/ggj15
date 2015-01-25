@@ -192,7 +192,7 @@ class WitchGame {
       connection.sendPlayerState(this.player)
     }
 
-    this.bullets.forEach((b) => b.update())
+    this.entities.forEach((e) => e.update())
   }
 
   render() {

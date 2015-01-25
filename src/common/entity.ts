@@ -24,6 +24,17 @@ class Entity {
   direction : Direction = Direction.Down
   animation : Animation = Animation.Idle
 
+  shootAnimationCooldown : number = 0
+
+  update() : void {
+    var cooldown = this.shootAnimationCooldown
+    if (cooldown > 0) {
+      this.shootAnimationCooldown -= 1
+    } else {
+      this.animation &= ~Animation.Shooting
+    }
+  }
+
   render() {
     // sync for client only
     this.sprite.x = this.x

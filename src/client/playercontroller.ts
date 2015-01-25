@@ -46,6 +46,7 @@ class PlayerController {
       Bullet.BULLET_SPEED)
 
     this.player.animation |= Animation.Shooting
+    this.player.shootAnimationCooldown = 20
 
     connection.send({
       fireBullet: {

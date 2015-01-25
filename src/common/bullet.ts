@@ -10,6 +10,7 @@ class Bullet extends Entity {
   speed   : number = 1
 
   update() {
+    super.update()
     this.x += this.dirX
     this.y += this.dirY
   }
