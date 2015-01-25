@@ -18,6 +18,7 @@ class WitchGame {
   teamInfluenceGroupGroup : Phaser.Group
   teamInfluenceGroups     : any = {}  // Team ID => Phaser.Group
   level                   : Level
+  ambientLightFilter      : AmbientLightFilter
 
   private players : Array<Player> = []
   bullets : Array<Bullet> = []
