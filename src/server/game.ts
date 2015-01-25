@@ -6,9 +6,8 @@ class Game {
     this.level.width = 5120
     this.level.height = 2880
 
-
-    var l : any = level
-    l.isCollision = () => return false
+    var l : any = this.level
+    l.isCollision = function() { return false }
   }
 
   getTeamColor(teamID : number) : Array<number> {
