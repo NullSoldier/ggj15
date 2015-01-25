@@ -82,6 +82,13 @@ class WitchGame {
   }
 
   setTeam(player : Player, teamID : number) {
+
+    // if you set the team to null, clear the influence sprite
+    if (teamID === null && player.influenceSprite.parent) {
+      player.influenceSprite.parent.removeChild(player.influenceSprite)
+      return
+    }
+
     var group = this.teamInfluenceGroups[player.teamID]
 
     if(!group) {
@@ -99,15 +106,12 @@ class WitchGame {
   addPlayer(id : number, name : string, teamID = null) : Player {
     var player = new Player(id, name)
     player.loadClient(game, this)
-
-    if(teamID !== null)
-      this.setTeam(player, teamID)
+    this.setTeam(player, teamID)
 
     player.healthBarBack = game.add.sprite(0, 0, 'health_bar_back')
     player.healthBarFront = game.add.sprite(0, 0, 'health_bar_front')
     player.healthBarFront.crop(new Phaser.Rectangle(
-      0,
-      0,
+      0, 0,
       player.healthBarFront.width,
       player.healthBarFront.height), false)
 

@@ -152,11 +152,13 @@ class Player extends Entity {
   showClient() {
     this.sprite.visible = true
     this.nameLabel.visible = true
+    this.influenceSprite.visible = true
   }
 
   hideClient() {
-    this.sprite.visible = true
-    this.nameLabel.visible = true
+    this.sprite.visible = false
+    this.nameLabel.visible = false
+    this.influenceSprite.visible = false
   }
 
   loadClient(game, witch) {

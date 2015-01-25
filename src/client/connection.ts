@@ -94,13 +94,13 @@ class Connection {
           playerInfo.name,
           playerInfo.teamID)
 
-        if (player.state == PlayerState.Alive) {
+        player.state = playerInfo.state
+
+        if (player.state === PlayerState.Alive) {
           player.showClient()
         } else {
           player.hideClient()
         }
-
-        player.state = playerInfo.state
       }
     })
     console.info(msg)

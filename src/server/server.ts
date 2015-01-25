@@ -13,6 +13,10 @@ class Server {
     var attackAI = this.addAIPlayer(AttackNearestPlayerAI)
     attackAI.speed = 2
 
+    this.room.spawnPlayer(followAI)
+    this.room.spawnPlayer(avoidAI)
+    this.room.spawnPlayer(attackAI)
+
     webSocketServer.on('connection', (socket : any) => {
       this.connections.push(new Connection(this, socket))
     })
