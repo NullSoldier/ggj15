@@ -48,6 +48,16 @@ class Bullet extends Entity {
     }
   }
 
+  render() {
+    // N.B. NO SUPER CALL.  We want to move the children of our container, not
+    // the container.  If we move the container, the particles will move, too.
+
+    this.bulletSprite.x = this.x
+    this.bulletSprite.y = this.y
+    this.emitter.x = this.x
+    this.emitter.y = this.y
+  }
+
   static areEqual(a, b) {
     return a.ownerID == b.ownerID && a.bulletID == b.bulletID
   }
@@ -76,15 +86,12 @@ class SmokeBullet extends Bullet {
 
   static fromBulletInfoClient(bulletInfo, game : Phaser.Game) {
     var bullet = SmokeBullet.fromBulletInfo(bulletInfo)
-    bullet.sprite = game.add.sprite(bullet.x, bullet.y)
+    bullet.sprite = game.add.sprite(0, 0)
     bullet.sprite.anchor.set(0.5, 0.5)
 
     bullet.emitter = game.add.emitter(0, 0, 50)
     bullet.emitter.makeParticles('particle1')
     bullet.emitter.setAlpha(1, 0.3, 1000)
-    // FIXME(strager): Why does set*Speed not work!?!?!
-    bullet.emitter.setXSpeed(-bullet.lookDir[0] * bullet.speed, -bullet.lookDir[0] * bullet.speed)
-    bullet.emitter.setYSpeed(-bullet.lookDir[1] * bullet.speed, -bullet.lookDir[1] * bullet.speed)
     bullet.emitter.setSize(30, 30)
     bullet.emitter.setRotation(-1000, 1000)
     bullet.emitter.setScale(1, 0, 1, 0, 1000, Phaser.Easing.Quintic.In)
