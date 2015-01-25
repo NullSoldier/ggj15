@@ -24,9 +24,9 @@ class Bullet extends Entity {
   bulletSprite : Phaser.Sprite
 
   update() {
-    if(!this.active) {
-      console.log('bullet not cleaned up: ' + this.bulletID)
-    }
+    // if(!this.active) {
+    //   console.log('bullet not cleaned up: ' + this.bulletID)
+    // }
 
     super.update()
     var moveVec = getMoveVector(
