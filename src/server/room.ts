@@ -165,7 +165,6 @@ class Room implements Worldish {
     }
 
     player.state = PlayerState.Dead
-    this.changeTeam(player, killer.teamID)
 
     if (player.isLeader()) {
       console.log("Leader", player.name, "died, demoting")
@@ -173,6 +172,8 @@ class Room implements Worldish {
         .filter((p) => player.isLeaderOf(p))
         .each((p) => this.changeTeam(p, null))
     }
+
+    this.changeTeam(player, killer.teamID)
 
     var message = {
       playerID: player.id,
