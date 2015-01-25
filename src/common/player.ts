@@ -1,4 +1,4 @@
- enum PlayerState {
+enum PlayerState {
   None  = 0,
   Alive = 1,
   Dead  = 2,
@@ -8,7 +8,6 @@
 class Player extends Entity {
 
   static bulletFirePoints = {}
-  static FIRE_COOLDOWN = 250
 
   // Server
   connection : Connection
@@ -21,6 +20,7 @@ class Player extends Entity {
   healthBarBack   : Phaser.Sprite
 
   // Both
+  fireCooldown : number = 250
   id    : number
   teamID: number  // ID of the team leader, empty for no leader
   name  : string
@@ -70,6 +70,13 @@ class Player extends Entity {
 
   private influenceRadius() : number {
     return 150
+  }
+
+  update() : void {
+    super.update()
+    var boosted = this.isBoosted()
+    this.speed = boosted ? 8 : 5
+    this.fireCooldown = boosted ? 150 : 250
   }
 
   // SERVER ONLY
@@ -124,8 +131,7 @@ class Player extends Entity {
     this.nameLabel.fill = makeHexColor(teamColor[0], teamColor[1], teamColor[2])
 
     // TODO(strager): Emit particles instead.
-    //this.sprite.tint = this.isBoosted() ? 0xFFFF88 : 0xFFFFFF
-    this.sprite.tint = witch.level.isCollision(this.x, this.y) ? 0xFF0000 : 0xFFFFFF;
+    this.sprite.tint = this.isBoosted() ? 0xFFFF88 : 0xFFFFFF
 
     this.leaderIcon.visible = this.isLeader()
     this.leaderIcon.x = this.x

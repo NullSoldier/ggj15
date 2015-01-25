@@ -60,6 +60,6 @@ class PlayerAI {
     this.player.justFiredBullet()
 
     this.canFire = false
-    setTimeout(() => this.canFire = true, Player.FIRE_COOLDOWN)
+    setTimeout(() => this.canFire = true, this.player.fireCooldown)
   }
 }
