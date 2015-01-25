@@ -10,7 +10,7 @@ var obstacleTypes = {
   'tree': 9,
 }
 
-class WitchGame {
+class WitchGame implements Worldish {
   gameState               : GameState
   mapBottomGroup          : Phaser.Group
   mapTopGroup             : Phaser.Group
@@ -63,6 +63,12 @@ class WitchGame {
       }
     }
     return null
+  }
+
+  getPlayerByID(id : number) : Player {
+    var p = this.getPlayerByIDOrNull(id)
+    assertNotNull(p)
+    return p
   }
 
   getTeamPlayers(teamID : number) : Array<Player> {

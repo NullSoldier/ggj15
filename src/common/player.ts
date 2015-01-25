@@ -72,6 +72,43 @@ class Player extends Entity {
     return 150
   }
 
+  // SERVER ONLY
+  updatePhysicsServer(worldish : Worldish) : void {
+    for(var i = 0; i < worldish.bullets.length; ++i) {
+      var bullet = worldish.bullets[i]
+
+      var owner = worldish.getPlayerByIDOrNull(bullet.ownerID)
+      if (!owner) {
+        // Owner left the game
+        continue
+      }
+
+      // Could be buggy if the player shoes a bullet, dies, switches team
+      // because the bullets can kill their previous team mate
+      if (owner.teamID == this.teamID && owner.teamID !== null) {
+        continue
+      }
+
+      // did the player get hit?
+      if (originRectIntersects(bullet, this)) {
+        console.log(this.name + "was hit by", owner.name)
+        this.health -= bullet.damage
+
+        var room : any = worldish
+        room.sendDestroyBullet(bullet)
+        i -= 1  // <3
+      }
+
+      // Is the player dead?
+      if (this.health <= 0) {
+        console.log(this.name, 'was killed by', owner.name)
+        var room : any = worldish
+        room.playerKilled(this, owner)
+        break
+      }
+    }
+  }
+
   render() : void {
     super.render()
     this.influenceSprite.x = this.x

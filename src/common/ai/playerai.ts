@@ -6,35 +6,7 @@ class PlayerAI {
   }
 
   update(room : Room) : void {
-    for(var i in room.bullets) {
-      var bullet = room.bullets[i]
-
-      var owner = room.getPlayerByIDOrNull(bullet.ownerID)
-      if (!owner) {
-        // Owner left the game
-        continue
-      }
-
-      // Could be buggy if the player shoes a bullet, dies, switches team
-      // because the bullets can kill their previous team mate
-      if (owner.teamID == this.player.teamID && owner.teamID !== null) {
-        continue
-      }
-
-      // did the player get hit?
-      if (originRectIntersects(bullet, this.player)) {
-        console.log(this.player.name + "was hit by", owner.name)
-        room.sendDestroyBullet(bullet)
-        this.player.health -= bullet.damage
-      }
-
-      // Is the player dead?
-      if (this.player.health <= 0) {
-        console.log(this.player.name, 'was killed by', owner.name)
-        room.playerKilled(this.player, owner)
-        break;
-      }
-    }
+    this.player.updatePhysicsServer(room)
   }
 
   protected nearestEnemy(players: Array<Player>) : Player {

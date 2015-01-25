@@ -1,4 +1,4 @@
-class Room {
+class Room implements Worldish {
   static playerNames : Array<string> = [
     'Billy Bob',
     'Willie Wonda',
@@ -46,6 +46,7 @@ class Room {
       .filter((ai) => ai.player.state === PlayerState.Alive)
       .each((ai) => ai.update(this))
 
+    _.each(this.players, (p) => p.updatePhysicsServer(this))
     _.each(this.bullets, (b) => b.update())
   }
 
