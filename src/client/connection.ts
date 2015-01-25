@@ -148,14 +148,20 @@ class Connection {
     player.state = PlayerState.Dead
     player.teamID = message.teamID
     player.hideClient()
+
+    // Local player created a team by killing this person
+    if(message.killerID == this.game.player.id && this.game.player.teamID === null) {
+      this.game.player.teamID = message.teamID
+      this.game.setTeam(this.game.player, player.teamID)
+    }
   }
 
   private onPlayerSpawned(message) {
     var player = this.game.getPlayerByIDOrNull(message.playerID)
 
-    player.showClient()
     player.state = PlayerState.Alive
     player.teamID = message.teamID
     this.game.setTeam(player, player.teamID)
+    player.showClient()
   }
 }

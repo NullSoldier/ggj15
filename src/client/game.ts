@@ -251,7 +251,7 @@ class WitchGame {
       appendText(GameState[this.gameState])
 
       this.players.forEach((player) => {
-        var id    = player.name + ' (' + player.id + ')'
+        var id    = player.name + ' (' + player.id + ',' + player.teamID + ')'
         var loc   = ': ' + player.x + ', ' + player.y
         var state = '; ' + PlayerState[player.state]
         var health = '; ' + player.health + '/' + player.maxHealth + ' HP'

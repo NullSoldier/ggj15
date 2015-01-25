@@ -102,26 +102,29 @@ class Room {
   }
 
   playerKilled(player : Player, killer : Player) {
+    // Create a team if killer doesn't belong to one
+    if (killer.teamID === null) {
+      killer.teamID = killer.id
+    }
+
     player.state = PlayerState.Dead
     player.teamID = killer.teamID
 
-    if (player.isLeader()) {
-      // Reassign all subordinates
-      var sub = _.filter(this.players, (p) => player.isLeaderOf(p))
-      _.each(sub, (s) => s.teamID = null)
-    }
+    // if (player.isLeader()) {
+    //   // Reassign all subordinates
+    //   var sub = _.filter(this.players, (p) => player.isLeaderOf(p))
+    //   _.each(sub, (s) => s.teamID = null)
+    // }
 
     var message = {
-      playerID : player.id,
-      teamID   : killer.teamID,
-      respawnIn: 2000
+      playerID: player.id,
+      killerID: killer.id,
+      teamID  : player.teamID
     }
     this.sendToAll({playerKilled: message})
 
     setTimeout(() => {
       this.spawnPlayer(player)
-
-      console.log(player.health)
 
       if (player.teamID === null) {
         player.x = 100
@@ -137,7 +140,7 @@ class Room {
         teamID  : player.teamID
       }
       this.sendToAll({playerSpawned: message})
-    }, message.respawnIn)
+    }, 500)
   }
 
   sendFireBullet(owner : Player, bulletInfo) {
