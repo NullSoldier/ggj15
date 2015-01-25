@@ -35,12 +35,6 @@ class Room implements Worldish {
     return _.find(this.players, (p) => p.id === id)
   }
 
-  getPlayerByID(id : number) : Player {
-    var player = this.getPlayerByID(id)
-    assertNotNull(player)
-    return player
-  }
-
   tick() : void {
     _.chain(this.ais)
       .filter((ai) => ai.player.state === PlayerState.Alive)
@@ -138,7 +132,7 @@ class Room implements Worldish {
         player.y = 300
         console.log(player.name, "'s leader died spawning free")
       } else {
-        var leader = this.getPlayerByID(player.teamID)
+        var leader = this.getPlayerByIDOrNull(player.teamID)
         player.x = leader.x
         player.y = leader.y
         console.log("Spawning ", player.name, " at leader ", leader.name)
