@@ -93,6 +93,14 @@ function makeHexColor(r : number, g : number, b : number) : string {
     + padLeft(Math.floor(b * 255).toString(16), '00'))
 }
 
+function fromHexColor(s : string) : Array<number> {
+  // '403a8a' => [...]
+  return [
+    parseInt(s.substr(0, 2), 16) / 255,
+    parseInt(s.substr(2, 2), 16) / 255,
+    parseInt(s.substr(4, 2), 16) / 255]
+}
+
 function assertNotNull(value) {
   if (!value) {
     throw new Error('Assert: value cannot be null')
