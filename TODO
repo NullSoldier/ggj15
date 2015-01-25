@@ -1,13 +1,9 @@
-IMPORTANT MISC STUFF
-- Integrate Nika art
-- Particle effects at players feet
-
-
-GAMEPLAY
 - When king is killed, demote all players on his team
+- Particle effects at players feet
+- Collision of map
 
 LOW PRIORITY
-- Respawn indicator
 - Add offscreen indicators
+- Respawn indicator
 - Sound effects
 - Foot prints
