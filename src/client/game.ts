@@ -98,6 +98,10 @@ class WitchGame {
     this.applyTeamInfluenceColor(player.teamID, influenceFilter)
     influenceGroup.filters = [influenceFilter]
 
+    var ambientLightFilter = new AmbientLightFilter(game)
+    ambientLightFilter.setColor(0x08 / 0xFF, 0x1B / 0xFF, 0x19 / 0xFF, 0.55)
+    player.sprite.filters = [ambientLightFilter]
+
     this.players.push(player)
     this.entities.push(player)
   }

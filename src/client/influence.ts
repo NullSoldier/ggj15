@@ -10,13 +10,13 @@ class InfluenceFilter extends Phaser.Filter {
       'uniform vec3 uColor;',
 
       'void main(void) {',
-      '   float c = texture2D(uSampler, vTextureCoord).x;',
-      '   if (c < 0.8) {',
-      '     c = 0.0;',
-      '   } else {',
-      '     c = (1.0 - c) * 3.0;',
-      '   }',
-      '   gl_FragColor = vec4(uColor.r, uColor.g, uColor.b, c);',
+      '  float c = texture2D(uSampler, vTextureCoord).x;',
+      '  if (c < 0.8) {',
+      '    c = 0.0;',
+      '  } else {',
+      '    c = (1.0 - c) * 3.0;',
+      '  }',
+      '  gl_FragColor = vec4(uColor.r, uColor.g, uColor.b, c);',
       '}'
     ])
   }
