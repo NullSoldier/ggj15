@@ -247,7 +247,7 @@ class WitchGame implements Worldish {
     sampleLevel.backgroundSprites.push(game.make.sprite(0, 1440, 'background_03'))
     sampleLevel.backgroundSprites.push(game.make.sprite(2560, 1440, 'background_04'))
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment2-front-trees_01.png'))
-    sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment2-front-trees_02.png'))
+    sampleLevel.foregroundSprites.push(game.make.sprite(2560, 0, 'foreground', 'environment2-front-trees_02.png'))
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment3-thicket1.png'))
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment4-thicket2.png'))
     sampleLevel.foregroundSprites.push(game.make.sprite(0, 0, 'foreground', 'environment5-thicket3.png'))
@@ -261,6 +261,7 @@ class WitchGame implements Worldish {
     sampleLevel.collisionMap.update(0, 0, collisionMapImage.width, collisionMapImage.height)  // BULLSHIT!
     //sampleLevel.collisionMap.addToWorld()
     assertNotNull(sampleLevel.collisionMap)
+
     this.loadLevel(sampleLevel)
   }
 
