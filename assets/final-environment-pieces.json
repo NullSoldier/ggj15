@@ -1,0 +1,84 @@
+{"frames": {
+
+"environment2-front-trees_01.png":
+{
+	"frame": {"x":2,"y":832,"w":2560,"h":714},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2166,"w":2560,"h":714},
+	"sourceSize": {"w":2560,"h":2880}
+},
+"environment2-front-trees_02.png":
+{
+	"frame": {"x":2,"y":2,"w":2560,"h":828},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2052,"w":2560,"h":828},
+	"sourceSize": {"w":2560,"h":2880}
+},
+"environment3-thicket1.png":
+{
+	"frame": {"x":2,"y":2785,"w":742,"h":883},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3327,"y":1319,"w":742,"h":883},
+	"sourceSize": {"w":5120,"h":2880}
+},
+"environment4-thicket2.png":
+{
+	"frame": {"x":2,"y":1877,"w":967,"h":906},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":956,"y":773,"w":967,"h":906},
+	"sourceSize": {"w":5120,"h":2880}
+},
+"environment5-thicket3.png":
+{
+	"frame": {"x":2564,"y":903,"w":1068,"h":972},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2126,"y":949,"w":1068,"h":972},
+	"sourceSize": {"w":5120,"h":2880}
+},
+"environment6-thicket4.png":
+{
+	"frame": {"x":2564,"y":2,"w":1409,"h":899},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3015,"y":417,"w":1409,"h":899},
+	"sourceSize": {"w":5120,"h":2880}
+},
+"environment7-signpost.png":
+{
+	"frame": {"x":3975,"y":2,"w":94,"h":225},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2673,"y":640,"w":94,"h":225},
+	"sourceSize": {"w":5120,"h":2880}
+},
+"environment8-log.png":
+{
+	"frame": {"x":3634,"y":903,"w":299,"h":186},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4418,"y":1740,"w":299,"h":186},
+	"sourceSize": {"w":5120,"h":2880}
+},
+"environment9-monolith.png":
+{
+	"frame": {"x":2,"y":3670,"w":584,"h":374},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1163,"y":1787,"w":584,"h":374},
+	"sourceSize": {"w":5120,"h":2880}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "final-environment-pieces.png",
+	"format": "RGBA8888",
+	"size": {"w":4096,"h":4096},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1733a492cf8d60ce035e97106cbf54bf:e1bd73acd37159d53b7da28fc2791b39:603e18fa7c94d1dd15811746f82af59c$"
+}
+}
